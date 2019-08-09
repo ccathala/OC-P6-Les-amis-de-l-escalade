@@ -1,0 +1,25 @@
+body {
+    margin-top: 20px;
+}
+
+#banniere {
+  
+    padding: 0px 15px;
+}
+
+.btn {
+   margin-left: 5px;
+   margin-right: 5px;
+}
+
+footer {
+    background-color: gray;
+}
+
+.jumbotron h4 {
+    text-align: center;
+}
+
+.container {
+    padding-bottom: 10px;
+}

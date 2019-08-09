@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.webapp;
+package com.charles.lesamisdelescalade.webapp.controllers;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.charles.lesamisdelescalade.business.config.BusinessConfig;
 import com.charles.lesamisdelescalade.consumer.config.ConsumerConfig;
+import com.charles.lesamisdelescalade.consumer.interfaces.IUtilisateur;
 import com.charles.lesamisdelescalade.webapp.config.WebappConfig;
 
 /**
@@ -31,6 +32,9 @@ public class HomeController {
 	@Autowired
 	private ConsumerConfig consumerConfig;
 	
+	
+	@Autowired private IUtilisateur iUtilisateur;
+	 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
@@ -49,6 +53,7 @@ public class HomeController {
 		model.addAttribute("webapp", webappConfig.webapp() );
 		model.addAttribute("business", businessConfig.business() );
 		model.addAttribute("consumer", consumerConfig.consumer() );
+		 model.addAttribute("utilisateurs", iUtilisateur.findAll()); 
 		
 		return "home";
 	}
