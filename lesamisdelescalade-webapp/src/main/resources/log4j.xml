@@ -11,10 +11,11 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.charles.lesamisdelescalade.webapp">
-		<level value="info" />
+	<logger name="com.charles.lesamisdelescalade">
+		<level value="debug" />
 	</logger>
 	
+		
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
