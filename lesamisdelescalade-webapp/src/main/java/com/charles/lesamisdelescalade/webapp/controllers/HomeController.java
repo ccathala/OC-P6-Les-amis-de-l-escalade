@@ -53,7 +53,7 @@ public class HomeController {
 		model.addAttribute("webapp", webappConfig.webapp() );
 		model.addAttribute("business", businessConfig.business() );
 		model.addAttribute("consumer", consumerConfig.consumer() );
-		 model.addAttribute("utilisateurs", iUtilisateur.findAll()); 
+		model.addAttribute("utilisateurs", iUtilisateur.findAll()); 
 		
 		return "home";
 	}

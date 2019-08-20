@@ -9,11 +9,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan("com.charles.lesamisdelescalade.consumer")
 @PropertySource(value= {"classpath:consumerConfig.properties"})
+@EnableTransactionManagement
 public class ConsumerConfig {
 	
 	@Bean
@@ -44,5 +48,10 @@ public class ConsumerConfig {
 		return jdbcTemplate;
 
 	}
+	
+	@Bean
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
 
 }
