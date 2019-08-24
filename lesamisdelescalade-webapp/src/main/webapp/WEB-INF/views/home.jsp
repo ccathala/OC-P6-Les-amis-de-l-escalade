@@ -13,33 +13,14 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
-
-	<h1>Hello world!</h1>
-
-	<P>The time on the server is ${serverTime}.</P>
-	<P>${webapp}= ok</P>
-	<P>${business}= ok</P>
-	<P>${consumer}= ok</P>
 	
-	<div id="ListUtilisateurs">
-		<table class="table1">
-			<tr>
-				<th>ID</th>
-				<th>NOM</th>
-				<th>EMAIL</th>
-				<th>PASSWORD</th>
-				<th>ROLE_ID</th>
-			</tr>
-			<c:forEach items="${utilisateurs}" var="u">
-				<tr>
-					<td>${u.id}</td>
-					<td>${u.nom}</td>
-					<td>${u.email}</td>
-					<td>${u.password}</td>
-					<td>${u.role_id}</td>
-				</tr>
-			</c:forEach>
-		</table>
+	<div class="container">
+		<h1>Hello world!</h1>
+		
+		
 	</div>
+	
+	
+	
 </body>
 </html>

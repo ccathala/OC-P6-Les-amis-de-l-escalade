@@ -1,16 +1,26 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Utilisateur {
 	
 	private int id;
+	
 	private String nom;
+	
+	
+	@NotEmpty
 	private String email;
+	
+	@NotEmpty
 	private String password;
+	
 	private int role_id;
 		
 	public Utilisateur() {
 		
 	}
+	
 	public Utilisateur(int id, String nom, String email, String password, int role_id) {
 		
 		this.id = id;

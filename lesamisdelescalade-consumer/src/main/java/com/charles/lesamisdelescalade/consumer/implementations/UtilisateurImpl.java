@@ -4,17 +4,17 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import com.charles.lesamisdelescalade.consumer.interfaces.IUtilisateur;
+import com.charles.lesamisdelescalade.consumer.interfaces.UtilisateurManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
-
 @Repository
-public class UtilisateurImpl implements IUtilisateur {
-	
+public class UtilisateurImpl implements UtilisateurManager {
+
 	private static final Logger logger = LoggerFactory.getLogger(UtilisateurImpl.class);
 
 	@Autowired
@@ -45,6 +45,13 @@ public class UtilisateurImpl implements IUtilisateur {
 	}
 
 	@Override
+	public Utilisateur findByEmail(String utilisateurEmail) throws EmptyResultDataAccessException {
+		Utilisateur utilisateur = (Utilisateur) jdbcTemplate.queryForObject("SELECT * FROM public.utilisateur WHERE email=?",
+				new Object[] {utilisateurEmail}, new BeanPropertyRowMapper<Utilisateur>(Utilisateur.class));
+		return utilisateur;
+	}
+
+	@Override
 	public List<Utilisateur> findAll() {
 		List<Utilisateur> utilisateurs = null;
 		try {
@@ -54,8 +61,9 @@ public class UtilisateurImpl implements IUtilisateur {
 		} catch (CannotGetJdbcConnectionException e) {
 			logger.debug("La connexion à la base de données à échoué.");
 			throw e;
-		
+
 		}
 		return utilisateurs;
 	}
+
 }
