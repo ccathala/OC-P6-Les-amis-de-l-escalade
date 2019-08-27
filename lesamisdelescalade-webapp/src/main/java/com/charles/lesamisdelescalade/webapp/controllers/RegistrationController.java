@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.charles.lesamisdelescalade.business.interfaces.AccountManager;
 import com.charles.lesamisdelescalade.business.interfaces.LoginManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
@@ -17,7 +19,7 @@ public class RegistrationController {
 
 	/* Dependency injection Interface Login */
 	@Autowired
-	private LoginManager loginManager;
+	private AccountManager accountManager;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model) {
@@ -41,7 +43,7 @@ public class RegistrationController {
 		} else {
 			
 			/* Registration attempt */
-			String messageError = loginManager.registerNewUser(registrationUtilisateur);
+			String messageError = accountManager.registerNewUser(registrationUtilisateur);
 
 			if (messageError.isEmpty()) {
 				return "registerSuccessful";

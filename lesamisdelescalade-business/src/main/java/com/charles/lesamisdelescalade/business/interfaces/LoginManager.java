@@ -9,7 +9,7 @@ public interface LoginManager {
 	public Utilisateur searchUserByMail(Utilisateur utilisateur) throws EmptyResultDataAccessException;
 	public boolean passwordIsCorresponding(Utilisateur utilisateurSession, Utilisateur utilisateurFromDatabase);
 	public void fillUserSessionBean(Utilisateur utilisateurSession, Utilisateur utilisateurFromDatabase);
-	public String registerNewUser(Utilisateur utilisateurRegister);
+	
 	
 	
 
