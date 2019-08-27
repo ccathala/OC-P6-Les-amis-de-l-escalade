@@ -29,15 +29,6 @@ import com.charles.lesamisdelescalade.webapp.config.WebappConfig;
 public class HomeController {
 
 	@Autowired
-	private WebappConfig webappConfig;
-
-	@Autowired
-	private BusinessConfig businessConfig;
-
-	@Autowired
-	private ConsumerConfig consumerConfig;
-
-	@Autowired
 	private UtilisateurManager iUtilisateur;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -46,11 +37,11 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 * @param locale
 	 * @param model
-	 * @param cUtilisateur
+	 * @param utilisateurSession
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, @SessionAttribute(value="sessionUtilisateur", required = false) Utilisateur cUtilisateur) {
+	public String home(Locale locale, Model model, @SessionAttribute(value="sessionUtilisateur", required = false) Utilisateur utilisateurSession) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -59,11 +50,8 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("webapp", webappConfig.webapp());
-		model.addAttribute("business", businessConfig.business());
-		model.addAttribute("consumer", consumerConfig.consumer());
 		model.addAttribute("utilisateurs", iUtilisateur.findAll());
-		model.addAttribute("cUtilisateur", cUtilisateur);
+		model.addAttribute("utilisateurSession", utilisateurSession);
 
 		return "home";
 	}

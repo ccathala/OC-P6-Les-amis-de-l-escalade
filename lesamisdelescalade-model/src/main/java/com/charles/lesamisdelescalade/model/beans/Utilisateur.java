@@ -1,19 +1,28 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class Utilisateur {
 	
 	private int id;
 	
+	@NotEmpty
+	@Size(min=3, message="doit contenir au minimun 3 caractères")
 	private String nom;
 	
-	
 	@NotEmpty
+	@Email(message="saisir une adresse email valide")
 	private String email;
 	
 	@NotEmpty
+	@Size(min=6, message="doit contenir au minimun 6 caractères")
 	private String password;
+	
+	@NotEmpty
+	@Size(min=6, message="doit contenir au minimun 6 caractères")
+	private String confirmPassword;
 	
 	private int role_id;
 		
@@ -21,12 +30,13 @@ public class Utilisateur {
 		
 	}
 	
-	public Utilisateur(int id, String nom, String email, String password, int role_id) {
+	public Utilisateur(int id, String nom, String email, String password, String confirmPassword, int role_id) {
 		
 		this.id = id;
 		this.nom = nom;
 		this.email = email;
 		this.password = password;
+		this.confirmPassword = confirmPassword;
 		this.role_id = role_id;
 	}
 	public int getId() {
@@ -52,6 +62,13 @@ public class Utilisateur {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	public int getRole_id() {
 		return role_id;

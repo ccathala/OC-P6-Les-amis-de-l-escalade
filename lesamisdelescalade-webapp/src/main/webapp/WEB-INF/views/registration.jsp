@@ -3,7 +3,7 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Login</title>
+<title>Registration</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -17,12 +17,20 @@
 
 	<div class="container">
 	
-		<h1>Se connecter</h1>
+		<h1>Inscription</h1>
 
 		<!-- Login Form -->
-		<form:form action="processLogin" method="POST"
-			modelAttribute="sessionUtilisateur">
+		<form:form action="processRegistration" method="POST"
+			modelAttribute="registrationUtilisateur">
 
+			<!-- Nom Input -->
+			<div class="form-group">
+				<label>Nom d'utilisateur:</label>
+				<form:input path="nom" cssClass="form-control"
+					placeholder="Entrer nom d'utilisateur" />
+				<small><form:errors path="nom" cssClass="errors" /></small>
+			</div>
+			
 			<!-- Email Input -->
 			<div class="form-group">
 				<label>Email:</label>
@@ -35,23 +43,31 @@
 			<div class="form-group">
 				<label>Mot de passe:</label>
 				<form:input type="password" path="password" cssClass="form-control"
-					placeholder="Enter mot de passe" />
+					placeholder="Entrer mot de passe" />
 				<small><form:errors path="password" cssClass="errors" /></small>
 			</div>
+			
+			<!-- Password confirmation Input -->
+			<div class="form-group">
+				<label>Confirmation mot de passe:</label>
+				<form:input type="password" path="confirmPassword" cssClass="form-control"
+					placeholder="Entrer mot de passe" />
+				<small><form:errors path="confirmPassword" cssClass="errors" /></small>
+			</div>
 
-			<!-- Connection button -->
+			<!-- Register button -->
 			<div class="form-group">
 				<div class="col-md-4">
 					<button id="singlebutton" type="submit" name="singlebutton"
-						class="btn btn-primary">Connexion</button>
+						class="btn btn-primary">S'inscrire</button>
 				</div>
 			</div>
 		</form:form>
 
 		<!-- Display login error messages -->
-		<c:if test="${!empty erreur_login }">
-			<div class="col-md-5 alert alert-danger text-center" role="alert">
-				<c:out value="${erreur_login}"></c:out>
+		<c:if test="${!empty messageError }">
+			<div class="col-md-6 alert alert-danger text-center" role="alert">
+				<c:out value="${messageError}"></c:out>
 			</div>
 		</c:if>
 	</div>

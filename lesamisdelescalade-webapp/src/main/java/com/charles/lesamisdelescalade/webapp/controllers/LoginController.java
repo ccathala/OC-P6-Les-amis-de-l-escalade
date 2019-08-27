@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import com.charles.lesamisdelescalade.business.interfaces.LoginManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -36,7 +37,7 @@ public class LoginController {
 	 * @return
 	 */
 	@ModelAttribute("sessionUtilisateur")
-	public Utilisateur setcUtilisateur() {
+	public Utilisateur setUtilisateurSession() {
 		return new Utilisateur();
 	}
 
@@ -53,7 +54,7 @@ public class LoginController {
 	public String login(Model model) {
 
 		/* Add new bean Utilisateur attribute */
-		model.addAttribute("utilisateur", new Utilisateur());
+		model.addAttribute("sessionUtilisateur", new Utilisateur());
 
 		/* Return home.jsp view */
 		return "login";
@@ -62,16 +63,16 @@ public class LoginController {
 	/**
 	 * Url request handler for /processLogin
 	 * 
-	 * @param cUtilisateur
+	 * @param utilisateurSession
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/processLogin", method = RequestMethod.POST)
-	public String processLogin(@Valid /* @ModelAttribute("sessionUtilisateur") */ Utilisateur cUtilisateur,
-			BindingResult bindingResult, Model model) {
+	public String processLogin( @Valid @ModelAttribute("sessionUtilisateur")  Utilisateur utilisateurSession,
+			BindingResult result, Model model) {
 
 		/* Form validation */
-		if (bindingResult.hasErrors()) {
+		if(result.getFieldErrorCount("email")>0 || result.getFieldErrorCount("password")>0) {
 
 			/* Form input not valid */
 
@@ -84,17 +85,17 @@ public class LoginController {
 
 			try {
 				/* Search email corresponding user */
-				Utilisateur utilisateurFromDatabase = loginManager.searchUserByMail(cUtilisateur);
+				Utilisateur utilisateurFromDatabase = loginManager.searchUserByMail(utilisateurSession);
 
-				if (loginManager.passwordIsCorresponding(cUtilisateur, utilisateurFromDatabase)) {
+				if (loginManager.passwordIsCorresponding(utilisateurSession, utilisateurFromDatabase)) {
 
 					/* Password match */
 
 					/* Fill user session bean with missing attributes */
-					loginManager.fillUserSessionBean(cUtilisateur, utilisateurFromDatabase);
+					loginManager.fillUserSessionBean(utilisateurSession, utilisateurFromDatabase);
 
 					/* Add session bean Utilisateur attribute */
-					model.addAttribute("cUtilisateur", cUtilisateur);
+					model.addAttribute("utilisateurSession", utilisateurSession);
 
 					/* Return home.jsp view */
 					return "home";
@@ -107,10 +108,10 @@ public class LoginController {
 					model.addAttribute("erreur_login", "Echec de connexion - Mot de passe incorrect");
 
 					/* Reset password input */
-					cUtilisateur.setPassword("");
+					utilisateurSession.setPassword("");
 
 					/* Add new bean Utilisateur attribute */
-					model.addAttribute("cUtilisateur", cUtilisateur);
+					model.addAttribute("utilisateurSession", utilisateurSession);
 					return "login";
 
 				}
@@ -129,5 +130,4 @@ public class LoginController {
 
 			}
 		}
-	}
-}
+}}

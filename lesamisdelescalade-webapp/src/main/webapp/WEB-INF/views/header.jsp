@@ -17,12 +17,13 @@
 							</li>
 						</ul>
 						<c:choose>
-							<c:when test="${empty cUtilisateur }">
+							<c:when test="${utilisateurSession.email == null }">
 								<a class="btn btn-info" href="<c:url value="/login"/>" role="button">Se connecter</a> 
-								<a class="btn btn-info" href="#" role="button">S'inscrire</a>
+								<a class="btn btn-info" href="<c:url value="/registration"/>" role="button">S'inscrire</a>
 							</c:when>
-							<c:when test="${!empty cUtilisateur }">
-								<a class="text-white" href="#" role="button"><c:out value="${cUtilisateur.nom }"></c:out></a>
+							<c:when test="${utilisateurSession.email != null}">
+								<a class="btn btn-info" href="#" role="button">Mon Compte</a>
+								<a class="btn btn-info" href="<c:url value="/logout"/>" role="button">Se déconnecter</a>
 							</c:when>
 						</c:choose>
 					</div>

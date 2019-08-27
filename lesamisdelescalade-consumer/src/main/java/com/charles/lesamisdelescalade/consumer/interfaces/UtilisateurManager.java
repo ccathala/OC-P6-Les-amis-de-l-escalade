@@ -2,6 +2,7 @@ package com.charles.lesamisdelescalade.consumer.interfaces;
 
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -17,6 +18,8 @@ public interface UtilisateurManager {
 	public Utilisateur find(int utilisateurId);
 	
 	public Utilisateur findByEmail(String utilisateurEmail) throws EmptyResultDataAccessException;
+	
+	public Utilisateur findByUsername(String utilisateurNom) throws EmptyResultDataAccessException;
 	
 	public List<Utilisateur> findAll();
 	
