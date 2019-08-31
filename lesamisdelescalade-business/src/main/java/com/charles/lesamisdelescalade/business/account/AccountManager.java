@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.business.interfaces;
+package com.charles.lesamisdelescalade.business.account;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 

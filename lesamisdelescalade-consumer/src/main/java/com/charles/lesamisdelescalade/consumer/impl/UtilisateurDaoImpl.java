@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.implementations;
+package com.charles.lesamisdelescalade.consumer.impl;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -11,14 +11,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.charles.lesamisdelescalade.consumer.interfaces.UtilisateurManager;
+import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
 @Repository
-public class UtilisateurImpl implements UtilisateurManager {
+public class UtilisateurDaoImpl implements UtilisateurDao {
 	
 	/* Set logger */
-	private static final Logger logger = LoggerFactory.getLogger(UtilisateurImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UtilisateurDaoImpl.class);
 
 	
 	/* Dependency injection bean JdbcTemplate */
@@ -36,24 +36,6 @@ public class UtilisateurImpl implements UtilisateurManager {
 	}
 
 	
-	@Override
-	public void editUtilisateur(Utilisateur utilisateur, int utilisateurId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteUtilisateur(int utilisateurId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Utilisateur find(int utilisateurId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * Find user by email adress
 	 */
@@ -90,6 +72,27 @@ public class UtilisateurImpl implements UtilisateurManager {
 
 		//}
 		return utilisateurs;
+	}
+
+
+	@Override
+	public void editUtilisateur(Utilisateur utilisateur, int utilisateurId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteUtilisateur(int utilisateurId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Utilisateur find(int utilisateurId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

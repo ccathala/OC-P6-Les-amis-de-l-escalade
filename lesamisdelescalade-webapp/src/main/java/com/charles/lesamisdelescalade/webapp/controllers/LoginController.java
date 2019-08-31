@@ -5,17 +5,16 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import com.charles.lesamisdelescalade.business.interfaces.LoginManager;
+import com.charles.lesamisdelescalade.business.authentification.AuthentificationManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
+import com.charles.lesamisdelescalade.model.utils.AuthResult;
 
 /**
  * Login page controller
@@ -29,7 +28,7 @@ public class LoginController {
 
 	/* Dependency injection Interface Login */
 	@Autowired
-	private LoginManager loginManager;
+	private AuthentificationManager authentificationManager;
 
 	/**
 	 * Define bean sessionUtilisateur as a bean Utilisateur
@@ -68,11 +67,11 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/processLogin", method = RequestMethod.POST)
-	public String processLogin( @Valid @ModelAttribute("sessionUtilisateur")  Utilisateur utilisateurSession,
+	public String processLogin(@Valid @ModelAttribute("sessionUtilisateur") Utilisateur utilisateurSession,
 			BindingResult result, Model model) {
 
 		/* Form validation */
-		if(result.getFieldErrorCount("email")>0 || result.getFieldErrorCount("password")>0) {
+		if (result.getFieldErrorCount("email") > 0 || result.getFieldErrorCount("password") > 0) {
 
 			/* Form input not valid */
 
@@ -81,43 +80,29 @@ public class LoginController {
 
 		} else {
 
-			/* Form input valid */
+			AuthResult authResult = authentificationManager.login(utilisateurSession);
 
-			try {
-				/* Search email corresponding user */
-				Utilisateur utilisateurFromDatabase = loginManager.searchUserByMail(utilisateurSession);
+			if (authResult.getAuthStatus().equals("success")) {
 
-				if (loginManager.passwordIsCorresponding(utilisateurSession, utilisateurFromDatabase)) {
+				/* Add session bean Utilisateur attribute */
+				model.addAttribute("utilisateurSession", authResult.getUtilisateur());
 
-					/* Password match */
+				/* Return home.jsp view */
+				return "home";
 
-					/* Fill user session bean with missing attributes */
-					loginManager.fillUserSessionBean(utilisateurSession, utilisateurFromDatabase);
+			} else if (authResult.getAuthStatus().equals("wrong password")) {
 
-					/* Add session bean Utilisateur attribute */
-					model.addAttribute("utilisateurSession", utilisateurSession);
+				/* Add error message attribute */
+				model.addAttribute("erreur_login", "Echec de connexion - Mot de passe incorrect");
 
-					/* Return home.jsp view */
-					return "home";
+				/* Reset password input */
+				utilisateurSession.setPassword("");
 
-				} else {
+				/* Add new bean Utilisateur attribute */
+				model.addAttribute("utilisateurSession", utilisateurSession);
+				return "login";
 
-					/* Password mismatch */
-
-					/* Add error message attribute */
-					model.addAttribute("erreur_login", "Echec de connexion - Mot de passe incorrect");
-
-					/* Reset password input */
-					utilisateurSession.setPassword("");
-
-					/* Add new bean Utilisateur attribute */
-					model.addAttribute("utilisateurSession", utilisateurSession);
-					return "login";
-
-				}
-
-			} catch (EmptyResultDataAccessException e) {
-				/* if email don't exist in the database, the exception is catch */
+			} else if (authResult.getAuthStatus().equals("wrong email")) {
 
 				/* Display debug log */
 				logger.debug("Echec de connexion - L'adresse saisie n'existe pas");
@@ -128,6 +113,11 @@ public class LoginController {
 				/* Return login.jsp view */
 				return "login";
 
+			}else {
+				return null;
 			}
+
 		}
-}}
+		
+	}
+}

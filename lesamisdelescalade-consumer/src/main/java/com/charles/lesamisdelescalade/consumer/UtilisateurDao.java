@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.interfaces;
+package com.charles.lesamisdelescalade.consumer;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
-public interface UtilisateurManager {
+public interface UtilisateurDao {
 	
 	public void addUtilisateur(Utilisateur utilisateur);
 	

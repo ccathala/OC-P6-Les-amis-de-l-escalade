@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 import com.charles.lesamisdelescalade.business.config.BusinessConfig;
+import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
 import com.charles.lesamisdelescalade.consumer.config.ConsumerConfig;
-import com.charles.lesamisdelescalade.consumer.interfaces.UtilisateurManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.webapp.config.WebappConfig;
 
@@ -29,7 +29,7 @@ import com.charles.lesamisdelescalade.webapp.config.WebappConfig;
 public class HomeController {
 
 	@Autowired
-	private UtilisateurManager iUtilisateur;
+	private UtilisateurDao iUtilisateur;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 

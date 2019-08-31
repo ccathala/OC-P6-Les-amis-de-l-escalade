@@ -9,9 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.charles.lesamisdelescalade.business.interfaces.AccountManager;
-import com.charles.lesamisdelescalade.business.interfaces.LoginManager;
+import com.charles.lesamisdelescalade.business.account.AccountManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
 @Controller
