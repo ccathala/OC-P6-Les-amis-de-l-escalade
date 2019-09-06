@@ -1,10 +1,22 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Voie {
 	
 	private int id;
+	@Min(value = 1)
+	@Max(value = 99)
+	@NotEmpty
 	private int numero;
+	
+	@Size(min=3)
+	@NotEmpty
 	private String nom;
+	
 	private int secteur_id;
 	
 	public Voie() {

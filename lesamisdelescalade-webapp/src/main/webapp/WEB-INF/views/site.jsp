@@ -31,14 +31,7 @@
 				<h2>
 					<c:out value="${site.nom }"></c:out>
 				</h2>
-				<p class="text-justify">Ablon, c’est la falaise d’alpages,
-					nichée à l’écart, dans un recoin sauvage et préservé en plein cœur
-					du massif des Bornes. On est loin de la montagne à touristes, il
-					n’y a plus aucun bruit de moteur... Là, sur le plateau des Glières,
-					lieu célèbre pour la page d’histoire qui s’y est écrite au cours de
-					la dernière guerre mondiale, où les résistants ont fui les
-					occupants allemands, se trouve le Val d’Ablon, un joyau de falaise
-					haut-savoyard encore inconnu il y a une vingtaine d’années.</p>
+				<p class="text-justify"><c:out value="${site.description }"></c:out></p>
 			</div>
 		</div>
 

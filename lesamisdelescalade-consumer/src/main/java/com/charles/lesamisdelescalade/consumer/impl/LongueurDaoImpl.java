@@ -16,16 +16,12 @@ public class LongueurDaoImpl implements LongueurDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Override
-	public List<Longueur> findBySecteur(int secteurId) {
-		return jdbcTemplate.query(
-				"select longueur.id, longueur.numero, longueur.cotation_id, longueur.voie_id from voie inner join longueur on voie.id = longueur.voie_id where secteur_id = ?",
-				new Object[] { secteurId }, new BeanPropertyRowMapper<Longueur>(Longueur.class));
-	}
 	
 	@Override
-	public String getCotation(int cotationId) {
-		return jdbcTemplate.queryForObject("select cotation from cotation where id=?", new Object[] {cotationId}, String.class);
+	public List<Longueur> findBySite(int siteId) {
+		return jdbcTemplate.query(
+				"select longueur.id, longueur.numero, longueur.cotation_id, longueur.voie_id, cotation from cotation inner join longueur on cotation.id = longueur.cotation_id inner join voie on voie.id = longueur.voie_id inner join secteur on secteur.id = voie.secteur_id where secteur.site_id=?",
+				new Object[] { siteId }, new BeanPropertyRowMapper<Longueur>(Longueur.class));
 	}
-
+	
 }

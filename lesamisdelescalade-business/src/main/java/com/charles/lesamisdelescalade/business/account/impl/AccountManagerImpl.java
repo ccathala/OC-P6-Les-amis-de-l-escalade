@@ -30,7 +30,7 @@ public class AccountManagerImpl implements AccountManager {
 		boolean passwordIsWellConfirmed;
 		String messageError = "";
 
-		/* Test unsername, if exception is catch, input username is not already used */
+		/* Test username, if exception is catch, input username is not already used */
 		try {
 			utilisateurDao.findByUsername(utilisateurRegister.getNom());
 			nameIsAlreadyUsed = true;

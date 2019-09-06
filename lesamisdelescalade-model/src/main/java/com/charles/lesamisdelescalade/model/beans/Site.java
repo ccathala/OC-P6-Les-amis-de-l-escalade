@@ -1,10 +1,22 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Site {
 	
 	private int id;
+	
+	@NotEmpty(message="saisir un nom de site")
+	@Size(min=3, message="doit contenir au minimum 3 caractères")
 	private String nom;
+	
+	@NotEmpty(message="saisir une description de site")
+	@Size(min=30, message="doit contenir au minimum 30 caractères")
 	private String description;
+	
+	@NotNull
 	private int departement_id;
 	private int tag_id;
 	

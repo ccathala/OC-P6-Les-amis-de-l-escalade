@@ -1,9 +1,17 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Secteur {
 	
 	private int id;
+	@NotEmpty
+	@Size(min=3, message="doit contenir au minimum 3 caractères")
 	private String nom;
+	
+	@NotEmpty
+	@Size(min=30, message="doit contenir au minimum 30 caractères")
 	private String description;
 	private int site_id;
 	

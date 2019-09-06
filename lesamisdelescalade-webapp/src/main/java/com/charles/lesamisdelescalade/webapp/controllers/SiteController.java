@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.support.WebBindingInitializer;
 
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
@@ -18,6 +19,7 @@ import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
+import com.charles.lesamisdelescalade.model.utils.SitePageData;
 
 /**
  * Handles requests for the application home page.
@@ -43,28 +45,12 @@ public class SiteController {
 	public String home(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
 			@PathVariable(value = "siteId") int siteId) {
-
-		Site site = webContentManager.findSiteById(siteId);
-		List<Secteur> secteurs = webContentManager.findSecteursBySite(site.getId());
-		List<Voie> voies = webContentManager.findVoiesBySite(siteId);
-		List<Longueur> longueurs = new ArrayList<Longueur>();
-
-		for (Secteur secteur : secteurs) {
-			secteur.setVoiesCount(webContentManager.getVoieCount(secteur.getId()));
-			secteur.setCotationMin(webContentManager.getMinCotation(secteur.getId()));
-			secteur.setCotationMax(webContentManager.getMaxCotation(secteur.getId()));
-			longueurs.addAll(webContentManager.findLongueursBySecteur(secteur.getId()));
-			
-		}
-
-		for(Longueur longueur: longueurs) {
-			longueur.setCotation(webContentManager.getCotation(longueur.getCotation_id()));
-		}
 		
-		model.addAttribute("site", site);
-		model.addAttribute("secteurs", secteurs);
-		model.addAttribute("voies", voies);
-		model.addAttribute("longueurs", longueurs);
+		SitePageData sitePageData  = webContentManager.getSitePageData(siteId);
+		model.addAttribute("site", sitePageData.getSite());
+		model.addAttribute("secteurs", sitePageData.getSecteurs());
+		model.addAttribute("voies", sitePageData.getVoies());
+		model.addAttribute("longueurs", sitePageData.getLongueurs());
 		model.addAttribute("utilisateurSession", utilisateurSession);
 
 		return "site";

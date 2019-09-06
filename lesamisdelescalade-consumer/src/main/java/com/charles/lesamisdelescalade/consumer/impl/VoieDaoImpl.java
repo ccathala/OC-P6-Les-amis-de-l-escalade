@@ -3,9 +3,11 @@ package com.charles.lesamisdelescalade.consumer.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.charles.lesamisdelescalade.consumer.VoieDao;
 import com.charles.lesamisdelescalade.model.beans.Voie;
@@ -46,6 +48,22 @@ public class VoieDaoImpl implements VoieDao {
 				new Object[] { secteurId }, Integer.class);
 		return jdbcTemplate.queryForObject("SELECT cotation FROM public.cotation where id = ?",
 				new Object[] { cotation_id }, String.class);
+	}
+	
+	@Override
+	public Voie findVoieByNumeroAndSite(int numero, int siteId) throws EmptyResultDataAccessException {
+		return (Voie) jdbcTemplate.queryForList("select * from voie where secteur_id=? and numero=?", new Object[] {siteId}, new Object[] {numero}, new BeanPropertyRowMapper<Voie>(Voie.class));
+	}
+	
+	@Override
+	public Voie findVoieByNomAndSite(String nom, int siteId) throws EmptyResultDataAccessException {
+		return (Voie) jdbcTemplate.queryForList("select * from voie where secteur_id=? and nom=?", new Object[] {siteId}, new Object[] {nom}, new BeanPropertyRowMapper<Voie>(Voie.class));
+	}
+	
+	@Override
+	@Transactional
+	public void addVoie(Voie voie) {
+		jdbcTemplate.update("INSERT INTO voie (numero, nom, secteur_id) VALUES (?, ?, ?)", voie.getNumero(), voie.getNom(), voie.getSecteur_id());
 	}
 
 }

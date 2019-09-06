@@ -6,7 +6,6 @@ import com.charles.lesamisdelescalade.model.beans.Longueur;
 
 public interface LongueurDao {
 	
-	public List<Longueur> findBySecteur(int secteurId);
-	public String getCotation(int cotationId);
+	public List<Longueur> findBySite(int siteId);
 
 }
