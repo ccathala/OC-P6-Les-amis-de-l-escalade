@@ -42,9 +42,6 @@ public class addSiteController {
 
 		if (result.hasErrors()) {
 			
-			
-			model.addAttribute("secteur", new Secteur());
-			model.addAttribute("voie", new Voie());
 			model.addAttribute("departements", webContentManager.getDepartements());
 			return "ajouter";
 			
@@ -81,7 +78,11 @@ public class addSiteController {
 	public String addSecteur(Model model, @Valid @ModelAttribute(value = "secteur") Secteur secteur, BindingResult result) {
 		
 		if (result.hasErrors()) {
+			int departementId = webContentManager.getDepartementIdBySiteId(secteur.getSite_id());
 			model.addAttribute("departements", webContentManager.getDepartements());
+			model.addAttribute("site", new Site());
+			model.addAttribute("departementId", departementId );
+			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
 			return "ajouter";
 		}else {
 			if (webContentManager.addSecteur(secteur)) {

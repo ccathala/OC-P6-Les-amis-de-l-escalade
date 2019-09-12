@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<h2>Ajouter un secteur</h2>
+<h2 id="secteur">Ajouter un secteur</h2>
 
 			<form action="processChooseDepartement" method="GET">
 
@@ -28,7 +28,7 @@
 			</form>
 
 			<c:if test="${!empty departementId }">
-				<form:form action="processAddSecteur" method="POST"
+				<form:form action="processAddSecteur#secteur" method="POST"
 					modelAttribute="secteur">
 
 					<!-- Selectionner le site  -->

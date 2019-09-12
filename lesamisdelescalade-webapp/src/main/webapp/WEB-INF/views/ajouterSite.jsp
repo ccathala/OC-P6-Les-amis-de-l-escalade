@@ -45,14 +45,14 @@
 			</form:form>
 
 			<!-- Display login error messages -->
-			<c:if test="${!empty messageError }">
+			<c:if test="${!empty messageErrorSite }">
 				<div class="col-md-5 alert alert-danger text-center" role="alert">
 					<c:out value="${messageErrorSite}"></c:out>
 				</div>
 			</c:if>
 
 			<!-- Display login error messages -->
-			<c:if test="${!empty messageSuccess }">
+			<c:if test="${!empty messageSuccessSite }">
 				<div class="col-md-5 alert alert-success text-center" role="alert">
 					<c:out value="${messageSuccessSite}"></c:out>
 				</div>
