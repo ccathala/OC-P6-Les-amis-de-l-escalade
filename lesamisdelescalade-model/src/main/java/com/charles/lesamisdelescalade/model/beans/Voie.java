@@ -8,12 +8,11 @@ import javax.validation.constraints.Size;
 public class Voie {
 	
 	private int id;
-	@Min(value = 1)
-	@Max(value = 99)
-	@NotEmpty
+	@Min(value = 1, message="saisir un numero de voie supérieur à 0")
+	@Max(value = 99, message="saisir un numero de voie inférieur à 99")
 	private int numero;
 	
-	@Size(min=3)
+	@Size(min=3, message="doit contenir au minimum 3 caractères")
 	@NotEmpty
 	private String nom;
 	

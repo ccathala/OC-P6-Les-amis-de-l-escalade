@@ -8,11 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
-import com.charles.lesamisdelescalade.consumer.DepartementDao;
-import com.charles.lesamisdelescalade.consumer.LongueurDao;
-import com.charles.lesamisdelescalade.consumer.SecteurDao;
-import com.charles.lesamisdelescalade.consumer.SiteDao;
-import com.charles.lesamisdelescalade.consumer.VoieDao;
+import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
@@ -24,19 +20,9 @@ import com.charles.lesamisdelescalade.model.utils.SitePageData;
 public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
-	private SecteurDao secteurDao ;
+	private WebContentDao webContentDao ;
 	
-	@Autowired
-	private VoieDao voieDao;
 	
-	@Autowired
-	private SiteDao siteDao; 
-	
-	@Autowired
-	private LongueurDao longueurDao;
-	
-	@Autowired
-	private DepartementDao departementDao;
 	
 	@Override
 	public SitePageData getSitePageData(int siteId) {
@@ -47,7 +33,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		sitePageData.setLongueurs(findLongueursBySite(siteId));
 		
 		for (Secteur secteur : sitePageData.getSecteurs()) {
-			secteur.setVoiesCount(getVoieCount(secteur.getId()));
+			secteur.setVoiesCount(getVoieCountBySecteurs(secteur.getId()));
 			secteur.setCotationMin(getMinCotation(secteur.getId()));
 			secteur.setCotationMax(getMaxCotation(secteur.getId()));
 		}
@@ -57,51 +43,51 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	
 	public Site findSiteById(int siteId) {
-		return siteDao.find(siteId);
+		return webContentDao.findSite(siteId);
 	}
 
 	@Override
 	public List<Secteur> getAllSecteursBySite(int siteId) {
-		return secteurDao.findAllSecteursBySite(siteId);
+		return webContentDao.findAllSecteursBySite(siteId);
 	}
 	
 	
 	public List<Voie> findVoiesBySite(int siteId){
-		return voieDao.findBySite(siteId);
+		return webContentDao.findVoieBySite(siteId);
 	}
 	
 	
 	
 	public List<Longueur> findLongueursBySite(int siteId){
-		return longueurDao.findBySite(siteId);
+		return webContentDao.findLongueurBySite(siteId);
 	}
 	
 	
-	public int getVoieCount(int secteurId) {
-		return voieDao.getVoieCount(secteurId);
+	public int getVoieCountBySecteurs(int secteurId) {
+		return webContentDao.getVoieCountBySecteurs(secteurId);
 	}
 	
 	
 	public String getMinCotation(int secteurId) {
-		return voieDao.getMinCotation(secteurId);
+		return webContentDao.getSecteurMinCotation(secteurId);
 	}
 	
 	
 	public String getMaxCotation(int secteurId) {
-		return voieDao.getMinCotation(secteurId);
+		return webContentDao.getSecteurMaxCotation(secteurId);
 	}
 
 
 	@Override
-	public List<Departement> getDepartements() {
-		return departementDao.findAll();
+	public List<Departement> findAllDepartements() {
+		return webContentDao.findAllDepartements();
 	}
 	
 	@Override
 	public Boolean addSite(Site site) {
 		Boolean siteAddedWithSuccess;
 		try {
-			siteDao.addSite(site);
+			webContentDao.addSite(site);
 			siteAddedWithSuccess = true; 
 		} catch (DuplicateKeyException e) {
 			siteAddedWithSuccess = false;
@@ -111,14 +97,14 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<Site> getAllSitesByDepartement(int departementId){
-		return siteDao.findAllSitesByDepartement(departementId);
+		return webContentDao.findAllSitesByDepartement(departementId);
 	}
 	
 	@Override
 	public Boolean addSecteur(Secteur secteur) {
 		Boolean secteurAddedWithSuccess;
 		try {
-			secteurDao.addSecteur(secteur);
+			webContentDao.addSecteur(secteur);
 			secteurAddedWithSuccess = true;
 		} catch (DuplicateKeyException e) {
 			secteurAddedWithSuccess = false;
@@ -130,24 +116,31 @@ public class WebContentManagerImpl implements WebContentManager {
 	public String addVoie (Voie voie) {
 		String causeError="";
 		try {
-			voieDao.findVoieByNumeroAndSite(voie.getNumero(), voie.getSecteur_id());
-		} catch (EmptyResultDataAccessException e) {
+			webContentDao.findVoieByNumeroAndSecteur(voie.getNumero(), voie.getSecteur_id());
 			causeError="numero";
+		} catch (EmptyResultDataAccessException e) {
+			
 		}
 		try {
-			voieDao.findVoieByNomAndSite(voie.getNom(), voie.getSecteur_id());
-		} catch (EmptyResultDataAccessException e) {
+			webContentDao.findVoieByNomAndSecteur(voie.getNom(), voie.getSecteur_id());
 			causeError="nom";
+		} catch (EmptyResultDataAccessException e) {
+			
 		}
 		if(causeError.equals("")) {
-			voieDao.addVoie(voie);
+			webContentDao.addVoie(voie);
 		}
 		return causeError;
 	}
 	
 	@Override
 	public int getDepartementIdBySiteId(int siteId) {
-		return siteDao.getDepartementIdBySiteId(siteId);
+		return webContentDao.getDepartementIdBySiteId(siteId);
+	}
+	
+	@Override
+	public int getSiteIdBySecteurId(int secteurId) {
+		return webContentDao.getSiteIdBySecteurId(secteurId);
 	}
 	
 	

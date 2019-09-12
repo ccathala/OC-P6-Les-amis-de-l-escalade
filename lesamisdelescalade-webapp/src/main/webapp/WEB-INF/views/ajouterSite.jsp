@@ -18,7 +18,7 @@
 				<!-- Ajout description du site -->
 				<div class="form-group">
 					<label>Description:</label>
-					<form:input path="description" cssClass="form-control"
+					<form:textarea path="description" cssClass="form-control"
 						placeholder="Entrer une descritption du site, 30 caractères minimum" />
 					<small><form:errors path="description" cssClass="errors" /></small>
 				</div>

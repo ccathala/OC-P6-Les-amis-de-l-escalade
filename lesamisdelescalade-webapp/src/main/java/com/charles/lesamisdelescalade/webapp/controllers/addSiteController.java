@@ -29,20 +29,26 @@ public class addSiteController {
 	public String addSite(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession) {
 
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
 
 		return "ajouter";
 	}
+	
+	/*
+	=================================================================================================================================		
+															ADD SITE	
+	=================================================================================================================================
+	*/
 
 	@RequestMapping(value = "/site/processAddSite", method = RequestMethod.POST)
 	public String addSite(Model model, @Valid @ModelAttribute(value = "site") Site site, BindingResult result) {
 
 		if (result.hasErrors()) {
 			
-			model.addAttribute("departements", webContentManager.getDepartements());
+			model.addAttribute("departements", webContentManager.findAllDepartements());
 			return "ajouter";
 			
 		} else {
@@ -57,15 +63,21 @@ public class addSiteController {
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		return "ajouter";
 	}
+	
+	/*
+	=================================================================================================================================		
+															ADD SECTOR	
+	=================================================================================================================================
+	*/
 	
 	@RequestMapping(value = "/site/processChooseDepartement", method = RequestMethod.GET)
 	public String chooseDepartement(Model model, @RequestParam(value="departementId") int departementId) {
 		
 		model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
@@ -79,9 +91,9 @@ public class addSiteController {
 		
 		if (result.hasErrors()) {
 			int departementId = webContentManager.getDepartementIdBySiteId(secteur.getSite_id());
-			model.addAttribute("departements", webContentManager.getDepartements());
-			model.addAttribute("site", new Site());
+			model.addAttribute("departements", webContentManager.findAllDepartements());
 			model.addAttribute("departementId", departementId );
+			model.addAttribute("site", new Site());
 			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
 			return "ajouter";
 		}else {
@@ -92,18 +104,24 @@ public class addSiteController {
 			}
 			
 		}
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
 		return "ajouter";
 	}
 	
+	/*
+	=================================================================================================================================		
+															ADD WAY	
+	=================================================================================================================================
+	*/
+	
 	@RequestMapping(value = "/site/processChooseDepartementVoie", method = RequestMethod.GET)
 	public String chooseDepartementVoie(Model model, @RequestParam(value="departementIdVoie") int departementIdVoie) {
 		
 		model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementIdVoie));
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
@@ -117,7 +135,7 @@ public class addSiteController {
 		
 		int departementIdVoie = webContentManager.getDepartementIdBySiteId(siteIdVoie);
 		model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteIdVoie));
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
@@ -132,24 +150,39 @@ public class addSiteController {
 	public String addVoie(Model model, @Valid @ModelAttribute(value = "voie") Voie voie, BindingResult result) {
 		String error="";
 		if (result.hasErrors()) {
-			model.addAttribute("departements", webContentManager.getDepartements());
+			int siteId = webContentManager.getSiteIdBySecteurId(voie.getSecteur_id());
+			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
+			model.addAttribute("departements", webContentManager.findAllDepartements());
+			model.addAttribute("departementIdVoie", departementId);
+			model.addAttribute("siteIdVoie", siteId);
+			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
+			model.addAttribute("site", new Site());
+			model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteId));
+			
+			
 			return "ajouter";
 		}else {
 			error = webContentManager.addVoie(voie);
 			if (error.contentEquals("")) {
-				model.addAttribute("messageSuccessVoie", "Secteur ajouté avec succès");
+				model.addAttribute("messageSuccessVoie", "Voie ajoutée avec succès");
 			} else if (error.contentEquals("numero")) {
 				model.addAttribute("messageErrorVoie", "Erreur - La voie n°" + voie.getNumero() + " est déja enregistrée sur ce site.");
 			} else if (error.contentEquals("nom")) {
-				model.addAttribute("messageErrorVoie", "Erreur - La voie nommée" + voie.getNom() + " est déja enregistrée sur ce site.");
+				model.addAttribute("messageErrorVoie", "Erreur - La voie nommée " + voie.getNom() + " est déja enregistrée sur ce site.");
 			}
 			
 		}
-		model.addAttribute("departements", webContentManager.getDepartements());
+		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
 		return "ajouter";
 	}
+	
+	/*
+	=================================================================================================================================		
+															ADD LENGTH	
+	=================================================================================================================================
+	*/
 
 }

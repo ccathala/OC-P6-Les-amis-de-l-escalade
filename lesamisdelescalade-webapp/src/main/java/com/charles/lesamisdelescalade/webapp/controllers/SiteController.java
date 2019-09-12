@@ -1,7 +1,5 @@
 package com.charles.lesamisdelescalade.webapp.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.support.WebBindingInitializer;
-
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
-import com.charles.lesamisdelescalade.model.beans.Longueur;
-import com.charles.lesamisdelescalade.model.beans.Secteur;
-import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
-import com.charles.lesamisdelescalade.model.beans.Voie;
 import com.charles.lesamisdelescalade.model.utils.SitePageData;
 
 /**
