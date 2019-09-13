@@ -39,6 +39,11 @@
 			<!-- Ajouter une voie ------------------------------------------------------------------------------------------------>
 
 			<jsp:include page="ajouterVoie.jsp"></jsp:include>
+			
+			<hr>
+			<!-- Ajouter une longueur ------------------------------------------------------------------------------------------------>
+
+			<jsp:include page="ajouterLongueur.jsp"></jsp:include>
 
 			
 		</div>

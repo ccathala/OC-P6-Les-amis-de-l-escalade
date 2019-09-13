@@ -2,9 +2,9 @@ package com.charles.lesamisdelescalade.business.webcontent;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
+import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
+import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Voie;
@@ -30,5 +30,13 @@ public interface WebContentManager {
 	public List<Departement> findAllDepartements();
 
 	int getSiteIdBySecteurId(int secteurId);
+
+	List<Voie> findAllVoieBySecteur(int secteurId);
+
+	Boolean addLongueur(Longueur longueur);
+
+	int getSecteurIdByVoieId(int voieId);
+
+	List<Cotation> findAllCotation();
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
@@ -90,6 +91,11 @@ public class WebContentDaoImpl implements WebContentDao {
 
 	}
 	
+	@Override
+	public int getSecteurIdByVoieId(int voieId) {
+		return jdbcTemplate.queryForObject("select secteur_id from voie where id=?", new Object[] {voieId},  Integer.class);
+	}
+	
 	/*============================================================================================
 	*									      VOIE											     *
 	============================================================================================*/
@@ -142,6 +148,13 @@ public class WebContentDaoImpl implements WebContentDao {
 		jdbcTemplate.update("INSERT INTO voie (numero, nom, secteur_id) VALUES (?, ?, ?)", voie.getNumero(), voie.getNom(), voie.getSecteur_id());
 	}
 	
+	@Override
+	public List<Voie> findAllVoieBySecteur(int secteurId) {
+		return jdbcTemplate.query("SELECT * FROM public.voie where secteur_id = ?", new Object[] { secteurId },
+				new BeanPropertyRowMapper<Voie>(Voie.class));
+
+	}
+	
 	/*============================================================================================
 	*									     LONGUEUR											 *
 	============================================================================================*/
@@ -152,4 +165,27 @@ public class WebContentDaoImpl implements WebContentDao {
 				"select longueur.id, longueur.numero, longueur.cotation_id, longueur.voie_id, cotation from cotation inner join longueur on cotation.id = longueur.cotation_id inner join voie on voie.id = longueur.voie_id inner join secteur on secteur.id = voie.secteur_id where secteur.site_id=?",
 				new Object[] { siteId }, new BeanPropertyRowMapper<Longueur>(Longueur.class));
 	}
+	
+	@Override
+	public Longueur findLongueurByNumeroAndVoie(int numero, int voieId) {
+		return (Longueur) jdbcTemplate.queryForObject("select * from longueur where numero=? and voie_id=?", new Object[] {numero, voieId}, new BeanPropertyRowMapper<Longueur>(Longueur.class));
+	}
+	
+	@Override
+	@Transactional
+	public void addLongeur(Longueur longueur) {
+		jdbcTemplate.update("INSERT INTO longueur (numero, cotation_id, voie_id) VALUES (?, ?, ?)", longueur.getNumero(), longueur.getCotation_id(), longueur.getVoie_id());
+	}
+	
+	/*============================================================================================
+	*									     COTATION											 *
+	============================================================================================*/
+	
+	@Override
+	public List<Cotation> findAllCotation(){
+		List<Cotation> cotations = jdbcTemplate.query("select * from cotation", new BeanPropertyRowMapper<Cotation>(Cotation.class));
+		return cotations;
+	}
+	
+	
 }

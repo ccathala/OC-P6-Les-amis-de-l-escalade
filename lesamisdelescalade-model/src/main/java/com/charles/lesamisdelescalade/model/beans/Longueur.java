@@ -1,8 +1,13 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 public class Longueur {
 	
 	private int id;
+	@Min(value = 1, message="saisir un numero de voie supérieur à 0")
+	@Max(value = 10, message="saisir un numero de inférieur à 10")
 	private int numero;
 	private int cotation_id;
 	private int voie_id;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
@@ -141,6 +142,35 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public int getSiteIdBySecteurId(int secteurId) {
 		return webContentDao.getSiteIdBySecteurId(secteurId);
+	}
+	
+	@Override
+	public List<Voie> findAllVoieBySecteur(int secteurId) {
+		return webContentDao.findAllVoieBySecteur(secteurId);
+	}
+	
+	@Override
+	public Boolean addLongueur(Longueur longueur) {
+		Boolean NumeroIsAlreadyUsed;
+		try {
+			webContentDao.findLongueurByNumeroAndVoie(longueur.getNumero(), longueur.getVoie_id());
+			NumeroIsAlreadyUsed = true;
+		} catch (EmptyResultDataAccessException e) {
+			webContentDao.addLongeur(longueur);
+			NumeroIsAlreadyUsed = false;
+		}
+		
+		return NumeroIsAlreadyUsed;
+	}
+	
+	@Override
+	public int getSecteurIdByVoieId(int voieId) {
+		return webContentDao.getSecteurIdByVoieId(voieId);
+	}
+	
+	@Override
+	public List<Cotation> findAllCotation(){
+		return webContentDao.findAllCotation();
 	}
 	
 	

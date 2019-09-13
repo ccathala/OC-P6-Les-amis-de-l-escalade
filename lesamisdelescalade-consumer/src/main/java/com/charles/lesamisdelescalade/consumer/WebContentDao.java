@@ -6,6 +6,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
@@ -46,6 +47,16 @@ public interface WebContentDao {
 	Voie findVoieByNomAndSecteur(String nom, int secteurId) throws EmptyResultDataAccessException;
 
 	Voie findVoieByNumeroAndSecteur(int numero, int secteurId) throws EmptyResultDataAccessException;
+
+	List<Voie> findAllVoieBySecteur(int secteurId);
+
+	void addLongeur(Longueur longueur);
+
+	Longueur findLongueurByNumeroAndVoie(int numero, int voieId);
+
+	int getSecteurIdByVoieId(int voieId);
+
+	List<Cotation> findAllCotation();
 	
 	
 

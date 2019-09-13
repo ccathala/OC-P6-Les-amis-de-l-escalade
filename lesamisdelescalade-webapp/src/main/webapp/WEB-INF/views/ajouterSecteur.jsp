@@ -8,10 +8,10 @@
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
-		<label>Département:</label> <select name="departementId">
+		<label>Département:</label> <select name="departementIdSecteur">
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
-					<c:if test="${departement.id == departementId }">selected</c:if>>${departement.code }-
+					<c:if test="${departement.id == departementIdSecteur }">selected</c:if>>${departement.code }-
 					${departement.nom }</option>
 			</c:forEach>
 		</select>
