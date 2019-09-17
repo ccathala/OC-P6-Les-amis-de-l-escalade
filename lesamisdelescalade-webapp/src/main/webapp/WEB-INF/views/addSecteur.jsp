@@ -27,7 +27,7 @@
 	</div>
 </form>
 
-<c:if test="${!empty departementId }">
+<c:if test="${!empty departementIdSecteur }">
 	<form:form action="processAddSecteur#secteur" method="POST"
 		modelAttribute="secteur">
 
@@ -49,17 +49,17 @@
 			<div class="form-group">
 				<label>Nom:</label>
 				<form:input path="nom" cssClass="form-control"
-					placeholder="Entrer le nom du site" />
+					placeholder="Entrer le nom du secteur" />
 				<small><form:errors path="nom" cssClass="errors" /></small>
 			</div>
 
-			<!-- Ajout description du secteur -->
+		<!-- Ajout description du secteur -->
 			<div class="form-group">
 				<label>Description:</label>
 				<form:input path="description" cssClass="form-control"
-					placeholder="Entrer une descritption du site, 30 caractères minimum" />
+					placeholder="Entrer une description du secteur, 30 caractères minimum" />
 				<small><form:errors path="description" cssClass="errors" /></small>
-			</div>
+			</div> 
 
 			<!-- Bouton ajouter le secteur -->
 			<div class="form-group">

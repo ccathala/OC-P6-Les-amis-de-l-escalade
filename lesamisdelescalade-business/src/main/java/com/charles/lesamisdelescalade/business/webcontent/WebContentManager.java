@@ -39,4 +39,6 @@ public interface WebContentManager {
 
 	List<Cotation> findAllCotation();
 
+	List<Longueur> findAllLongueurByVoie(int voieId);
+
 }

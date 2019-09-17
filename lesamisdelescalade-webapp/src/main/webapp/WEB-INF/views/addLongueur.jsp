@@ -5,7 +5,7 @@
 <h2 id="longueur">Ajouter une Longueur</h2>
 
 <!-- Choix département -->
-<form action="processChooseDepartementLongueur#longueur" method="GET">
+<form action="processChooseDepartementLongueur#ajouterLongueur" method="GET">
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
@@ -71,7 +71,7 @@
 
 			<c:if test="${!empty secteurs }">
 
-				<!-- Selectionner le site -->
+				<!-- Selectionner le secteur -->
 				<div class="form-group">
 					<label>Secteur:</label> <select name="secteurIdLongueur">
 						<c:forEach items="${secteurs}" var="secteur">
@@ -102,20 +102,65 @@
 
 		<c:if test="${!empty secteurIdLongueur }">
 
+			<!-- Choix de la voie -->
+			<form action="processChooseVoieLongueur#longueur" method="GET">
+				<c:if test="${!empty voies}">
+					<!-- Selectionner la voie  -->
+					<div class="form-group">
+						<label>Secteur:</label> <select name="voieIdLongueur">
+							<c:forEach items="${voies}" var="voie">
+								<option value="${voie.id }"
+									<c:if test="${voie.id == voieIdLongueur }">selected</c:if>>${voie.numero }
+									- ${voie.nom }</option>
+							</c:forEach>
+						</select>
+
+						<!-- Valid Site button -->
+						<div class="form-group">
+							<div class="col-md-4">
+								<button id="validVoieLongueur" type="submit"
+									name="validVoieLongueur" class="btn btn-info">Valider</button>
+							</div>
+						</div>
+					</div>
+				</c:if>
+			</form>
+
+
+
+
 			<!-- Formulaire ajouter une longueur -->
 			<form:form action="processAddLongueur#longueur" method="POST"
 				modelAttribute="longueur">
 
-				<c:if test="${!empty voies}">
+				<c:if test="${!empty voieIdLongueur }">
+
+					<c:if test="${!empty longueurs }">
+
+						<h3>Longueurs existantes:</h3>
+
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Cotation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${longueurs }" var="longueur">
+									<tr>
+										<td>${longueur.numero }</td>
+										<td>${longueur.cotation }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+
+					</c:if>
 
 					<!-- Selectionner la voie  -->
 					<div class="form-group">
-						<label>Voie:</label>
-						<form:select path="voie_id">
-							<c:forEach items="${voies}" var="voie">
-								<option value="${voie.id }">${voie.numero}-${voie.nom}</option>
-							</c:forEach>
-						</form:select>
+						<form:hidden path="voie_id" value="${voieIdLongueur }"  />
 					</div>
 
 					<!-- Ajout du numéro de la longueur  -->
@@ -142,14 +187,14 @@
 								class="btn btn-info">Ajouter la longeur</button>
 						</div>
 					</div>
-				</c:if>
 
-				<c:if test="${empty voies}">
-					<div class="col-md-5 alert alert-danger text-center" role="alert">
-						<c:out value="Aucune voie n'est répertorié sur ce secteur"></c:out>
-					</div>
-				</c:if>
 
+					<c:if test="${empty voies}">
+						<div class="col-md-5 alert alert-danger text-center" role="alert">
+							<c:out value="Aucune voie n'est répertorié sur ce secteur"></c:out>
+						</div>
+					</c:if>
+				</c:if>
 			</form:form>
 		</c:if>
 	</c:if>

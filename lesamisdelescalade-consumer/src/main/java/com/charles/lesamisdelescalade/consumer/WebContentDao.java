@@ -57,6 +57,8 @@ public interface WebContentDao {
 	int getSecteurIdByVoieId(int voieId);
 
 	List<Cotation> findAllCotation();
+
+	List<Longueur> findAllLongueurByVoie(int voieId);
 	
 	
 

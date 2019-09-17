@@ -173,6 +173,11 @@ public class WebContentManagerImpl implements WebContentManager {
 		return webContentDao.findAllCotation();
 	}
 	
+	@Override
+	public List<Longueur> findAllLongueurByVoie(int voieId){
+		return webContentDao.findAllLongueurByVoie(voieId);
+	}
+	
 	
 	
 

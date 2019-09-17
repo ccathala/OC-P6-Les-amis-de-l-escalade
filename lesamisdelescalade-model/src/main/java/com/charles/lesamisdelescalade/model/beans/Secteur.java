@@ -11,8 +11,6 @@ public class Secteur {
 	@Size(min=3, message="doit contenir au minimum 3 caractères")
 	private String nom;
 	
-	@NotEmpty
-	@Size(min=30, message="doit contenir au minimum 30 caractères")
 	private String description;
 	private int site_id;
 	

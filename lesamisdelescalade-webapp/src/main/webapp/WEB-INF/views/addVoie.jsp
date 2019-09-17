@@ -68,20 +68,90 @@
 
 	<c:if test="${!empty siteIdVoie}">
 
-		<!-- Formulaire ajouter une voie -->
-		<form:form action="processAddVoie#voie" method="POST"
-			modelAttribute="voie">
+		<!-- Choix de la voie -->
+		<form action="processChooseVoieLongueur#longueur" method="GET">
+			<c:if test="${!empty voies}">
+				<!-- Selectionner la voie  -->
+				<div class="form-group">
+					<label>Secteur:</label> <select name="voieIdLongueur">
+						<c:forEach items="${voies}" var="voie">
+							<option value="${voie.id }"
+								<c:if test="${voie.id == voieIdLongueur }">selected</c:if>>${voie.numero }
+								- ${voie.nom }</option>
+						</c:forEach>
+					</select>
 
-			<c:if test="${!empty secteurs}">
+					<!-- Valid Site button -->
+					<div class="form-group">
+						<div class="col-md-4">
+							<button id="validVoieLongueur" type="submit"
+								name="validVoieLongueur" class="btn btn-info">Valider</button>
+						</div>
+					</div>
+				</div>
+			</c:if>
+		</form>
+
+		<c:if test="${!empty secteurs}">
+
+			<!-- Choix du secteur -->
+			<form action="processChooseSecteurVoie#voie" method="GET">
+				<c:if test="${!empty secteurs}">
+					<!-- Selectionner le secteur  -->
+					<div class="form-group">
+						<label>Secteur:</label> <select name="secteurIdVoie">
+							<c:forEach items="${secteurs}" var="secteur">
+								<option value="${secteur.id }"
+									<c:if test="${secteur.id == secteurIdLongueur }">selected</c:if>>${secteur.nom }</option>
+							</c:forEach>
+						</select>
+
+						<!-- Valid Site button -->
+						<div class="form-group">
+							<div class="col-md-4">
+								<button id="validSecteurVoie" type="submit"
+									name="validSecteurVoie" class="btn btn-info">Valider</button>
+							</div>
+						</div>
+					</div>
+				</c:if>
+			</form>
+
+		</c:if>
+
+		<c:if test="${!empty secteurIdVoie }">
+
+			<!-- Formulaire ajouter une voie -->
+			<form:form action="processAddVoie#voie" method="POST"
+				modelAttribute="voie">
+
+				<c:if test="${!empty voies }">
+					<h3>Voies existantes:</h3>
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Nom</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${voies }" var="voie">
+								<tr>
+									<td>${voie.numero }</td>
+									<td>${voie.nom }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:if>
+
+
 
 				<!-- Selectionner le secteur  -->
 				<div class="form-group">
-					<label>Secteur:</label>
-					<form:select path="secteur_id">
-						<c:forEach items="${secteurs}" var="secteur">
-							<option value="${secteur.id }">${secteur.nom}</option>
-						</c:forEach>
-					</form:select>
+					<form:hidden path="secteur_id" value="${secteurIdVoie }" />
+
 				</div>
 
 				<!-- Ajout du numéro de la voie  -->
@@ -106,16 +176,17 @@
 							class="btn btn-info">Ajouter la voie</button>
 					</div>
 				</div>
-			</c:if>
 
-			<c:if test="${empty secteurs}">
-				<div class="col-md-5 alert alert-danger text-center" role="alert">
-					<c:out value="Aucun secteur n'est répertorié sur ce site"></c:out>
-				</div>
-			</c:if>
+			</form:form>
 
 
-		</form:form>
+		</c:if>
+
+		<c:if test="${empty secteurs}">
+			<div class="col-md-5 alert alert-danger text-center" role="alert">
+				<c:out value="Aucun secteur n'est répertorié sur ce site"></c:out>
+			</div>
+		</c:if>
 	</c:if>
 </c:if>
 

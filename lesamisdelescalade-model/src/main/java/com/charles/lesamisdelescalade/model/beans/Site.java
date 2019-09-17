@@ -16,7 +16,7 @@ public class Site {
 	@Size(min=30, message="doit contenir au minimum 30 caractères")
 	private String description;
 	
-	@NotNull
+	@NotNull(message="vous devez sélectionner un département")
 	private int departement_id;
 	private int tag_id;
 	

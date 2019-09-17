@@ -150,7 +150,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	
 	@Override
 	public List<Voie> findAllVoieBySecteur(int secteurId) {
-		return jdbcTemplate.query("SELECT * FROM public.voie where secteur_id = ?", new Object[] { secteurId },
+		return jdbcTemplate.query("SELECT * FROM public.voie where secteur_id = ? order by numero asc", new Object[] { secteurId },
 				new BeanPropertyRowMapper<Voie>(Voie.class));
 
 	}
@@ -175,6 +175,13 @@ public class WebContentDaoImpl implements WebContentDao {
 	@Transactional
 	public void addLongeur(Longueur longueur) {
 		jdbcTemplate.update("INSERT INTO longueur (numero, cotation_id, voie_id) VALUES (?, ?, ?)", longueur.getNumero(), longueur.getCotation_id(), longueur.getVoie_id());
+	}
+	
+	@Override
+	public List<Longueur> findAllLongueurByVoie(int voieId) {
+		return jdbcTemplate.query("select longueur.id, longueur.numero, longueur.cotation_id, longueur.voie_id, cotation from cotation inner join longueur on cotation.id = longueur.cotation_id where voie_id=? order by numero ASC", new Object[] { voieId },
+				new BeanPropertyRowMapper<Longueur>(Longueur.class));
+
 	}
 	
 	/*============================================================================================
