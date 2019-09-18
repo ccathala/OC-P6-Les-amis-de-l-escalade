@@ -9,6 +9,7 @@ public class Longueur {
 	@Min(value = 1, message="saisir un numero de voie supérieur à 0")
 	@Max(value = 10, message="saisir un numero de inférieur à 10")
 	private int numero;
+	@Min(value=1)
 	private int cotation_id;
 	private int voie_id;
 	

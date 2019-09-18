@@ -10,6 +10,7 @@
 	<!-- Selectionner le département  -->
 	<div class="form-group">
 		<label>Département:</label> <select name="departementIdLongueur">
+			<option value="0" <c:if test="${empty departementIdLongueur}">selected</c:if>>Sélectionnez le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
 					<c:if test="${departement.id == departementIdLongueur }">selected</c:if>>${departement.code }-
@@ -38,9 +39,10 @@
 			<!-- Selectionner le site -->
 			<div class="form-group">
 				<label>Site:</label> <select name="siteIdLongueur">
+					<option value="0" <c:if test="${empty siteIdLongueur}">selected</c:if>>Sélectionnez le site</option>
 					<c:forEach items="${sites}" var="site">
 						<option value="${site.id }"
-							<c:if test="${site.id == siteIdVoie }">selected</c:if>>${site.nom }</option>
+							<c:if test="${site.id == siteIdLongueur }">selected</c:if>>${site.nom }</option>
 					</c:forEach>
 				</select>
 
@@ -74,6 +76,7 @@
 				<!-- Selectionner le secteur -->
 				<div class="form-group">
 					<label>Secteur:</label> <select name="secteurIdLongueur">
+						<option value="0" <c:if test="${empty secteurIdLongueur}">selected</c:if>>Sélectionnez le secteur</option>
 						<c:forEach items="${secteurs}" var="secteur">
 							<option value="${secteur.id }"
 								<c:if test="${secteur.id == secteurIdLongueur }">selected</c:if>>${secteur.nom }</option>
@@ -107,7 +110,8 @@
 				<c:if test="${!empty voies}">
 					<!-- Selectionner la voie  -->
 					<div class="form-group">
-						<label>Secteur:</label> <select name="voieIdLongueur">
+						<label>Voie:</label> <select name="voieIdLongueur">
+						<option value="0" <c:if test="${empty voieIdLongueur}">selected</c:if>>Sélectionnez la voie</option>
 							<c:forEach items="${voies}" var="voie">
 								<option value="${voie.id }"
 									<c:if test="${voie.id == voieIdLongueur }">selected</c:if>>${voie.numero }
@@ -157,6 +161,12 @@
 						</table>
 
 					</c:if>
+					
+					<c:if test="${empty longueurs }">
+					
+						<h3>Aucune longueur répertoriée pour cette voie</h3>
+					
+					</c:if>
 
 					<!-- Selectionner la voie  -->
 					<div class="form-group">
@@ -174,8 +184,9 @@
 					<div class="form-group">
 						<label>Cotation:</label>
 						<form:select path="cotation_id">
+							<option value="0" <c:if test="${empty voieIdLongueur}">selected</c:if>>Sélectionnez la cotation</option>
 							<c:forEach items="${cotations}" var="cotation">
-								<option value="${cotation.id }">${cotation.cotation }</option>
+								<option value="${cotation.id }" <c:if test="${cotation.id == cotationIdLongueur }">selected</c:if>>${cotation.cotation }</option>
 							</c:forEach>
 						</form:select>
 					</div>

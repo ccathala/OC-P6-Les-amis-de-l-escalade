@@ -9,13 +9,14 @@
 	<!-- Selectionner le département  -->
 	<div class="form-group">
 		<label>Département:</label> <select name="departementIdSecteur">
+			<option value="0"<c:if test="${empty departementIdSecteur}">selected</c:if>>Sélectionnez le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
 					<c:if test="${departement.id == departementIdSecteur }">selected</c:if>>${departement.code }-
 					${departement.nom }</option>
 			</c:forEach>
 		</select>
-
+		
 	</div>
 
 	<!-- Valid Departement button -->
@@ -37,8 +38,9 @@
 			<div class="form-group">
 				<label>Site:</label>
 				<form:select path="site_id">
+				<option <c:if test="${empty siteIdSecteur}">selected</c:if>>Sélectionner le site</option> 
 					<c:forEach items="${sites}" var="site">
-						<option value="${site.id }">${site.nom}</option>
+						<option value="${site.id }" <c:if test="${site.id == siteIdSecteur}">selected</c:if> >${site.nom}</option>
 					</c:forEach>
 				</form:select>
 			</div>

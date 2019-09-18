@@ -27,9 +27,7 @@
 				<div class="form-group">
 					<label>Département:</label>
 					<form:select path="departement_id">
-						
 							<option <c:if test="${empty departementIdSite }">selected</c:if>>Sélectionner le département</option>
-						
 						<c:forEach items="${departements}" var="departement">
 							<option value="${departement.id }" <c:if test="${departement.id == departementIdSite }">selected</c:if>>${departement.code }-
 								${departement.nom }</option>

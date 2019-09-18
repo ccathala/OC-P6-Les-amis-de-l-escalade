@@ -10,6 +10,7 @@
 	<!-- Selectionner le département  -->
 	<div class="form-group">
 		<label>Département:</label> <select name="departementIdVoie">
+		<option value="0" <c:if test="${empty departementIdVoie}">selected</c:if>>Sélectionner le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
 					<c:if test="${departement.id == departementIdVoie }">selected</c:if>>${departement.code }-
@@ -40,6 +41,7 @@
 			<!-- Selectionner le site -->
 			<div class="form-group">
 				<label>Site:</label> <select name="siteIdVoie">
+				<option value="0" <c:if test="${empty siteIdVoie}">selected</c:if>>Sélectionner un site</option>
 					<c:forEach items="${sites}" var="site">
 						<option value="${site.id }"
 							<c:if test="${site.id == siteIdVoie }">selected</c:if>>${site.nom }</option>
@@ -68,29 +70,7 @@
 
 	<c:if test="${!empty siteIdVoie}">
 
-		<!-- Choix de la voie -->
-		<form action="processChooseVoieLongueur#longueur" method="GET">
-			<c:if test="${!empty voies}">
-				<!-- Selectionner la voie  -->
-				<div class="form-group">
-					<label>Secteur:</label> <select name="voieIdLongueur">
-						<c:forEach items="${voies}" var="voie">
-							<option value="${voie.id }"
-								<c:if test="${voie.id == voieIdLongueur }">selected</c:if>>${voie.numero }
-								- ${voie.nom }</option>
-						</c:forEach>
-					</select>
-
-					<!-- Valid Site button -->
-					<div class="form-group">
-						<div class="col-md-4">
-							<button id="validVoieLongueur" type="submit"
-								name="validVoieLongueur" class="btn btn-info">Valider</button>
-						</div>
-					</div>
-				</div>
-			</c:if>
-		</form>
+		
 
 		<c:if test="${!empty secteurs}">
 
@@ -100,9 +80,10 @@
 					<!-- Selectionner le secteur  -->
 					<div class="form-group">
 						<label>Secteur:</label> <select name="secteurIdVoie">
+						<option value="0" <c:if test="${empty secteurIdVoie}">selected</c:if>>Sélectionner un secteur</option>
 							<c:forEach items="${secteurs}" var="secteur">
 								<option value="${secteur.id }"
-									<c:if test="${secteur.id == secteurIdLongueur }">selected</c:if>>${secteur.nom }</option>
+									<c:if test="${secteur.id == secteurIdVoie }">selected</c:if>>${secteur.nom }</option>
 							</c:forEach>
 						</select>
 
@@ -145,6 +126,12 @@
 						</tbody>
 					</table>
 				</c:if>
+				
+				<c:if test="${empty voies }">
+					
+						<h3>Aucune voie répertoriée pour cette voie</h3>
+					
+					</c:if>
 
 
 

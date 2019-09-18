@@ -25,10 +25,15 @@ public class AddVoieController {
 	@RequestMapping(value = "/site/processChooseDepartementVoie", method = RequestMethod.GET)
 	public String chooseDepartementVoie(Model model, @RequestParam(value="departementIdVoie") int departementId) {
 		
-		model.addAttribute("departementIdVoie", departementId);
+		if(departementId == 0) {
+			model.addAttribute("messageErrorVoie", "Erreur - Aucun département n'a été sélectionné");
+		}else {
+			model.addAttribute("departementIdVoie", departementId);
+			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
+		}
+		
 		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
-		model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
 		model.addAttribute("longueur", new Longueur());
@@ -41,15 +46,23 @@ public class AddVoieController {
 	@RequestMapping(value = "/site/processChooseSiteVoie", method = RequestMethod.GET)
 	public String chooseSiteVoie(Model model, @RequestParam(value="siteIdVoie") int siteId) {
 		
-		int departementId = webContentManager.getDepartementIdBySiteId(siteId);
-		model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteId));
+		if(siteId ==0) {
+			model.addAttribute("messageErrorVoie", "Erreur - Aucun site n'a été sélectionné");
+		}else {
+			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
+			model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteId));
+			model.addAttribute("departementIdVoie",departementId);
+			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
+			model.addAttribute("siteIdVoie", siteId);
+		}
+
 		model.addAttribute("departements", webContentManager.findAllDepartements());
 		model.addAttribute("site", new Site());
 		model.addAttribute("secteur", new Secteur());
 		model.addAttribute("voie", new Voie());
-		model.addAttribute("siteIdVoie", siteId);
-		model.addAttribute("departementIdVoie",departementId);
-		model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
+		
+		
+		
 		model.addAttribute("longueur", new Longueur());
 		model.addAttribute("collapseClassVoie", "show");
 		model.addAttribute("collapseAriaVoie", true);
@@ -60,18 +73,24 @@ public class AddVoieController {
 	@RequestMapping(value = "/site/processChooseSecteurVoie", method = RequestMethod.GET)
 	public String chooseSecteurVoie(Model model, @RequestParam(value="secteurIdVoie") int secteurId) {
 		
-		int siteId = webContentManager.getSiteIdBySecteurId(secteurId);
-		int departementId = webContentManager.getDepartementIdBySiteId(siteId);
+		if(secteurId == 0) {
+			model.addAttribute("messageErrorVoie", "Erreur - Aucun secteur n'a été sélectionné");
+		}else {
+			int siteId = webContentManager.getSiteIdBySecteurId(secteurId);
+			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
+			model.addAttribute("departementIdVoie",departementId);
+			model.addAttribute("siteIdVoie", siteId);
+			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
+			model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteId));
+			model.addAttribute("secteurIdVoie", secteurId);
+			model.addAttribute("voies", webContentManager.findAllVoieBySecteur(secteurId));
+			
+		}
+		
 		model.addAttribute("departements", webContentManager.findAllDepartements());
-		model.addAttribute("departementIdVoie",departementId);
 		model.addAttribute("site", new Site());
-		model.addAttribute("siteIdVoie", siteId);
-		model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
-		model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteId));
 		model.addAttribute("secteur", new Secteur());
-		model.addAttribute("secteurIdVoie", secteurId);
 		model.addAttribute("voie", new Voie());
-		model.addAttribute("voies", webContentManager.findAllVoieBySecteur(secteurId));
 		model.addAttribute("longueur", new Longueur());
 		model.addAttribute("collapseClassVoie", "show");
 		model.addAttribute("collapseAriaVoie", true);
@@ -91,6 +110,8 @@ public class AddVoieController {
 			model.addAttribute("sites", webContentManager.getAllSitesByDepartement(departementId));
 			model.addAttribute("site", new Site());
 			model.addAttribute("secteurs", webContentManager.getAllSecteursBySite(siteId));
+			model.addAttribute("secteurIdVoie", webContentManager.getSecteurIdByVoieId(voie.getSecteur_id()));
+			model.addAttribute("voies", webContentManager.findAllVoieBySecteur(voie.getSecteur_id()));
 			model.addAttribute("collapseClassVoie", "show");
 			model.addAttribute("collapseAriaVoie", true);
 			
