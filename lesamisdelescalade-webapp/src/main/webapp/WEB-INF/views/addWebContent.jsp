@@ -65,7 +65,7 @@
 
 
 
-		<div class="collapse ${collapseClassSite }"" id="ajouterSite" data-parent="#addForm">
+		<div class="collapse ${collapseClassSite }" id="ajouterSite" data-parent="#addForm">
 			<div class="card card-body">
 				<jsp:include page="addSite.jsp"></jsp:include>
 
@@ -76,7 +76,7 @@
 
 		<!-- Ajouter un secteur ------------------------------------------------------------------------------------------------>
 
-		<div class="collapse ${collapseClassSecteur }"" id="ajouterSecteur" data-parent="#addForm">
+		<div class="collapse ${collapseClassSecteur }" id="ajouterSecteur" data-parent="#addForm">
 			<div class="card card-body">
 				<jsp:include page="addSecteur.jsp"></jsp:include>
 
@@ -85,7 +85,7 @@
 
 		<!-- Ajouter une voie ------------------------------------------------------------------------------------------------>
 
-		<div class="collapse ${collapseClassVoie }"" id="ajouterVoie" data-parent="#addForm">
+		<div class="collapse ${collapseClassVoie }" id="ajouterVoie" data-parent="#addForm">
 			<div class="card card-body">
 				<jsp:include page="addVoie.jsp"></jsp:include>
 

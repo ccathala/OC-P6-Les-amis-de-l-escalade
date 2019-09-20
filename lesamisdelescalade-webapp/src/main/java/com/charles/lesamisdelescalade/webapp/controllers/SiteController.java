@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
-import com.charles.lesamisdelescalade.model.utils.SitePageData;
+import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 /**
  * Handles requests for the application home page.

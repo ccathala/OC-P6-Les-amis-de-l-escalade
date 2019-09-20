@@ -4,7 +4,7 @@
 
 <h2 id="secteur">Ajouter un secteur</h2>
 
-<form action="processChooseDepartement#secteur" method="GET">
+<form action="processChooseDepartementAddSecteur#secteur" method="GET">
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">

@@ -30,7 +30,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	============================================================================================*/
 	
 	@Override
-	public List<Departement> findAllDepartements() {
+	public List<Departement> findAllDepartement() {
 		return jdbcTemplate.query("select * from departement", new BeanPropertyRowMapper<Departement>(Departement.class));
 		
 		
@@ -62,7 +62,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	}
 
 	@Override
-	public List<Site> findAllSitesByDepartement(int departementId){
+	public List<Site> findAllSiteByDepartement(int departementId){
 		List<Site> sites = jdbcTemplate.query("select * from site where departement_id=?", new Object[] {departementId}, new BeanPropertyRowMapper<Site>(Site.class));
 		return sites;
 	}
@@ -85,7 +85,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	}
 
 	@Override
-	public List<Secteur> findAllSecteursBySite(int siteId) {
+	public List<Secteur> findAllSecteurBySite(int siteId) {
 		return jdbcTemplate.query("SELECT * FROM public.secteur where site_id = ?", new Object[] { siteId },
 				new BeanPropertyRowMapper<Secteur>(Secteur.class));
 
@@ -109,13 +109,13 @@ public class WebContentDaoImpl implements WebContentDao {
 	}
 
 	@Override
-	public int getVoieCountBySecteurs(int secteurId) {
+	public int getVoieCountBySecteur(int secteurId) {
 		return jdbcTemplate.queryForObject("SELECT COUNT (*) from public.voie where secteur_id = ?",
 				new Object[] { secteurId }, Integer.class);
 	}
 
 	@Override
-	public String getSecteurMinCotation(int secteurId) {
+	public String getSecteurMinCotation(int secteurId) throws NullPointerException{
 		int cotation_id = jdbcTemplate.queryForObject(
 				"SELECT MIN(cotation_id) FROM public.voie inner join longueur on voie.id  = longueur.voie_id where secteur_id = ?",
 				new Object[] { secteurId }, Integer.class);
@@ -124,7 +124,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	}
 
 	@Override
-	public String getSecteurMaxCotation(int secteurId) {
+	public String getSecteurMaxCotation(int secteurId) throws NullPointerException {
 		int cotation_id = jdbcTemplate.queryForObject(
 				"SELECT MAX(cotation_id) FROM public.voie inner join longueur on voie.id  = longueur.voie_id where secteur_id = ?",
 				new Object[] { secteurId }, Integer.class);

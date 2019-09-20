@@ -8,7 +8,7 @@ import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Voie;
-import com.charles.lesamisdelescalade.model.utils.SitePageData;
+import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 
 public interface WebContentManager {
@@ -17,17 +17,17 @@ public interface WebContentManager {
 	
 	public Boolean addSite(Site site);
 	
-	public List<Site> getAllSitesByDepartement(int departementId);
+	public List<Site> getAllSiteByDepartement(int departementId);
 	
 	public Boolean addSecteur(Secteur secteur);
 	
-	public List<Secteur> getAllSecteursBySite(int siteId);
+	public List<Secteur> getAllSecteurBySite(int siteId);
 	
 	public String addVoie (Voie voie);
 	
 	public int getDepartementIdBySiteId(int siteId);
 	
-	public List<Departement> findAllDepartements();
+	public List<Departement> findAllDepartement();
 
 	int getSiteIdBySecteurId(int secteurId);
 

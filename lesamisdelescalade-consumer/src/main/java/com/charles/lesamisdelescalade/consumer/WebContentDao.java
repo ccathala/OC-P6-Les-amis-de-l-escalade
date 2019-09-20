@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Repository;
-
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
@@ -16,7 +14,7 @@ import com.charles.lesamisdelescalade.model.beans.Voie;
 
 public interface WebContentDao {
 
-	List<Departement> findAllDepartements();
+	List<Departement> findAllDepartement();
 
 	int getDepartementIdBySiteId(int siteId);
 
@@ -24,19 +22,19 @@ public interface WebContentDao {
 
 	Site findSite(int siteId);
 
-	List<Site> findAllSitesByDepartement(int departementId);
+	List<Site> findAllSiteByDepartement(int departementId);
 
 	void addSecteur(Secteur secteur) throws DuplicateKeyException;
 
-	List<Secteur> findAllSecteursBySite(int siteId);
+	List<Secteur> findAllSecteurBySite(int siteId);
 
 	List<Voie> findVoieBySite(int siteId);
 
-	int getVoieCountBySecteurs(int secteurId);
+	int getVoieCountBySecteur(int secteurId);
 
-	String getSecteurMinCotation(int secteurId);
+	String getSecteurMinCotation(int secteurId) throws NullPointerException;
 
-	String getSecteurMaxCotation(int secteurId);
+	String getSecteurMaxCotation(int secteurId) throws NullPointerException;
 
 	void addVoie(Voie voie);
 
@@ -54,7 +52,7 @@ public interface WebContentDao {
 
 	Longueur findLongueurByNumeroAndVoie(int numero, int voieId);
 
-	int getSecteurIdByVoieId(int voieId);
+	int getSecteurIdByVoieId(int voieId) ;
 
 	List<Cotation> findAllCotation();
 

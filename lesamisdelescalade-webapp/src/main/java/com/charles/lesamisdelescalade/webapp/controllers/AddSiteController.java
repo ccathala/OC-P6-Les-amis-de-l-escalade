@@ -9,50 +9,30 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
-import com.charles.lesamisdelescalade.model.beans.Longueur;
-import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
-import com.charles.lesamisdelescalade.model.beans.Voie;
+import com.charles.lesamisdelescalade.webapp.utils.AddWebContentFormUtil;
 
 @Controller
 public class AddSiteController {
-	
+
 	@Autowired
 	private WebContentManager webContentManager;
-	
+	@Autowired
+	private AddWebContentFormUtil addWebContentFormUtil;
+
 	@RequestMapping(value = "/site/processAddSite", method = RequestMethod.POST)
 	public String addSite(Model model, @Valid @ModelAttribute(value = "site") Site site, BindingResult result) {
 
 		if (result.hasErrors()) {
-			
-			model.addAttribute("departements", webContentManager.findAllDepartements());
-			model.addAttribute("departementIdSite", site.getDepartement_id());
-			model.addAttribute("collapseClassSite", "show");
-			model.addAttribute("collapseAriaSite", true);
-			
-			if (result.getFieldErrorCount("departement_id")>0) {
-				model.addAttribute("messageErrorSite", "Erreur - Vous devez sélectionner un département.");
-			}
+
+			model.addAllAttributes(addWebContentFormUtil.getAddSiteAttributesWhenValidationErrors(site, result));
 			return "addWebContent";
-			
+
 		} else {
+			Boolean siteAddedWithSuccess = webContentManager.addSite(site);
+			model.addAllAttributes(addWebContentFormUtil.getAddSiteAttributes(site, result, siteAddedWithSuccess));
 
-			if (webContentManager.addSite(site)) {
-				model.addAttribute("messageSuccessSite", "Site ajouté avec succès");
-			} else {
-				model.addAttribute("messageErrorSite", "Erreur - Le site est déjà enregistré");
-				model.addAttribute("departementIdSite", site.getDepartement_id());
-			}
+			return "addWebContent";
 		}
-
-		model.addAttribute("site", new Site());
-		model.addAttribute("secteur", new Secteur());
-		model.addAttribute("voie", new Voie());
-		model.addAttribute("longueur", new Longueur());
-		model.addAttribute("departements", webContentManager.findAllDepartements());
-		model.addAttribute("collapseClassSite", "show");
-		model.addAttribute("collapseAriaSite", true);
-		return "addWebContent";
 	}
-
 }

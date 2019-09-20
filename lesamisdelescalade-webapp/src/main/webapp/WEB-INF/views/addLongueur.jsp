@@ -5,7 +5,7 @@
 <h2 id="longueur">Ajouter une Longueur</h2>
 
 <!-- Choix département -->
-<form action="processChooseDepartementLongueur#ajouterLongueur" method="GET">
+<form action="processChooseDepartementAddLongueur#ajouterLongueur" method="GET">
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
@@ -32,7 +32,7 @@
 <c:if test="${!empty departementIdLongueur }">
 
 	<!-- Choix site -->
-	<form action="processChooseSiteLongueur#longueur" method="GET">
+	<form action="processChooseSiteAddLongueur#longueur" method="GET">
 
 		<c:if test="${!empty sites }">
 
@@ -69,7 +69,7 @@
 	<c:if test="${!empty siteIdLongueur }">
 
 		<!-- Choix secteur -->
-		<form action="processChooseSecteurLongueur#longueur" method="GET">
+		<form action="processChooseSecteurAddLongueur#longueur" method="GET">
 
 			<c:if test="${!empty secteurs }">
 
@@ -106,7 +106,7 @@
 		<c:if test="${!empty secteurIdLongueur }">
 
 			<!-- Choix de la voie -->
-			<form action="processChooseVoieLongueur#longueur" method="GET">
+			<form action="processChooseVoieAddLongueur#longueur" method="GET">
 				<c:if test="${!empty voies}">
 					<!-- Selectionner la voie  -->
 					<div class="form-group">

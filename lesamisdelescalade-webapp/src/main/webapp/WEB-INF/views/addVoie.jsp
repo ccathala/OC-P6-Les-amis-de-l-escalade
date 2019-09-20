@@ -5,7 +5,7 @@
 <h2 id="voie">Ajouter une voie</h2>
 
 <!-- Choix département -->
-<form action="processChooseDepartementVoie#voie" method="GET">
+<form action="processChooseDepartementAddVoie#voie" method="GET">
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
@@ -34,7 +34,7 @@
 
 
 	<!-- Choix site -->
-	<form action="processChooseSiteVoie#voie" method="GET">
+	<form action="processChooseSiteAddVoie#voie" method="GET">
 
 		<c:if test="${!empty sites }">
 
@@ -75,7 +75,7 @@
 		<c:if test="${!empty secteurs}">
 
 			<!-- Choix du secteur -->
-			<form action="processChooseSecteurVoie#voie" method="GET">
+			<form action="processChooseSecteurAddVoie#voie" method="GET">
 				<c:if test="${!empty secteurs}">
 					<!-- Selectionner le secteur  -->
 					<div class="form-group">
@@ -129,7 +129,7 @@
 				
 				<c:if test="${empty voies }">
 					
-						<h3>Aucune voie répertoriée pour cette voie</h3>
+						<h3>Aucune voie répertoriée dans ce secteur</h3>
 					
 					</c:if>
 

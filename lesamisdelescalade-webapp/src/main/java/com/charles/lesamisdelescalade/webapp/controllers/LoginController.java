@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import com.charles.lesamisdelescalade.business.authentification.AuthentificationManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
-import com.charles.lesamisdelescalade.model.utils.AuthResult;
+import com.charles.lesamisdelescalade.model.dto.AuthResult;
 
 /**
  * Login page controller

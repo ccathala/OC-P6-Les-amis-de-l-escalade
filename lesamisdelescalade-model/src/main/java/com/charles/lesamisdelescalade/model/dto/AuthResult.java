@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.model.utils;
+package com.charles.lesamisdelescalade.model.dto;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 

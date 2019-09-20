@@ -2,6 +2,8 @@ package com.charles.lesamisdelescalade.business.webcontent.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,13 +16,21 @@ import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Voie;
-import com.charles.lesamisdelescalade.model.utils.SitePageData;
+import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
+/**
+ * 
+ * @author Charles
+ *
+ */
 @Service
 public class WebContentManagerImpl implements WebContentManager {
 
 	@Autowired
 	private WebContentDao webContentDao;
+	
+	/* Logger for LoginManagerImpl class */
+	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
 
 	/* ========================================================================== */
 	/* Display site page */
@@ -37,14 +47,21 @@ public class WebContentManagerImpl implements WebContentManager {
 	public SitePageData getSitePageData(int siteId) {
 		SitePageData sitePageData = new SitePageData();
 		sitePageData.setSite(findSiteById(siteId));
-		sitePageData.setSecteurs(getAllSecteursBySite(siteId));
+		sitePageData.setSecteurs(getAllSecteurBySite(siteId));
 		sitePageData.setVoies(findVoiesBySite(siteId));
 		sitePageData.setLongueurs(findLongueursBySite(siteId));
 
 		for (Secteur secteur : sitePageData.getSecteurs()) {
 			secteur.setVoiesCount(getVoieCountBySecteurs(secteur.getId()));
-			secteur.setCotationMin(getMinCotation(secteur.getId()));
-			secteur.setCotationMax(getMaxCotation(secteur.getId()));
+			try {
+				secteur.setCotationMin(getMinCotation(secteur.getId()));
+				secteur.setCotationMax(getMaxCotation(secteur.getId()));
+			} catch (NullPointerException e) {
+				secteur.setCotationMin("NA");
+				secteur.setCotationMax("NA");
+			}
+			
+			
 		}
 
 		return sitePageData;
@@ -64,9 +81,12 @@ public class WebContentManagerImpl implements WebContentManager {
 		return webContentDao.findSite(siteId);
 	}
 
+	/**
+	 * 
+	 */
 	@Override
-	public List<Site> getAllSitesByDepartement(int departementId) {
-		return webContentDao.findAllSitesByDepartement(departementId);
+	public List<Site> getAllSiteByDepartement(int departementId) {
+		return webContentDao.findAllSiteByDepartement(departementId);
 	}
 
 	@Override
@@ -79,8 +99,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	/* ========================================================================== */
 
 	@Override
-	public List<Secteur> getAllSecteursBySite(int siteId) {
-		return webContentDao.findAllSecteursBySite(siteId);
+	public List<Secteur> getAllSecteurBySite(int siteId) {
+		return webContentDao.findAllSecteurBySite(siteId);
 	}
 
 	@Override
@@ -96,8 +116,8 @@ public class WebContentManagerImpl implements WebContentManager {
 		return webContentDao.findVoieBySite(siteId);
 	}
 
-	public int getVoieCountBySecteurs(int secteurId) {
-		return webContentDao.getVoieCountBySecteurs(secteurId);
+	public int getVoieCountBySecteurs(int secteurId)  {
+		return webContentDao.getVoieCountBySecteur(secteurId);
 	}
 
 	@Override
@@ -140,8 +160,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	/* ========================================================================== */
 
 	@Override
-	public List<Departement> findAllDepartements() {
-		return webContentDao.findAllDepartements();
+	public List<Departement> findAllDepartement() {
+		return webContentDao.findAllDepartement();
 	}
 
 	@Override
@@ -161,11 +181,14 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public Boolean addSite(Site site) {
 		Boolean siteAddedWithSuccess;
+		logger.info("Add site attempt");
 		try {
 			webContentDao.addSite(site);
 			siteAddedWithSuccess = true;
+			logger.debug("Site added with success - site id: " + site.getId() + " - site name: " + site.getNom());
 		} catch (DuplicateKeyException e) {
 			siteAddedWithSuccess = false;
+			logger.warn("Site add failed - Cause: site name already exist");
 		}
 		return siteAddedWithSuccess;
 	}
@@ -178,11 +201,14 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public Boolean addSecteur(Secteur secteur) {
 		Boolean secteurAddedWithSuccess;
+		logger.info("Add secteur attempt");
 		try {
 			webContentDao.addSecteur(secteur);
 			secteurAddedWithSuccess = true;
+			logger.debug("Secteur added with success - secteur id: " + secteur.getId() + " - secteur name: " + secteur.getNom());
 		} catch (DuplicateKeyException e) {
 			secteurAddedWithSuccess = false;
+			logger.warn("Secteur add failed - Cause: secteur name already exist");
 		}
 		return secteurAddedWithSuccess;
 	}
@@ -195,20 +221,24 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public String addVoie(Voie voie) {
 		String causeError = "";
+		logger.info("Add voie attempt");
 		try {
 			webContentDao.findVoieByNumeroAndSecteur(voie.getNumero(), voie.getSecteur_id());
 			causeError = "numero";
+			logger.debug("Voie add failed - Cause: voie numero already exist");
 		} catch (EmptyResultDataAccessException e) {
 
 		}
 		try {
 			webContentDao.findVoieByNomAndSecteur(voie.getNom(), voie.getSecteur_id());
 			causeError = "nom";
+			logger.debug("Voie add failed - Cause: voie name already exist");
 		} catch (EmptyResultDataAccessException e) {
 
 		}
 		if (causeError.equals("")) {
 			webContentDao.addVoie(voie);
+			logger.debug("Voie added with success - voie id: " + voie.getId() + " - voie numero: " + voie.getNumero() + " - voie name: " + voie.getNom());
 		}
 		return causeError;
 	}
@@ -221,12 +251,15 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public Boolean addLongueur(Longueur longueur) {
 		Boolean NumeroIsAlreadyUsed;
+		logger.info("Add longueur attempt");
 		try {
 			webContentDao.findLongueurByNumeroAndVoie(longueur.getNumero(), longueur.getVoie_id());
 			NumeroIsAlreadyUsed = true;
+			logger.debug("Longueur added with success - longueur id: " + longueur.getId() + " - longueur numero: " + longueur.getNumero());
 		} catch (EmptyResultDataAccessException e) {
 			webContentDao.addLongeur(longueur);
 			NumeroIsAlreadyUsed = false;
+			logger.debug("Longueur add failed - Cause: voie numero already exist");
 		}
 
 		return NumeroIsAlreadyUsed;

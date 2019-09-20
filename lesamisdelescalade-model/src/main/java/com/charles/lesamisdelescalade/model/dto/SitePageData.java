@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.model.utils;
+package com.charles.lesamisdelescalade.model.dto;
 
 import java.util.List;
 
@@ -18,10 +18,8 @@ public class SitePageData {
 	
 	public SitePageData() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
-	
-	
 	
 	public List<Secteur> getSecteurs() {
 		return secteurs;
