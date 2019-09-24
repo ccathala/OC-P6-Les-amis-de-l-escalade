@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import com.charles.lesamisdelescalade.business.authentification.AuthentificationManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
-import com.charles.lesamisdelescalade.model.dto.AuthResult;
+import com.charles.lesamisdelescalade.model.dto.LoginData;
 
 /**
  * Login page controller
@@ -36,7 +36,7 @@ public class LoginController {
 	 * @return
 	 */
 	@ModelAttribute("sessionUtilisateur")
-	public Utilisateur setUtilisateurSession() {
+	public Utilisateur setSessionUtilisateur() {
 		return new Utilisateur();
 	}
 
@@ -62,12 +62,12 @@ public class LoginController {
 	/**
 	 * Url request handler for /processLogin
 	 * 
-	 * @param utilisateurSession
+	 * @param sessionUtilisateur
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/processLogin", method = RequestMethod.POST)
-	public String processLogin(@Valid @ModelAttribute("sessionUtilisateur") Utilisateur utilisateurSession,
+	public String processLogin(@Valid @ModelAttribute("sessionUtilisateur") Utilisateur sessionUtilisateur,
 			BindingResult result, Model model) {
 
 		/* Form validation */
@@ -80,29 +80,31 @@ public class LoginController {
 
 		} else {
 
-			AuthResult authResult = authentificationManager.login(utilisateurSession);
+			LoginData loginData = new LoginData();
 
-			if (authResult.getAuthStatus().equals("success")) {
+			loginData = authentificationManager.login(sessionUtilisateur);
+
+			if (loginData.getLoginResult().equals("success")) {
 
 				/* Add session bean Utilisateur attribute */
-				model.addAttribute("utilisateurSession", authResult.getUtilisateur());
+				model.addAttribute("sessionUtilisateur", loginData.getUtilisateur());
 
 				/* Return home.jsp view */
 				return "home";
 
-			} else if (authResult.getAuthStatus().equals("wrong password")) {
+			} else if (loginData.getLoginResult().equals("wrong password")) {
 
 				/* Add error message attribute */
 				model.addAttribute("erreur_login", "Echec de connexion - Mot de passe incorrect");
 
 				/* Reset password input */
-				utilisateurSession.setPassword("");
+				sessionUtilisateur.setPassword("");
 
 				/* Add new bean Utilisateur attribute */
-				model.addAttribute("utilisateurSession", utilisateurSession);
+				model.addAttribute("sessionUtilisateur", sessionUtilisateur);
 				return "login";
 
-			} else if (authResult.getAuthStatus().equals("wrong email")) {
+			} else if (loginData.getLoginResult().equals("wrong email")) {
 
 				/* Display debug log */
 				logger.debug("Echec de connexion - L'adresse saisie n'existe pas");
@@ -112,12 +114,9 @@ public class LoginController {
 
 				/* Return login.jsp view */
 				return "login";
-
-			}else {
+			} else {
 				return null;
 			}
-
 		}
-		
 	}
 }

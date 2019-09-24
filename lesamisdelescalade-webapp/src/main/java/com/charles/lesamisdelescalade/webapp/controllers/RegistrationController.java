@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.charles.lesamisdelescalade.business.account.AccountManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
+import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;
 
 @Controller
 public class RegistrationController {
@@ -22,14 +23,14 @@ public class RegistrationController {
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration(Model model) {
 
-		model.addAttribute("registrationUtilisateur", new Utilisateur());
+		model.addAttribute("registrationUtilisateur", new UtilisateurDTO());
 
 		return "registration";
 	}
 
 	@RequestMapping(value = "/processRegistration", method = RequestMethod.POST)
 	public String processRegistration(
-			@Valid @ModelAttribute("registrationUtilisateur") Utilisateur registrationUtilisateur, BindingResult result,
+			@Valid @ModelAttribute("registrationUtilisateur") UtilisateurDTO registrationUtilisateur, BindingResult result,
 			Model model) {
 
 		/* Filter validation field errors */

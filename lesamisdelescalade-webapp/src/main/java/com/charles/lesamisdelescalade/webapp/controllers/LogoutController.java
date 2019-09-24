@@ -18,11 +18,11 @@ public class LogoutController {
 	private static final Logger logger = LoggerFactory.getLogger(LogoutController.class);
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session, @SessionAttribute("sessionUtilisateur") Utilisateur utilisateurSession ) {
+	public String logout(HttpSession session, @SessionAttribute("sessionUtilisateur") Utilisateur sessionUtilisateur ) {
 		
 		/* Bean for log use */
 		Utilisateur utilisateurLog = new Utilisateur();
-		utilisateurLog.setId(utilisateurSession.getId());
+		utilisateurLog.setId(sessionUtilisateur.getId());
 		
 		/* Close user session */
 		session.invalidate();

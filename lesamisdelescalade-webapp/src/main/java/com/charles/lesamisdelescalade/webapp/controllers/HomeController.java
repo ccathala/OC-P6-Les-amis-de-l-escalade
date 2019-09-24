@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
 
 import com.charles.lesamisdelescalade.business.config.BusinessConfig;
 import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
@@ -24,24 +24,24 @@ import com.charles.lesamisdelescalade.webapp.config.WebappConfig;
  * Handles requests for the application home page.
  */
 
-
 @Controller
 public class HomeController {
 
-	@Autowired
-	private UtilisateurDao iUtilisateur;
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * 
 	 * @param locale
 	 * @param model
-	 * @param utilisateurSession
+	 * @param sessionUtilisateur
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, @SessionAttribute(value="sessionUtilisateur", required = false) Utilisateur utilisateurSession) {
+	public String home(Locale locale, Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@ModelAttribute(value = "messageError") String messageError) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -50,8 +50,9 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("utilisateurs", iUtilisateur.findAll());
-		model.addAttribute("utilisateurSession", utilisateurSession);
+		//model.addAttribute("utilisateurs", iUtilisateur.findAll());
+		model.addAttribute("sessionUtilisateur", sessionUtilisateur);
+		model.addAttribute("messageError", messageError);
 
 		return "home";
 	}

@@ -57,6 +57,12 @@ public interface WebContentDao {
 	List<Cotation> findAllCotation();
 
 	List<Longueur> findAllLongueurByVoie(int voieId);
+
+	void addOfficialTagOnSite(int siteId);
+
+	void deleteOfficialTagOnSite(int siteId);
+
+	
 	
 	
 

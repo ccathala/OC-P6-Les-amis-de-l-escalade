@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
@@ -30,22 +32,39 @@ public class SiteController {
 	 * 
 	 * @param locale
 	 * @param model
-	 * @param utilisateurSession
+	 * @param sessionUtilisateur
 	 * @return
 	 */
 	@RequestMapping(value = "/site/{siteId}", method = RequestMethod.GET)
-	public String home(Model model,
-			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
+	public String displaySite(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
-		
-		SitePageData sitePageData  = webContentManager.getSitePageData(siteId);
+
+		SitePageData sitePageData = webContentManager.getSitePageData(siteId);
 		model.addAttribute("site", sitePageData.getSite());
 		model.addAttribute("secteurs", sitePageData.getSecteurs());
 		model.addAttribute("voies", sitePageData.getVoies());
 		model.addAttribute("longueurs", sitePageData.getLongueurs());
-		model.addAttribute("utilisateurSession", utilisateurSession);
-
+		model.addAttribute("sessionUtilisateur", sessionUtilisateur);
 		return "site";
+	}
+
+	@RequestMapping(value = "/addTag/{siteId}", method = RequestMethod.GET)
+	public String addTag(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "siteId") int siteId) {
+
+		webContentManager.addOfficialTagOnSite(siteId);
+		return "redirect:/site/" + siteId;
+	}
+	
+	@RequestMapping(value = "/deleteTag/{siteId}", method = RequestMethod.GET)
+	public String deleteTag(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "siteId") int siteId) {
+
+		webContentManager.deleteOfficialTagOnSite(siteId);
+		return "redirect:/site/" + siteId;
 	}
 
 }

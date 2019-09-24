@@ -1,9 +1,9 @@
 package com.charles.lesamisdelescalade.business.account;
 
-import com.charles.lesamisdelescalade.model.beans.Utilisateur;
+import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;
 
 public interface AccountManager {
 	
-	public String registerNewUser(Utilisateur utilisateurRegister);
+	public String registerNewUser(UtilisateurDTO utilisateurRegister);
 
 }

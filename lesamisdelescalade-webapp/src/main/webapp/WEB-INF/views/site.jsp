@@ -18,20 +18,45 @@
 	<jsp:include page="header.jsp"></jsp:include>
 
 	<div class="container">
-		<h1>Site</h1>
-
 		<div class="row justify-content-start my-xl-3">
 			<div class=col-2>
 				<img
 					src="${pageContext.request.contextPath}/resources/pictures/climbing-icon.jpg"
 					class="img-fluid" alt="symbole montagne">
 			</div>
-			<div class="col-9">
+			<div class="col-10">
+				<div class="row">
+					<div class="col-auto">
+						<h2>
+							<c:out value="${site.nom }"></c:out>
+						</h2>
+					</div>
+					<div class="col">
+						<c:if test="${sessionUtilisateur.role_id == 1 }">
+							<c:if test="${site.tag_id == 1 }">
+								<a class="btn btn-success"
+									href="<c:url value="/addTag/${site.id }"></c:url>">Taguer
+									"Officiel - les amis de l'escalade" </a>
+							</c:if>
+							<c:if test="${site.tag_id == 2 }">
+								<a class="btn btn-danger"
+									href="<c:url value="/deleteTag/${site.id }"></c:url>">Retirer
+									le tag "Officiel - les amis de l'escalade"</a>
+							</c:if>
+						</c:if>
 
-				<h2>
-					<c:out value="${site.nom }"></c:out>
-				</h2>
-				<p class="text-justify"><c:out value="${site.description }"></c:out></p>
+					</div>
+
+				</div>
+
+
+				<c:if test="${site.tag_id == 2 }">
+					<span class="badge badge-info">Officiel les amis de
+						l'escalade</span>
+				</c:if>
+				<p class="text-justify">
+					<c:out value="${site.description }"></c:out>
+				</p>
 			</div>
 		</div>
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.charles.lesamisdelescalade.business.account.AccountManager;
 import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
-import com.charles.lesamisdelescalade.model.beans.Utilisateur;
+import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;
 
 @Service
 public class AccountManagerImpl implements AccountManager {
@@ -22,7 +22,7 @@ public class AccountManagerImpl implements AccountManager {
 	private UtilisateurDao utilisateurDao;
 
 	@Override
-	public String registerNewUser(Utilisateur utilisateurRegister) {
+	public String registerNewUser(UtilisateurDTO utilisateurRegister) {
 
 		/* Property declaration */
 		boolean nameIsAlreadyUsed;

@@ -41,4 +41,10 @@ public interface WebContentManager {
 
 	List<Longueur> findAllLongueurByVoie(int voieId);
 
+	void addOfficialTagOnSite(int siteId);
+
+	void deleteOfficialTagOnSite(int siteId);
+
+	
+
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.authentification.AuthentificationManager;
 import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
-import com.charles.lesamisdelescalade.model.dto.AuthResult;
+import com.charles.lesamisdelescalade.model.dto.LoginData;
 
 @Service
 public class AuthentificationManagerImpl implements AuthentificationManager {
@@ -24,28 +24,33 @@ public class AuthentificationManagerImpl implements AuthentificationManager {
 		utilisateurDao.addUtilisateur(utilisateur);
 	}
 
-	public AuthResult login(Utilisateur utilisateur) {
+	public LoginData login(Utilisateur utilisateur) {
 		
-				
+		LoginData loginData = new LoginData();	
 		/* Search email corresponding user */
 		try {
 			Utilisateur utilisateurFromDatabase = utilisateurDao.findByEmail(utilisateur.getEmail());
 			if (passwordIsCorresponding(utilisateur, utilisateurFromDatabase)) {
 
 				/* Password match */
-				return new AuthResult(utilisateurFromDatabase, "success");
+				loginData.setUtilisateur(utilisateurFromDatabase);
+				loginData.setLoginResult("success");
+				
+				
 				
 			} else {
 
 				/* Password doesn't match */
-				return new AuthResult(null, "wrong password");
+				loginData.setUtilisateur(null);
+				loginData.setLoginResult("wrong password");
+				
+				
 			}
 		} catch (EmptyResultDataAccessException e) {
-			return new AuthResult(null, "wrong email");
+			loginData.setUtilisateur(null);
+			loginData.setLoginResult("wrong email");
 		}
-		
-
-		
+		return loginData;
 	}
 
 	/**

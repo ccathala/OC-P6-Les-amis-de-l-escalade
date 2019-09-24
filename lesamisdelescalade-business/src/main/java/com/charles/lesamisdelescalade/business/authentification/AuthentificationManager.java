@@ -1,9 +1,9 @@
 package com.charles.lesamisdelescalade.business.authentification;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
-import com.charles.lesamisdelescalade.model.dto.AuthResult;
+import com.charles.lesamisdelescalade.model.dto.LoginData;
 
 public interface AuthentificationManager {
 
-	public AuthResult login(Utilisateur utilisateur);
+	public LoginData login(Utilisateur utilisateur);
 }

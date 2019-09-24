@@ -93,6 +93,16 @@ public class WebContentManagerImpl implements WebContentManager {
 	public int getSiteIdBySecteurId(int secteurId) {
 		return webContentDao.getSiteIdBySecteurId(secteurId);
 	}
+	
+	@Override
+	public void addOfficialTagOnSite(int siteId) {
+		webContentDao.addOfficialTagOnSite(siteId);
+	}
+	
+	@Override
+	public void deleteOfficialTagOnSite(int siteId) {
+		webContentDao.deleteOfficialTagOnSite(siteId);
+	}
 
 	/* ========================================================================== */
 	/* Secteur data from database */
@@ -168,6 +178,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	public int getDepartementIdBySiteId(int siteId) {
 		return webContentDao.getDepartementIdBySiteId(siteId);
 	}
+	
+	
 
 	/* ========================================================================== */
 	/* Add web content */

@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
+import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.webapp.utils.AddWebContentFormUtil;
 
 @Controller
@@ -23,25 +27,39 @@ public class AddSecteurController {
 	private AddWebContentFormUtil addWebContentFormUtil;
 
 	@RequestMapping(value = "/site/processChooseDepartementAddSecteur", method = RequestMethod.GET)
-	public String chooseDepartement(Model model, @RequestParam(value = "departementIdSecteur") int departementId) {
+	public String chooseDepartement(Model model, @RequestParam(value = "departementIdSecteur") int departementId,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			RedirectAttributes redirectAttributes) {
 
-		model.addAllAttributes(addWebContentFormUtil.getAddSecteurAttributesWhenDepartementIsSet(departementId));
-		return "addWebContent";
-
+		if (sessionUtilisateur == null) {
+			redirectAttributes.addFlashAttribute("messageError",
+					"Vous devez être connecté pour acceder à la page demandée.");
+			return "redirect:/";
+		} else {
+			model.addAllAttributes(addWebContentFormUtil.getAddSecteurAttributesWhenDepartementIsSet(departementId, sessionUtilisateur));
+			return "addWebContent";
+		}
 	}
 
 	@RequestMapping(value = "/site/processAddSecteur", method = RequestMethod.POST)
 	public String addSecteur(Model model, @Valid @ModelAttribute(value = "secteur") Secteur secteur,
-			BindingResult result) {
+			BindingResult result,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			RedirectAttributes redirectAttributes) {
 
-		if (result.hasErrors()) {
-			model.addAllAttributes(addWebContentFormUtil.getAddSecteurAttributesWhenValidationErrors(secteur, result));
-			return "addWebContent";
+		if (sessionUtilisateur == null) {
+			redirectAttributes.addFlashAttribute("messageError",
+					"Vous devez être connecté pour acceder à la page demandée.");
+			return "redirect:/";
 		} else {
-			Boolean secteurAddedWithSuccess = webContentManager.addSecteur(secteur);
-			model.addAllAttributes(addWebContentFormUtil.getAddSecteurAttributes(secteur, secteurAddedWithSuccess));
+			if (result.hasErrors()) {
+				model.addAllAttributes(
+						addWebContentFormUtil.getAddSecteurAttributesWhenValidationErrors(secteur, result, sessionUtilisateur));
+			} else {
+				Boolean secteurAddedWithSuccess = webContentManager.addSecteur(secteur);
+				model.addAllAttributes(addWebContentFormUtil.getAddSecteurAttributes(secteur, secteurAddedWithSuccess, sessionUtilisateur));
+			}
+			return "addWebContent";
 		}
-		return "addWebContent";
-
 	}
 }

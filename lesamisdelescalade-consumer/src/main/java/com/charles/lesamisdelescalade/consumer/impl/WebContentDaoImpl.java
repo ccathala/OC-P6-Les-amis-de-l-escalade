@@ -68,10 +68,22 @@ public class WebContentDaoImpl implements WebContentDao {
 	}
 	
 	@Override
+	
 	public int getSiteIdBySecteurId(int secteurId) {
 		return jdbcTemplate.queryForObject("select site_id from secteur where id=?", new Object[] {secteurId}, Integer.class);
 	}
 	
+	@Override
+	@Transactional
+	public void addOfficialTagOnSite(int siteId) {
+		jdbcTemplate.update("update site set tag_id=? where id=?", 2, siteId );
+	}
+	
+	@Override
+	@Transactional
+	public void deleteOfficialTagOnSite(int siteId) {
+		jdbcTemplate.update("update site set tag_id=? where id=?", 1, siteId );
+	}
 	
 	
 	/*============================================================================================
@@ -184,15 +196,14 @@ public class WebContentDaoImpl implements WebContentDao {
 
 	}
 	
-	/*============================================================================================
-	*									     COTATION											 *
-	============================================================================================*/
+	
 	
 	@Override
 	public List<Cotation> findAllCotation(){
 		List<Cotation> cotations = jdbcTemplate.query("select * from cotation", new BeanPropertyRowMapper<Cotation>(Cotation.class));
 		return cotations;
 	}
+	
 	
 	
 }
