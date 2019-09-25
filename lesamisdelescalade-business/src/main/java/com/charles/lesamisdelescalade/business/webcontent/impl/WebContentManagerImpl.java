@@ -103,6 +103,11 @@ public class WebContentManagerImpl implements WebContentManager {
 	public void deleteOfficialTagOnSite(int siteId) {
 		webContentDao.deleteOfficialTagOnSite(siteId);
 	}
+	
+	@Override
+	public List<Site> findAllSite(){
+		return webContentDao.findAllSite();
+	}
 
 	/* ========================================================================== */
 	/* Secteur data from database */

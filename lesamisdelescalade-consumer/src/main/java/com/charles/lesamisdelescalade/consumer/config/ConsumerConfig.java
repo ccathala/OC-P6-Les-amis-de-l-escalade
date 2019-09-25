@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class ConsumerConfig {
 	
-	@Bean
-	public String consumer() {
-		return "consumer";
-	}
+	
 	
 	@Autowired /* Injection du bean env */
 	private Environment env;

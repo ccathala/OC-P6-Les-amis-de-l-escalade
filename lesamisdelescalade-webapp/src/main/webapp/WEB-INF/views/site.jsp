@@ -49,7 +49,6 @@
 
 				</div>
 
-
 				<c:if test="${site.tag_id == 2 }">
 					<span class="badge badge-info">Officiel les amis de
 						l'escalade</span>

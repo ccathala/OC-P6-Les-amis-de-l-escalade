@@ -13,17 +13,17 @@
 							<li class="nav-item active"><a class="nav-link" href="<c:url value="/"/>">Acceuil
 									<span class="sr-only">(current)</span>
 							</a></li>
-							<li class="nav-item"><a class="nav-link" href="<c:url value="/site/1"/>">Sites</a>
+							<li class="nav-item"><a class="nav-link" href="<c:url value="/siteList"/>">Sites</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" href="<c:url value="/site/ajouter"/>">Ajouter</a>
 							</li>
 						</ul>
 						<c:choose>
-							<c:when test="${sessionUtilisateur.email == null }">
+							<c:when test="${empty sessionUtilisateur.email }">
 								<a class="btn btn-info" href="<c:url value="/login"/>" role="button">Se connecter</a> 
 								<a class="btn btn-info" href="<c:url value="/registration"/>" role="button">S'inscrire</a>
 							</c:when>
-							<c:when test="${sessionUtilisateur.email != null}">
+							<c:when test="${!empty sessionUtilisateur.email }">
 								<a class="btn btn-info" href="#" role="button">Mon Compte</a>
 								<a class="btn btn-info" href="<c:url value="/logout"/>" role="button">Se déconnecter</a>
 							</c:when>

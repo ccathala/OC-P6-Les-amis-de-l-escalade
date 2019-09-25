@@ -45,6 +45,8 @@ public interface WebContentManager {
 
 	void deleteOfficialTagOnSite(int siteId);
 
+	List<Site> findAllSite();
+
 	
 
 }

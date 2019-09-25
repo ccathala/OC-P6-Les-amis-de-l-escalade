@@ -62,6 +62,12 @@ public interface WebContentDao {
 
 	void deleteOfficialTagOnSite(int siteId);
 
+	List<Site> findAllSite();
+
+	List<Site> findAllSiteByCotation(int cotationId);
+
+	List<Site> findAllSiteBySecteurCount(int secteurCount);
+
 	
 	
 	
