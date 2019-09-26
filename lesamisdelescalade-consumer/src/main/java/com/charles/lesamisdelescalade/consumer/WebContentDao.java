@@ -68,6 +68,8 @@ public interface WebContentDao {
 
 	List<Site> findAllSiteBySecteurCount(int secteurCount);
 
+	List<Integer> getSecteurCountBySite();
+
 	
 	
 	

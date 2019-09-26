@@ -1,6 +1,10 @@
 package com.charles.lesamisdelescalade.business.webcontent.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,11 +85,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return webContentDao.findSite(siteId);
 	}
 
-	/**
-	 * 
-	 */
+	
 	@Override
-	public List<Site> getAllSiteByDepartement(int departementId) {
+	public List<Site> findAllSiteByDepartement(int departementId) {
 		return webContentDao.findAllSiteByDepartement(departementId);
 	}
 
@@ -107,6 +109,42 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public List<Site> findAllSite(){
 		return webContentDao.findAllSite();
+	}
+	
+	@Override
+	public List<Site> findAllSiteByCotation(int cotationId){
+		return webContentDao.findAllSiteByCotation(cotationId);
+	}
+	
+	@Override
+	public List<Site> findAllSiteBySecteurCount(int secteurCount){
+		return webContentDao.findAllSiteBySecteurCount(secteurCount);
+	}
+	
+	@Override
+	public List<Integer> getSecteurCountBySite(){
+		return webContentDao.getSecteurCountBySite();
+	}
+	
+	@Override
+	public List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount){
+		List<Site> sites = new ArrayList<Site>();
+		
+		if(departementId > 0) {
+			sites.addAll(findAllSiteByDepartement(departementId));
+		}
+		
+		if(cotationId > 0) {
+			sites.addAll(findAllSiteByCotation(cotationId));
+		}
+		
+		if(secteurCount >0) {
+			sites.addAll(findAllSiteBySecteurCount(secteurCount));
+		}
+		
+		Set<Site> sitesSansDoublon = new HashSet<Site>(sites);
+		sites= new LinkedList<Site>(sitesSansDoublon);
+		return sites;
 	}
 
 	/* ========================================================================== */
@@ -281,5 +319,7 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		return NumeroIsAlreadyUsed;
 	}
+	
+	
 
 }

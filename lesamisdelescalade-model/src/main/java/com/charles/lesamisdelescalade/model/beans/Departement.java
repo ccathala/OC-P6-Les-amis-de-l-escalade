@@ -6,23 +6,16 @@ public class Departement {
 	private String nom;
 	private String code;
 	
-	
-	
 	public Departement() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
+		
 	public Departement(int id, String nom, String code) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.code = code;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -42,8 +35,6 @@ public class Departement {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
-
 
 	@Override
 	public String toString() {

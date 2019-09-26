@@ -17,7 +17,7 @@ public interface WebContentManager {
 	
 	public Boolean addSite(Site site);
 	
-	public List<Site> getAllSiteByDepartement(int departementId);
+	public List<Site> findAllSiteByDepartement(int departementId);
 	
 	public Boolean addSecteur(Secteur secteur);
 	
@@ -46,6 +46,14 @@ public interface WebContentManager {
 	void deleteOfficialTagOnSite(int siteId);
 
 	List<Site> findAllSite();
+
+	List<Site> findAllSiteByCotation(int cotationId);
+
+	List<Site> findAllSiteBySecteurCount(int secteurCount);
+
+	List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount);
+
+	List<Integer> getSecteurCountBySite();
 
 	
 

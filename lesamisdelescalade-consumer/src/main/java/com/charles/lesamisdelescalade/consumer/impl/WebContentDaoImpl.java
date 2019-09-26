@@ -108,6 +108,11 @@ public class WebContentDaoImpl implements WebContentDao {
 	public List<Site> findAllSiteBySecteurCount(int secteurCount){
 		return jdbcTemplate.query("select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?", new Object[] {secteurCount}, new BeanPropertyRowMapper<Site>(Site.class));
 	}
+	
+	@Override
+	public List<Integer> getSecteurCountBySite(){
+		return jdbcTemplate.queryForList("select distinct count(secteur.id) from site inner join secteur on site.id=secteur.site_id group by site.id order by count asc ", Integer.class);
+	}
 
 	/*
 	 * =============================================================================
