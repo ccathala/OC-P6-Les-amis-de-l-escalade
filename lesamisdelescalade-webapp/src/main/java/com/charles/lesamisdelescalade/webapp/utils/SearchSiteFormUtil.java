@@ -19,9 +19,13 @@ public class SearchSiteFormUtil {
 	public HashMap<String, Object> getSearchSiteAttributes(Utilisateur sessionUtilisateur, SearchSiteData searchSiteData, List<Site> sites ){
 		HashMap<String, Object> attributes = new HashMap<String, Object>();
 		attributes.put("departements", webContentManager.findAllDepartement());
+		attributes.put("departementId", searchSiteData.getDepartementId());
 		attributes.put("cotations", webContentManager.findAllCotation());
-		attributes.put("secteurCount", webContentManager.getSecteurCountBySite());
+		attributes.put("cotationId", searchSiteData.getCotationId());
+		attributes.put("secteurCountList", webContentManager.getSecteurCountBySite());
+		attributes.put("secteurCount", searchSiteData.getSecteurCount());
 		attributes.put("sessionUtilisateur", sessionUtilisateur);
+		attributes.put("nom", searchSiteData.getNom());
 		if(searchSiteData.getNom()==null && searchSiteData.getDepartementId()==0 && searchSiteData.getCotationId()==0 && searchSiteData.getSecteurCount()==0) {
 			attributes.put("searchSiteData", new SearchSiteData());
 			attributes.put("sites", webContentManager.findAllSite());

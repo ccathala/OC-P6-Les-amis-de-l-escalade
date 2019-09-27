@@ -70,6 +70,10 @@ public interface WebContentDao {
 
 	List<Integer> getSecteurCountBySite();
 
+	List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql);
+
+	List<Site> findAllSiteByName(String nom);
+
 	
 	
 	

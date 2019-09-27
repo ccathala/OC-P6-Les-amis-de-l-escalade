@@ -56,7 +56,7 @@ public class SiteListController {
 		} else {
 			redirectAttributes.addFlashAttribute("sites",
 					webContentManager.findAllSiteByMultiCritere(searchSiteData.getDepartementId(),
-							searchSiteData.getCotationId(), searchSiteData.getSecteurCount()));
+							searchSiteData.getCotationId(), searchSiteData.getSecteurCount(), searchSiteData.getNom()));
 			redirectAttributes.addFlashAttribute("searchSiteData", searchSiteData);
 			return "redirect:/siteList";
 		}

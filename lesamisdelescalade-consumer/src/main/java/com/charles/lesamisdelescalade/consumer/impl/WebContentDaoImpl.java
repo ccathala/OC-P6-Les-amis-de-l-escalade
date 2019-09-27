@@ -113,6 +113,16 @@ public class WebContentDaoImpl implements WebContentDao {
 	public List<Integer> getSecteurCountBySite(){
 		return jdbcTemplate.queryForList("select distinct count(secteur.id) from site inner join secteur on site.id=secteur.site_id group by site.id order by count asc ", Integer.class);
 	}
+	
+	@Override
+	public List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql){
+		return jdbcTemplate.query(sql, criteresSql, new BeanPropertyRowMapper<Site>(Site.class));
+	}
+	
+	@Override 
+	public List<Site> findAllSiteByName(String nom){
+		return jdbcTemplate.query("select * from site where upper(nom) like upper(?)", new Object[] {nom}, new BeanPropertyRowMapper<Site>(Site.class));
+	}
 
 	/*
 	 * =============================================================================

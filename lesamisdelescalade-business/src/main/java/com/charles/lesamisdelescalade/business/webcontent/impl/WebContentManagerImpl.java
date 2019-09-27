@@ -20,6 +20,7 @@ import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Voie;
+import com.charles.lesamisdelescalade.model.dto.CriteresSql;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 /**
@@ -32,7 +33,7 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	@Autowired
 	private WebContentDao webContentDao;
-	
+
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
 
@@ -64,8 +65,7 @@ public class WebContentManagerImpl implements WebContentManager {
 				secteur.setCotationMin("NA");
 				secteur.setCotationMax("NA");
 			}
-			
-			
+
 		}
 
 		return sitePageData;
@@ -85,7 +85,6 @@ public class WebContentManagerImpl implements WebContentManager {
 		return webContentDao.findSite(siteId);
 	}
 
-	
 	@Override
 	public List<Site> findAllSiteByDepartement(int departementId) {
 		return webContentDao.findAllSiteByDepartement(departementId);
@@ -95,56 +94,54 @@ public class WebContentManagerImpl implements WebContentManager {
 	public int getSiteIdBySecteurId(int secteurId) {
 		return webContentDao.getSiteIdBySecteurId(secteurId);
 	}
-	
+
 	@Override
 	public void addOfficialTagOnSite(int siteId) {
 		webContentDao.addOfficialTagOnSite(siteId);
 	}
-	
+
 	@Override
 	public void deleteOfficialTagOnSite(int siteId) {
 		webContentDao.deleteOfficialTagOnSite(siteId);
 	}
-	
+
 	@Override
-	public List<Site> findAllSite(){
+	public List<Site> findAllSite() {
 		return webContentDao.findAllSite();
 	}
-	
+
 	@Override
-	public List<Site> findAllSiteByCotation(int cotationId){
+	public List<Site> findAllSiteByCotation(int cotationId) {
 		return webContentDao.findAllSiteByCotation(cotationId);
 	}
-	
+
 	@Override
-	public List<Site> findAllSiteBySecteurCount(int secteurCount){
+	public List<Site> findAllSiteBySecteurCount(int secteurCount) {
 		return webContentDao.findAllSiteBySecteurCount(secteurCount);
 	}
-	
+
 	@Override
-	public List<Integer> getSecteurCountBySite(){
+	public List<Integer> getSecteurCountBySite() {
 		return webContentDao.getSecteurCountBySite();
 	}
-	
+
 	@Override
-	public List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount){
-		List<Site> sites = new ArrayList<Site>();
-		
-		if(departementId > 0) {
-			sites.addAll(findAllSiteByDepartement(departementId));
+	public List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom) {
+
+		if (departementId > 0 || cotationId > 0 || secteurCount > 0 || !nom.isEmpty()) {
+			if (!nom.isEmpty()) {
+				return webContentDao.findAllSiteByName("%"+nom+"%");
+
+			} else {
+
+				CriteresSql criteresSql = createSqlRequestToFindAllSiteByMultiCritere(departementId, cotationId,
+						secteurCount);
+				return webContentDao.findAllSiteByMultiCritere(criteresSql.getCriteresSql(), criteresSql.getSql());
+			}
+		} else {
+			return webContentDao.findAllSite();
 		}
-		
-		if(cotationId > 0) {
-			sites.addAll(findAllSiteByCotation(cotationId));
-		}
-		
-		if(secteurCount >0) {
-			sites.addAll(findAllSiteBySecteurCount(secteurCount));
-		}
-		
-		Set<Site> sitesSansDoublon = new HashSet<Site>(sites);
-		sites= new LinkedList<Site>(sitesSansDoublon);
-		return sites;
+
 	}
 
 	/* ========================================================================== */
@@ -169,7 +166,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		return webContentDao.findVoieBySite(siteId);
 	}
 
-	public int getVoieCountBySecteurs(int secteurId)  {
+	public int getVoieCountBySecteurs(int secteurId) {
 		return webContentDao.getVoieCountBySecteur(secteurId);
 	}
 
@@ -221,8 +218,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	public int getDepartementIdBySiteId(int siteId) {
 		return webContentDao.getDepartementIdBySiteId(siteId);
 	}
-	
-	
 
 	/* ========================================================================== */
 	/* Add web content */
@@ -230,6 +225,7 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	/**
 	 * Add new site to database
+	 * 
 	 * @param Site
 	 * @return Boolean
 	 */
@@ -250,6 +246,7 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	/**
 	 * Add new secteur to database
+	 * 
 	 * @param Secteur
 	 * @return Boolean
 	 */
@@ -260,7 +257,8 @@ public class WebContentManagerImpl implements WebContentManager {
 		try {
 			webContentDao.addSecteur(secteur);
 			secteurAddedWithSuccess = true;
-			logger.debug("Secteur added with success - secteur id: " + secteur.getId() + " - secteur name: " + secteur.getNom());
+			logger.debug("Secteur added with success - secteur id: " + secteur.getId() + " - secteur name: "
+					+ secteur.getNom());
 		} catch (DuplicateKeyException e) {
 			secteurAddedWithSuccess = false;
 			logger.warn("Secteur add failed - Cause: secteur name already exist");
@@ -270,6 +268,7 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	/**
 	 * Add new voie to database
+	 * 
 	 * @param Voie
 	 * @return String
 	 */
@@ -293,13 +292,15 @@ public class WebContentManagerImpl implements WebContentManager {
 		}
 		if (causeError.equals("")) {
 			webContentDao.addVoie(voie);
-			logger.debug("Voie added with success - voie id: " + voie.getId() + " - voie numero: " + voie.getNumero() + " - voie name: " + voie.getNom());
+			logger.debug("Voie added with success - voie id: " + voie.getId() + " - voie numero: " + voie.getNumero()
+					+ " - voie name: " + voie.getNom());
 		}
 		return causeError;
 	}
 
 	/**
 	 * Add new longueur to database
+	 * 
 	 * @param Longueur
 	 * @return Boolean
 	 */
@@ -310,7 +311,8 @@ public class WebContentManagerImpl implements WebContentManager {
 		try {
 			webContentDao.findLongueurByNumeroAndVoie(longueur.getNumero(), longueur.getVoie_id());
 			NumeroIsAlreadyUsed = true;
-			logger.debug("Longueur added with success - longueur id: " + longueur.getId() + " - longueur numero: " + longueur.getNumero());
+			logger.debug("Longueur added with success - longueur id: " + longueur.getId() + " - longueur numero: "
+					+ longueur.getNumero());
 		} catch (EmptyResultDataAccessException e) {
 			webContentDao.addLongeur(longueur);
 			NumeroIsAlreadyUsed = false;
@@ -319,7 +321,39 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		return NumeroIsAlreadyUsed;
 	}
-	
-	
 
+	/* ========================================================================== */
+	/* Utils method */
+	/* ========================================================================== */
+
+	private CriteresSql createSqlRequestToFindAllSiteByMultiCritere(int departementId, int cotationId,
+			int secteurCount) {
+		String sql = "";
+		ArrayList<Integer> criteres = new ArrayList<Integer>();
+		if (departementId > 0) {
+			sql = "select * from site where departement_id=? ";
+			criteres.add(departementId);
+		}
+		if (cotationId > 0) {
+			if (!sql.isEmpty()) {
+				sql = sql + "intersect ";
+			}
+			sql = sql
+					+ "select distinct site.* from site inner join secteur on site.id = secteur.site_id inner join voie on secteur.id=voie.secteur_id inner join longueur on voie.id = longueur.voie_id where longueur.cotation_id = ? ";
+			criteres.add(cotationId);
+		}
+		if (secteurCount > 0) {
+			if (!sql.isEmpty()) {
+				sql = sql + "intersect ";
+			}
+			sql = sql
+					+ "select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?";
+			criteres.add(secteurCount);
+		}
+		Object[] criteresSql = criteres.toArray();
+		return new CriteresSql(sql, criteresSql);
+
+	}
+	
+	
 }

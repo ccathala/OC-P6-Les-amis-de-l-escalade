@@ -51,9 +51,9 @@ public interface WebContentManager {
 
 	List<Site> findAllSiteBySecteurCount(int secteurCount);
 
-	List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount);
-
 	List<Integer> getSecteurCountBySite();
+
+	List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom);
 
 	
 
