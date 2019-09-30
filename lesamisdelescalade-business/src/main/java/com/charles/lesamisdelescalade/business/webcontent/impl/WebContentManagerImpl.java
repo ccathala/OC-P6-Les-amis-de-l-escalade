@@ -1,9 +1,13 @@
 package com.charles.lesamisdelescalade.business.webcontent.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -14,11 +18,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 import com.charles.lesamisdelescalade.model.dto.CriteresSql;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
@@ -70,6 +76,11 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		return sitePageData;
 	}
+	
+	@Override
+	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName(){
+		return convertUtilisateurListToHashMap(findAllUtilisateurOnlyIdAndName());
+	}
 
 	/* ========================================================================== */
 	/* Site data from database */
@@ -81,6 +92,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @param siteId
 	 * @return Site
 	 */
+	
 	public Site findSiteById(int siteId) {
 		return webContentDao.findSite(siteId);
 	}
@@ -218,6 +230,40 @@ public class WebContentManagerImpl implements WebContentManager {
 	public int getDepartementIdBySiteId(int siteId) {
 		return webContentDao.getDepartementIdBySiteId(siteId);
 	}
+	
+	/* ========================================================================== */
+	/* Commentaire data from database */
+	/* ========================================================================== */
+	
+	@Override
+	public List<Commentaire> findAllCommentaireBySite(int siteId){
+		return webContentDao.findAllCommentaireBySite(siteId);
+	}
+	
+	@Override 
+	public void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur) {
+		Date dNow = new Date( );
+	      SimpleDateFormat ft = 
+	      new SimpleDateFormat ("yyyy.MM.dd 'à' hh:mm:ss");
+		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + "."  ;
+		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
+		webContentDao.updateCommentaire(commentaire, utilisateur.getId());
+		
+	}
+	
+	@Override
+	public void updateCommentaireStatus(int commentaireId) {
+		webContentDao.updateCommentaireStatus(commentaireId);
+	}
+	
+	/* ========================================================================== */
+	/* Utilisateur data from database */
+	/* ========================================================================== */
+	
+	public List<Utilisateur> findAllUtilisateurOnlyIdAndName(){
+		return webContentDao.findAllUtilisateurOnlyIdAndName();
+	}
+	
 
 	/* ========================================================================== */
 	/* Add web content */
@@ -321,6 +367,11 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		return NumeroIsAlreadyUsed;
 	}
+	
+	@Override
+	public void addCommentaire(Commentaire commentaire) {
+		webContentDao.addCommentaire(commentaire);
+	}
 
 	/* ========================================================================== */
 	/* Utils method */
@@ -354,6 +405,16 @@ public class WebContentManagerImpl implements WebContentManager {
 		return new CriteresSql(sql, criteresSql);
 
 	}
+	
+	
+	public HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs){
+		HashMap<Integer, String> map= new HashMap<Integer, String>();
+		for (Utilisateur u: utilisateurs) map.put(u.getId(), u.getNom());
+		return map;
+		
+	}
+	
+	
 	
 	
 }

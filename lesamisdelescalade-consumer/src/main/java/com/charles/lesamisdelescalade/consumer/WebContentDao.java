@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
+
+import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 
 
@@ -73,6 +76,16 @@ public interface WebContentDao {
 	List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql);
 
 	List<Site> findAllSiteByName(String nom);
+
+	List<Commentaire> findAllCommentaireBySite(int siteId);
+
+	List<Utilisateur> findAllUtilisateurOnlyIdAndName();
+
+	void addCommentaire(Commentaire commentaire);
+
+	void updateCommentaire(Commentaire commentaire, int utilisateurId);
+
+	void updateCommentaireStatus(int commentaireId);
 
 	
 	

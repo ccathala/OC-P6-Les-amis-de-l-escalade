@@ -11,11 +11,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 
 @Repository
@@ -103,25 +105,30 @@ public class WebContentDaoImpl implements WebContentDao {
 				"select distinct site.* from site inner join secteur on site.id = secteur.site_id inner join voie on secteur.id=voie.secteur_id inner join longueur on voie.id = longueur.voie_id where longueur.cotation_id = ?",
 				new Object[] { cotationId }, new BeanPropertyRowMapper<Site>(Site.class));
 	}
-	
+
 	@Override
-	public List<Site> findAllSiteBySecteurCount(int secteurCount){
-		return jdbcTemplate.query("select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?", new Object[] {secteurCount}, new BeanPropertyRowMapper<Site>(Site.class));
+	public List<Site> findAllSiteBySecteurCount(int secteurCount) {
+		return jdbcTemplate.query(
+				"select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?",
+				new Object[] { secteurCount }, new BeanPropertyRowMapper<Site>(Site.class));
 	}
-	
+
 	@Override
-	public List<Integer> getSecteurCountBySite(){
-		return jdbcTemplate.queryForList("select distinct count(secteur.id) from site inner join secteur on site.id=secteur.site_id group by site.id order by count asc ", Integer.class);
+	public List<Integer> getSecteurCountBySite() {
+		return jdbcTemplate.queryForList(
+				"select distinct count(secteur.id) from site inner join secteur on site.id=secteur.site_id group by site.id order by count asc ",
+				Integer.class);
 	}
-	
+
 	@Override
-	public List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql){
+	public List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql) {
 		return jdbcTemplate.query(sql, criteresSql, new BeanPropertyRowMapper<Site>(Site.class));
 	}
-	
-	@Override 
-	public List<Site> findAllSiteByName(String nom){
-		return jdbcTemplate.query("select * from site where upper(nom) like upper(?)", new Object[] {nom}, new BeanPropertyRowMapper<Site>(Site.class));
+
+	@Override
+	public List<Site> findAllSiteByName(String nom) {
+		return jdbcTemplate.query("select * from site where upper(nom) like upper(?)", new Object[] { nom },
+				new BeanPropertyRowMapper<Site>(Site.class));
 	}
 
 	/*
@@ -256,6 +263,54 @@ public class WebContentDaoImpl implements WebContentDao {
 		List<Cotation> cotations = jdbcTemplate.query("select * from cotation",
 				new BeanPropertyRowMapper<Cotation>(Cotation.class));
 		return cotations;
+	}
+
+	/*
+	 * =============================================================================
+	 * =============== COMMENTAIRE *
+	 * =============================================================================
+	 * ===============
+	 */
+
+	@Override
+	public List<Commentaire> findAllCommentaireBySite(int siteId) {
+		return jdbcTemplate.query("select * from commentaire where site_id=? order by id asc", new Object[] { siteId },
+				new BeanPropertyRowMapper<Commentaire>(Commentaire.class));
+	}
+
+	@Override
+	@Transactional
+	public void addCommentaire(Commentaire commentaire) {
+		jdbcTemplate.update(
+				"insert into commentaire (texte, date, status_id, utilisateur_id, site_id) values(?,current_timestamp(0),?,?,?)",
+				commentaire.getTexte(), commentaire.getStatus_id(), commentaire.getUtilisateur_id(),
+				commentaire.getSite_id());
+	}
+
+	@Override
+	@Transactional
+	public void updateCommentaire(Commentaire commentaire, int utilisateurId) {
+		jdbcTemplate.update("update commentaire set texte= ?, status_id=? where id=?", commentaire.getTexte(),
+				commentaire.getStatus_id(), utilisateurId);
+	}
+
+	@Override
+	@Transactional
+	public void updateCommentaireStatus(int commentaireId) {
+		jdbcTemplate.update("update commentaire set status_id=? where id=?", 3, commentaireId);
+	}
+
+	/*
+	 * =============================================================================
+	 * =============== UTILISATEUR *
+	 * =============================================================================
+	 * ===============
+	 */
+
+	@Override
+	public List<Utilisateur> findAllUtilisateurOnlyIdAndName() {
+		return jdbcTemplate.query("select id, nom from utilisateur",
+				new BeanPropertyRowMapper<Utilisateur>(Utilisateur.class));
 	}
 
 }
