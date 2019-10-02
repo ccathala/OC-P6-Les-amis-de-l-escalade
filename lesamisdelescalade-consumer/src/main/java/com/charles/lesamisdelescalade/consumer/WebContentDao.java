@@ -1,5 +1,6 @@
 package com.charles.lesamisdelescalade.consumer;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.dao.DuplicateKeyException;
@@ -11,6 +12,7 @@ import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 
@@ -86,6 +88,10 @@ public interface WebContentDao {
 	void updateCommentaire(Commentaire commentaire, int utilisateurId);
 
 	void updateCommentaireStatus(int commentaireId);
+
+	void addTopo(Topo topo);
+
+	Topo findTopoBySiteIdAndAnneeParution(int siteId, Date anneeParution);
 
 	
 	

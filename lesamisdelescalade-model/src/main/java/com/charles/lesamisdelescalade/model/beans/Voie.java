@@ -20,7 +20,6 @@ public class Voie {
 	
 	public Voie() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Voie(int id, int numero, String nom, int secteur_id) {

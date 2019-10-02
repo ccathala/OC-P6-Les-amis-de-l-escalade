@@ -40,7 +40,7 @@ public class SiteController {
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
 
-		SitePageData sitePageData = webContentManager.getSitePageData(siteId);
+		SitePageData sitePageData = webContentManager.setSitePageData(siteId);
 		model.addAttribute("site", sitePageData.getSite());
 		model.addAttribute("secteurs", sitePageData.getSecteurs());
 		model.addAttribute("voies", sitePageData.getVoies());

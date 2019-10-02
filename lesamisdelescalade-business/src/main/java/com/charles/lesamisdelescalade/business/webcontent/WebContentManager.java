@@ -9,6 +9,7 @@ import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
@@ -16,7 +17,7 @@ import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 public interface WebContentManager {
 	
-	public SitePageData getSitePageData(int siteId);
+	public SitePageData setSitePageData(int siteId);
 	
 	public Boolean addSite(Site site);
 	
@@ -67,6 +68,8 @@ public interface WebContentManager {
 	void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur);
 
 	void updateCommentaireStatus(int commentaireId);
+
+	Boolean addTopo(Topo topo);
 
 	
 

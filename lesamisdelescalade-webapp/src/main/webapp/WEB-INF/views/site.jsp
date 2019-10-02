@@ -219,13 +219,14 @@
 					</div>
 					<c:if test="${sessionUtilisateur.role_id == 2 }">
 						<div class="row justify-content-end mb-1">
+							<c:if test="${commentaire.status_id != 3 }">
 							<div class="col-auto p-0 ">
 								<!-- Button trigger modal -->
 								<button id="${commentaire.id }_buttonModifierCommentaire"
 									type="button" class="boutonModifier btn btn-info btn-sm"
 									data-toggle="modal" data-target="#updateCommentaireModal">Modifier</button>
 							</div>
-							<c:if test="${commentaire.status_id != 3 }">
+							
 								<div class="col-auto p-0 ">
 								<!-- Button trigger modal -->
 								<button id="${commentaire.id }_buttonSupprimerCommentaire"
@@ -233,7 +234,6 @@
 									data-toggle="modal" data-target="#deleteCommentaireModal">Supprimer</button>
 							</div>
 							</c:if>
-							
 						</div>
 					</c:if>
 				</div>

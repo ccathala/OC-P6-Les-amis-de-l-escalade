@@ -1,5 +1,6 @@
 package com.charles.lesamisdelescalade.consumer.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 
@@ -311,6 +313,24 @@ public class WebContentDaoImpl implements WebContentDao {
 	public List<Utilisateur> findAllUtilisateurOnlyIdAndName() {
 		return jdbcTemplate.query("select id, nom from utilisateur",
 				new BeanPropertyRowMapper<Utilisateur>(Utilisateur.class));
+	}
+	
+	/*
+	 * =============================================================================
+	 * =============== TOPO *
+	 * =============================================================================
+	 * ===============
+	 */
+	
+	@Override
+	@Transactional
+	public void addTopo(Topo topo) {
+		jdbcTemplate.update("insert into topo (nom, description, annee_parution, site_id) values (?,?,?,?)", topo.getNom(), topo.getDescription(), topo.getAnnee_parution(), topo.getSite_id());
+	}
+	
+	@Override
+	public Topo findTopoBySiteIdAndAnneeParution(int siteId, Date anneeParution) {
+		return (Topo) jdbcTemplate.queryForObject("select annee_parution, site_id from topo where annee_parution=? and site_id=?", new Object[] {anneeParution, siteId}, new BeanPropertyRowMapper<Topo>(Topo.class));
 	}
 
 }

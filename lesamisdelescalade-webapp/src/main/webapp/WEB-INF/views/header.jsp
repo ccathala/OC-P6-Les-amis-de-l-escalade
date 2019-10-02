@@ -15,7 +15,9 @@
 							</a></li>
 							<li class="nav-item"><a class="nav-link" href="<c:url value="/siteList"/>">Sites</a>
 							</li>
-							<li class="nav-item"><a class="nav-link" href="<c:url value="/site/ajouter"/>">Ajouter</a>
+							<li class="nav-item"><a class="nav-link" href="<c:url value="/site/ajouter"/>">Ajouter Spot</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="<c:url value="/addTopo"/>">Ajouter Topo</a>
 							</li>
 						</ul>
 						<c:choose>

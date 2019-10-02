@@ -4,12 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +19,7 @@ import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
+import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 import com.charles.lesamisdelescalade.model.dto.CriteresSql;
@@ -43,47 +39,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
 
-	/* ========================================================================== */
-	/* Display site page */
-	/* ========================================================================== */
-
-	/**
-	 * Set bean SitePageData with site, secteur, voie and longueur data according to
-	 * the choosen site
-	 * 
-	 * @param siteId
-	 * @return sitePageData
-	 */
-	@Override
-	public SitePageData getSitePageData(int siteId) {
-		SitePageData sitePageData = new SitePageData();
-		sitePageData.setSite(findSiteById(siteId));
-		sitePageData.setSecteurs(getAllSecteurBySite(siteId));
-		sitePageData.setVoies(findVoiesBySite(siteId));
-		sitePageData.setLongueurs(findLongueursBySite(siteId));
-
-		for (Secteur secteur : sitePageData.getSecteurs()) {
-			secteur.setVoiesCount(getVoieCountBySecteurs(secteur.getId()));
-			try {
-				secteur.setCotationMin(getMinCotation(secteur.getId()));
-				secteur.setCotationMax(getMaxCotation(secteur.getId()));
-			} catch (NullPointerException e) {
-				secteur.setCotationMin("NA");
-				secteur.setCotationMax("NA");
-			}
-
-		}
-
-		return sitePageData;
-	}
 	
-	@Override
-	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName(){
-		return convertUtilisateurListToHashMap(findAllUtilisateurOnlyIdAndName());
-	}
-
 	/* ========================================================================== */
-	/* Site data from database */
+	/* Site bean methods */
 	/* ========================================================================== */
 
 	/**
@@ -92,8 +50,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @param siteId
 	 * @return Site
 	 */
-	
-	public Site findSiteById(int siteId) {
+	private Site findSiteById(int siteId) {
 		return webContentDao.findSite(siteId);
 	}
 
@@ -153,122 +110,8 @@ public class WebContentManagerImpl implements WebContentManager {
 		} else {
 			return webContentDao.findAllSite();
 		}
-
-	}
-
-	/* ========================================================================== */
-	/* Secteur data from database */
-	/* ========================================================================== */
-
-	@Override
-	public List<Secteur> getAllSecteurBySite(int siteId) {
-		return webContentDao.findAllSecteurBySite(siteId);
-	}
-
-	@Override
-	public int getSecteurIdByVoieId(int voieId) {
-		return webContentDao.getSecteurIdByVoieId(voieId);
-	}
-
-	/* ========================================================================== */
-	/* Voie data from database */
-	/* ========================================================================== */
-
-	public List<Voie> findVoiesBySite(int siteId) {
-		return webContentDao.findVoieBySite(siteId);
-	}
-
-	public int getVoieCountBySecteurs(int secteurId) {
-		return webContentDao.getVoieCountBySecteur(secteurId);
-	}
-
-	@Override
-	public List<Voie> findAllVoieBySecteur(int secteurId) {
-		return webContentDao.findAllVoieBySecteur(secteurId);
-	}
-
-	/* ========================================================================== */
-	/* Longueur data from database */
-	/* ========================================================================== */
-
-	public List<Longueur> findLongueursBySite(int siteId) {
-		return webContentDao.findLongueurBySite(siteId);
-	}
-
-	@Override
-	public List<Longueur> findAllLongueurByVoie(int voieId) {
-		return webContentDao.findAllLongueurByVoie(voieId);
-	}
-
-	/* ========================================================================== */
-	/* Cotation data from database */
-	/* ========================================================================== */
-
-	public String getMinCotation(int secteurId) {
-		return webContentDao.getSecteurMinCotation(secteurId);
-	}
-
-	public String getMaxCotation(int secteurId) {
-		return webContentDao.getSecteurMaxCotation(secteurId);
-	}
-
-	@Override
-	public List<Cotation> findAllCotation() {
-		return webContentDao.findAllCotation();
-	}
-
-	/* ========================================================================== */
-	/* Departement data from database */
-	/* ========================================================================== */
-
-	@Override
-	public List<Departement> findAllDepartement() {
-		return webContentDao.findAllDepartement();
-	}
-
-	@Override
-	public int getDepartementIdBySiteId(int siteId) {
-		return webContentDao.getDepartementIdBySiteId(siteId);
 	}
 	
-	/* ========================================================================== */
-	/* Commentaire data from database */
-	/* ========================================================================== */
-	
-	@Override
-	public List<Commentaire> findAllCommentaireBySite(int siteId){
-		return webContentDao.findAllCommentaireBySite(siteId);
-	}
-	
-	@Override 
-	public void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur) {
-		Date dNow = new Date( );
-	      SimpleDateFormat ft = 
-	      new SimpleDateFormat ("yyyy.MM.dd 'à' hh:mm:ss");
-		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + "."  ;
-		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
-		webContentDao.updateCommentaire(commentaire, utilisateur.getId());
-		
-	}
-	
-	@Override
-	public void updateCommentaireStatus(int commentaireId) {
-		webContentDao.updateCommentaireStatus(commentaireId);
-	}
-	
-	/* ========================================================================== */
-	/* Utilisateur data from database */
-	/* ========================================================================== */
-	
-	public List<Utilisateur> findAllUtilisateurOnlyIdAndName(){
-		return webContentDao.findAllUtilisateurOnlyIdAndName();
-	}
-	
-
-	/* ========================================================================== */
-	/* Add web content */
-	/* ========================================================================== */
-
 	/**
 	 * Add new site to database
 	 * 
@@ -290,6 +133,20 @@ public class WebContentManagerImpl implements WebContentManager {
 		return siteAddedWithSuccess;
 	}
 
+	/* ========================================================================== */
+	/* Secteur Bean methods */
+	/* ========================================================================== */
+
+	@Override
+	public List<Secteur> getAllSecteurBySite(int siteId) {
+		return webContentDao.findAllSecteurBySite(siteId);
+	}
+
+	@Override
+	public int getSecteurIdByVoieId(int voieId) {
+		return webContentDao.getSecteurIdByVoieId(voieId);
+	}
+	
 	/**
 	 * Add new secteur to database
 	 * 
@@ -312,6 +169,23 @@ public class WebContentManagerImpl implements WebContentManager {
 		return secteurAddedWithSuccess;
 	}
 
+	/* ========================================================================== */
+	/* Voie bean methods */
+	/* ========================================================================== */
+
+	public List<Voie> findVoiesBySite(int siteId) {
+		return webContentDao.findVoieBySite(siteId);
+	}
+
+	public int getVoieCountBySecteurs(int secteurId) {
+		return webContentDao.getVoieCountBySecteur(secteurId);
+	}
+
+	@Override
+	public List<Voie> findAllVoieBySecteur(int secteurId) {
+		return webContentDao.findAllVoieBySecteur(secteurId);
+	}
+	
 	/**
 	 * Add new voie to database
 	 * 
@@ -344,6 +218,19 @@ public class WebContentManagerImpl implements WebContentManager {
 		return causeError;
 	}
 
+	/* ========================================================================== */
+	/* Longueur bean methods */
+	/* ========================================================================== */
+
+	public List<Longueur> findLongueursBySite(int siteId) {
+		return webContentDao.findLongueurBySite(siteId);
+	}
+
+	@Override
+	public List<Longueur> findAllLongueurByVoie(int voieId) {
+		return webContentDao.findAllLongueurByVoie(voieId);
+	}
+	
 	/**
 	 * Add new longueur to database
 	 * 
@@ -367,16 +254,142 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		return NumeroIsAlreadyUsed;
 	}
+
+	/* ========================================================================== */
+	/* Cotation bean methods */
+	/* ========================================================================== */
+
+	public String getMinCotation(int secteurId) {
+		return webContentDao.getSecteurMinCotation(secteurId);
+	}
+
+	public String getMaxCotation(int secteurId) {
+		return webContentDao.getSecteurMaxCotation(secteurId);
+	}
+
+	@Override
+	public List<Cotation> findAllCotation() {
+		return webContentDao.findAllCotation();
+	}
+
+	/* ========================================================================== */
+	/* Departement bean methods */
+	/* ========================================================================== */
+
+	@Override
+	public List<Departement> findAllDepartement() {
+		return webContentDao.findAllDepartement();
+	}
+
+	@Override
+	public int getDepartementIdBySiteId(int siteId) {
+		return webContentDao.getDepartementIdBySiteId(siteId);
+	}
+	
+	/* ========================================================================== */
+	/* Commentaire bean methods*/
+	/* ========================================================================== */
+	
+	@Override
+	public List<Commentaire> findAllCommentaireBySite(int siteId){
+		return webContentDao.findAllCommentaireBySite(siteId);
+	}
+	
+	@Override 
+	public void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur) {
+		Date dNow = new Date( );
+	      SimpleDateFormat ft = 
+	      new SimpleDateFormat ("yyyy.MM.dd 'à' hh:mm:ss");
+		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + "."  ;
+		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
+		webContentDao.updateCommentaire(commentaire, utilisateur.getId());
+		
+	}
+	
+	@Override
+	public void updateCommentaireStatus(int commentaireId) {
+		webContentDao.updateCommentaireStatus(commentaireId);
+	}
 	
 	@Override
 	public void addCommentaire(Commentaire commentaire) {
 		webContentDao.addCommentaire(commentaire);
 	}
-
+	
 	/* ========================================================================== */
-	/* Utils method */
+	/* Utilisateur bean methods */
+	/* ========================================================================== */
+	
+	private List<Utilisateur> findAllUtilisateurOnlyIdAndName(){
+		return webContentDao.findAllUtilisateurOnlyIdAndName();
+	}
+	
+	@Override
+	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName(){
+		return convertUtilisateurListToHashMap(findAllUtilisateurOnlyIdAndName());
+	}
+	
+	/* ========================================================================== */
+	/* Topo bean methods */
+	/* ========================================================================== */
+	
+	@Override
+	public Boolean addTopo(Topo topo) {
+		Boolean topoAlreadyExist;
+		try {
+			webContentDao.findTopoBySiteIdAndAnneeParution(topo.getSite_id(), topo.getAnnee_parution());
+			topoAlreadyExist = true;
+		}catch (EmptyResultDataAccessException e) {
+			webContentDao.addTopo(topo);
+			topoAlreadyExist = false;
+		}
+		return topoAlreadyExist;
+	}
+	
+	
+	
+	/* ========================================================================== */
+	/* Utils methods */
 	/* ========================================================================== */
 
+	
+	/**
+	 * Set bean SitePageData with site, secteur, voie and longueur data according to
+	 * the choosen site
+	 * 
+	 * @param siteId
+	 * @return sitePageData
+	 */
+	@Override
+	public SitePageData setSitePageData(int siteId) {
+		SitePageData sitePageData = new SitePageData();
+		sitePageData.setSite(findSiteById(siteId));
+		sitePageData.setSecteurs(getAllSecteurBySite(siteId));
+		sitePageData.setVoies(findVoiesBySite(siteId));
+		sitePageData.setLongueurs(findLongueursBySite(siteId));
+
+		for (Secteur secteur : sitePageData.getSecteurs()) {
+			secteur.setVoiesCount(getVoieCountBySecteurs(secteur.getId()));
+			try {
+				secteur.setCotationMin(getMinCotation(secteur.getId()));
+				secteur.setCotationMax(getMaxCotation(secteur.getId()));
+			} catch (NullPointerException e) {
+				secteur.setCotationMin("NA");
+				secteur.setCotationMax("NA");
+			}
+
+		}
+
+		return sitePageData;
+	}
+	
+	/**
+	 * 
+	 * @param departementId
+	 * @param cotationId
+	 * @param secteurCount
+	 * @return
+	 */
 	private CriteresSql createSqlRequestToFindAllSiteByMultiCritere(int departementId, int cotationId,
 			int secteurCount) {
 		String sql = "";
@@ -406,12 +419,21 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	}
 	
-	
-	public HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs){
+	/**
+	 * 
+	 * @param utilisateurs
+	 * @return
+	 */
+	private HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs){
 		HashMap<Integer, String> map= new HashMap<Integer, String>();
 		for (Utilisateur u: utilisateurs) map.put(u.getId(), u.getNom());
 		return map;
 		
+	}
+	
+	private String extractYearFromDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+		return simpleDateFormat.format(date);
 	}
 	
 	
