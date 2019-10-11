@@ -17,12 +17,18 @@ import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
+import com.charles.lesamisdelescalade.model.beans.PossesseurTopo;
+import com.charles.lesamisdelescalade.model.beans.ReservationTopo;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
+import com.charles.lesamisdelescalade.model.dto.AccountPageData;
 import com.charles.lesamisdelescalade.model.dto.CriteresSql;
+import com.charles.lesamisdelescalade.model.dto.ListTopoPageData;
+import com.charles.lesamisdelescalade.model.dto.MyTopo;
+import com.charles.lesamisdelescalade.model.dto.ReservationRequest;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 /**
@@ -337,7 +343,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	public Boolean addTopo(Topo topo) {
 		Boolean topoAlreadyExist;
 		try {
-			webContentDao.findTopoBySiteIdAndAnneeParution(topo.getSite_id(), topo.getAnnee_parution());
+			webContentDao.findTopoBySiteIdAndAnneeParution(topo.getSite_id(), topo.getDate_parution());
 			topoAlreadyExist = true;
 		}catch (EmptyResultDataAccessException e) {
 			webContentDao.addTopo(topo);
@@ -346,7 +352,105 @@ public class WebContentManagerImpl implements WebContentManager {
 		return topoAlreadyExist;
 	}
 	
+	@Override
+	public List<ListTopoPageData> findAllTopoAndExtendedData(){
+		List<ListTopoPageData> topoList = webContentDao.findAllTopoAndExtendedData();
+		for(ListTopoPageData listTopoPageData: topoList) {
+			listTopoPageData.setDateParution(convertDateToString(listTopoPageData.getDate_parution()));
+		
+		}
+		return topoList;
+	}
 	
+	@Override
+	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(){
+		return webContentDao.findAllAvailableTopoAndExtendedData();
+	}
+	
+	/* ========================================================================== */
+	/* reservation bean methods */
+	/* ========================================================================== */
+	
+	@Override
+	public Boolean addReservation(ReservationTopo reservationTopo ) {
+		Boolean reservationAlreadyAsked;
+		try {
+			webContentDao.findReservationTopoByRequesterIdAndTopoId(reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
+			reservationAlreadyAsked = true;
+		} catch (EmptyResultDataAccessException e) {
+			reservationAlreadyAsked = false;
+			webContentDao.addReservation(reservationTopo);
+		}
+		return reservationAlreadyAsked;
+	}
+	
+	/* ========================================================================== */
+	/* possesseur topo bean methods */
+	/* ========================================================================== */
+	
+	@Override
+	public Boolean addPossesseurTopo(PossesseurTopo possesseurTopo) {
+		Boolean posseseurTopoAddedSuccesfully;
+		possesseurTopo.setDisponible(false);
+		try {
+			webContentDao.addPossesseurTopo(possesseurTopo);
+			posseseurTopoAddedSuccesfully = true;
+		} catch (DuplicateKeyException e) {
+			posseseurTopoAddedSuccesfully = false;
+		}
+		return posseseurTopoAddedSuccesfully;
+		
+		
+	}
+	
+	@Override
+	public void setTopoAvailability(PossesseurTopo possesseurTopo) {
+		webContentDao.setTopoAvailability(possesseurTopo);
+	}
+	
+	@Override
+	public void deleteOwnedTopo(int topoId, int utilisateurId) {
+		webContentDao.deleteOwnedTopo(topoId, utilisateurId);
+	}
+	
+	/* ========================================================================== */
+	/* AccountPageData DTO methods */
+	/* ========================================================================== */
+	
+	@Override
+	public List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId){
+		List<AccountPageData> accountPageDataList = webContentDao.getDataForAccountPageDataBySiteId(departementId);
+		for(AccountPageData accountPageData : accountPageDataList) {
+			accountPageData.setDateParution(convertDateToString(accountPageData.getDate_parution()));
+		}
+		return accountPageDataList;
+	}
+	
+	/* ========================================================================== */
+	/* MyTopo DTO methods */
+	/* ========================================================================== */
+	
+	@Override
+	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId){
+		List<MyTopo> myTopoList = webContentDao.findAllMyTopoByUtilisateurId(utilisateurId);
+		for(MyTopo myTopo : myTopoList ) {
+			myTopo.setDateParution(convertDateToString(myTopo.getDate_parution()));
+		}
+		return myTopoList;
+	}
+	
+	/* ========================================================================== */
+	/* ReservationRequest DTO methods */
+	/* ========================================================================== */
+	
+	@Override
+	public List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId){
+		List<ReservationRequest> reservationRequestList = webContentDao.findAllReceivedReservationRequestByUtilisateurId(utilisateurId);
+		for(ReservationRequest reservationRequest : reservationRequestList) {
+			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
+		}
+		return reservationRequestList;
+	}
 	
 	/* ========================================================================== */
 	/* Utils methods */
@@ -431,10 +535,22 @@ public class WebContentManagerImpl implements WebContentManager {
 		
 	}
 	
-	private String extractYearFromDate(Date date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
-		return simpleDateFormat.format(date);
+	
+	@Override
+	public List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList){
+		List<Integer> avalaibleTopoIdList = new ArrayList<Integer>();
+		for(ListTopoPageData avalaibleTopo : avalaibleTopoAndExtendedDataList) avalaibleTopoIdList.add(avalaibleTopo.getTopo_id());
+		return avalaibleTopoIdList;
+		
 	}
+	
+	private String convertDateToString(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		return simpleDateFormat.format(date);		
+	}
+	
+	
+
 	
 	
 	

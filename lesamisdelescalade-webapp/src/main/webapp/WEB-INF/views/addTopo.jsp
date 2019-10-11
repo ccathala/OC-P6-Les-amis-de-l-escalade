@@ -73,8 +73,8 @@
 
 				<div class="form-group">
 					<label>Date de parution:</label>
-					<form:input path="annee_parution" cssClass="form-control" placeholder="Saisir l'année au format 'aaaa'"/>
-					<small><form:errors path="annee_parution" cssClass="errors" /></small>
+					<form:input path="date_parution" cssClass="form-control" placeholder="Saisir l'année au format 'aaaa'"/>
+					<small><form:errors path="date_parution" cssClass="errors" /></small>
 				</div>
 
 				<div class="form-group">

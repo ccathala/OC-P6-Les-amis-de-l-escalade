@@ -7,11 +7,17 @@ import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
+import com.charles.lesamisdelescalade.model.beans.PossesseurTopo;
+import com.charles.lesamisdelescalade.model.beans.ReservationTopo;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
+import com.charles.lesamisdelescalade.model.dto.AccountPageData;
+import com.charles.lesamisdelescalade.model.dto.ListTopoPageData;
+import com.charles.lesamisdelescalade.model.dto.MyTopo;
+import com.charles.lesamisdelescalade.model.dto.ReservationRequest;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 
@@ -71,8 +77,24 @@ public interface WebContentManager {
 
 	Boolean addTopo(Topo topo);
 
-	
+	List<ListTopoPageData> findAllTopoAndExtendedData();
 
+	List<ListTopoPageData> findAllAvailableTopoAndExtendedData();
 	
+	List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList);
+
+	Boolean addReservation(ReservationTopo reservationTopo);
+
+	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
+
+	Boolean addPossesseurTopo(PossesseurTopo possesseurTopo);
+
+	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
+
+	void setTopoAvailability(PossesseurTopo possesseurTopo);
+
+	void deleteOwnedTopo(int topoId, int utilisateurId);
+
+	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
 
 }

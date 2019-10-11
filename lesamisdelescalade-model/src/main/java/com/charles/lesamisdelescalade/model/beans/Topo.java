@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
@@ -20,10 +19,10 @@ public class Topo {
 	@Size(min=30, max=250, message="doit contenir entre 30 et 250 caractères")
 	@NotEmpty
 	private String description;
-	@DateTimeFormat(pattern="yyyy")
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@NotNull(message="ne peut pas être vide")
 	@PastOrPresent
-	private Date annee_parution;
+	private Date date_parution;
 	@Min(value=1)
 	private int site_id;
 	
@@ -36,7 +35,7 @@ public class Topo {
 		this.id = id;
 		this.nom = nom;
 		this.description = description;
-		this.annee_parution = annee_parution;
+		this.date_parution = annee_parution;
 		this.site_id = site_id;
 	}
 
@@ -64,12 +63,12 @@ public class Topo {
 		this.description = description;
 	}
 
-	public Date getAnnee_parution() {
-		return annee_parution;
+	public Date getDate_parution() {
+		return date_parution;
 	}
 
-	public void setAnnee_parution(Date annee_parution) {
-		this.annee_parution = annee_parution;
+	public void setDate_parution(Date annee_parution) {
+		this.date_parution = annee_parution;
 	}
 
 	public int getSite_id() {
@@ -82,7 +81,7 @@ public class Topo {
 
 	@Override
 	public String toString() {
-		return "Topo [id=" + id + ", nom=" + nom + ", description=" + description + ", annee_parution=" + annee_parution
+		return "Topo [id=" + id + ", nom=" + nom + ", description=" + description + ", date_parution=" + date_parution
 				+ ", site_id=" + site_id + "]";
 	}
 	
