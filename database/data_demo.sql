@@ -313,8 +313,8 @@ INSERT INTO public.status_demande_reservation
 (status)
 values
 ('En attente'),
-('Acceptée'),
+('Acceptée - Topo en prêt'),
 ('Refusée'),
 ('Annulée'),
-('Terminée');
+('Terminée - Topo retourné');
 

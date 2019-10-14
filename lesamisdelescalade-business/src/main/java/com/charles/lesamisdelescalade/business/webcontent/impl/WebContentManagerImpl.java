@@ -375,13 +375,23 @@ public class WebContentManagerImpl implements WebContentManager {
 	public Boolean addReservation(ReservationTopo reservationTopo ) {
 		Boolean reservationAlreadyAsked;
 		try {
-			webContentDao.findReservationTopoByRequesterIdAndTopoId(reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
+			webContentDao.findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
 			reservationAlreadyAsked = true;
 		} catch (EmptyResultDataAccessException e) {
 			reservationAlreadyAsked = false;
 			webContentDao.addReservation(reservationTopo);
 		}
 		return reservationAlreadyAsked;
+	}
+	
+	@Override
+	public void setReservationVisibilityForOwnerToFalse(int reservationRequestId) {
+		webContentDao.setReservationVisibilityForOwnerToFalse(reservationRequestId);
+	}
+	
+	@Override
+	public void setReservationVisibilityForRequesterToFalse(int reservationRequestId) {
+		webContentDao.setReservationVisibilityForRequesterToFalse(reservationRequestId);
 	}
 	
 	/* ========================================================================== */
@@ -450,6 +460,37 @@ public class WebContentManagerImpl implements WebContentManager {
 			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
 		}
 		return reservationRequestList;
+	}
+	
+	@Override
+	public List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId){
+		List<ReservationRequest> reservationRequestList = webContentDao.findAllSentReservationRequestByUtilisateurId(utilisateurId);
+		for(ReservationRequest reservationRequest : reservationRequestList) {
+			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
+		}
+		return reservationRequestList;
+	}
+	
+	
+	
+	@Override
+	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
+		webContentDao.updateReservationRequestStatusToAccepted(reservationRequestId);
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
+		webContentDao.updateReservationRequestStatusToRefused(reservationRequestId);
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
+		webContentDao.updateReservationRequestStatusToEnded(reservationRequestId);
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
+		webContentDao.updateReservationRequestStatusToCancelled(reservationRequestId);
 	}
 	
 	/* ========================================================================== */

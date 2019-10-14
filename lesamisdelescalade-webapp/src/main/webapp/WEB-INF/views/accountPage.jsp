@@ -174,13 +174,49 @@
 			<tbody>
 				<c:forEach items="${receivedReservationRequest}" var="request">
 					<tr>
-						<td><c:out value="${request.demandeur_nom }"></c:out></td>
+						<td>
+							<p>
+								<c:out value="${request.demandeur_nom }"></c:out>
+							</p> <c:if test="${request.status_id ==2 }">
+								<p>
+									<c:out value="${request.demandeur_email }"></c:out>
+								</p>
+							</c:if>
+						</td>
 						<td><c:out value="${request.reservation_topo_nom }"></c:out></td>
 						<td><c:out value="${request.site_nom }"></c:out></td>
 						<td><c:out value="${request.departement }"></c:out></td>
 						<td><c:out value="${request.dateParution }"></c:out></td>
 						<td><c:out value="${request.status }"></c:out></td>
-						<td></td>
+						<td><c:choose>
+								<c:when test="${request.status_id == 1 }">
+									<c:if test="${request.disponible == true }">
+										<a
+											href="<c:url value="/processUpdateReservationRequestStatusToAccepted/${request.reservation_id }/${request.possesseur_id }"></c:url>"
+											title="Accepter la demande de réservation"><span
+											style="color: LimeGreen;"><i
+												class="far fa-check-circle fa-lg"></i></span></a>
+									</c:if>
+									<a
+										href="<c:url value="/processUpdateReservationRequestStatusToRefused/${request.reservation_id }/${request.possesseur_id }"></c:url>"
+										title="Refuser la demande de réservation"><span
+										style="color: red;"><i class="fas fa-ban fa-lg"></i></span></a>
+								</c:when>
+								<c:when test="${request.status_id == 2 }">
+									<a
+										href="<c:url value="/processUpdateReservationRequestStatusToEnded/${request.reservation_id }/${request.possesseur_id }"></c:url>"
+										title="Confirmer le retour du topo"><span
+										style="color: blue;"><i
+											class="far fa-arrow-alt-circle-left fa-2x"></i></span></a>
+								</c:when>
+								<c:when
+									test="${request.status_id == 5  || request.status_id == 4 || request.status_id == 3}">
+									<a
+										href="<c:url value="/processSetReservationVisibilityForOwnerToFalse/${request.reservation_id }/${request.possesseur_id }"></c:url>"
+										title="Effacer la réservation de la liste"><span
+										style="color: black;"><i class="fas fa-trash-alt fa-lg"></i></span></a>
+								</c:when>
+							</c:choose></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -194,18 +230,50 @@
 					<th scope="col">Nom du propriétaire</th>
 					<th scope="col">Nom du topo</th>
 					<th scope="col">Site</th>
+					<th scope="col">Département</th>
+					<th scope="col">Date de parution</th>
 					<th scope="col">Status de la demande</th>
 					<th scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>Mark</td>
-					<td>Rocher de la fraîche</td>
-					<td>Rocher de la fraîche</td>
-					<td>En attente</td>
-					<td></td>
-				</tr>
+				<c:forEach items="${sentReservationRequest }" var="request">
+					<tr>
+						<td>
+							<p>
+								<c:out value="${request.possesseur_nom }"></c:out>
+							</p> <c:if test="${request.status_id == 2 }">
+								<p>
+									<c:out value="${request.possesseur_email }"></c:out>
+								</p>
+							</c:if>
+						</td>
+						<td><c:out value="${request.reservation_topo_nom }"></c:out></td>
+						<td><c:out value="${request.site_nom }"></c:out></td>
+						<td><c:out value="${request.departement }"></c:out></td>
+						<td><c:out value="${request.dateParution }"></c:out></td>
+						<td><c:out value="${request.status }"></c:out></td>
+						<td><c:choose>
+								<c:when test="${request.status_id == 1 }">
+									<a
+										href="<c:url value="/processUpdateReservationRequestStatusToCancelled/${request.reservation_id }/${request.demandeur_id }"></c:url>"
+										title="Annuler la demande de réservation"><span
+										style="color: red;"><i class="far fa-window-close fa-2x"></i></span></a>
+
+								</c:when>
+
+								<c:when
+									test="${request.status_id == 5  || request.status_id == 4 || request.status_id == 3}">
+									<a
+										href="<c:url value="/processSetReservationVisibilityForRequesterToFalse/${request.reservation_id }/${request.demandeur_id }"></c:url>"
+										title="Effacer la réservation de la liste"><span
+										style="color: black;"><i class="fas fa-trash-alt fa-lg"></i></span></a>
+								</c:when>
+							</c:choose>
+						<td>
+					</tr>
+				</c:forEach>
+
 
 			</tbody>
 		</table>

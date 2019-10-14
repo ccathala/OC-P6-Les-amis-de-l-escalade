@@ -105,7 +105,7 @@ public interface WebContentDao {
 
 	void addReservation(ReservationTopo reservationTopo);
 
-	ReservationTopo findReservationTopoByRequesterIdAndTopoId(int requesterId, int topoId);
+	ReservationTopo findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(int requesterId, int topoId);
 
 	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
 
@@ -118,6 +118,20 @@ public interface WebContentDao {
 	void deleteOwnedTopo(int topoId, int utilisateurId);
 
 	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
+
+	void updateReservationRequestStatusToAccepted(int reservationRequestId);
+
+	void updateReservationRequestStatusToRefused(int reservationRequestId);
+
+	void updateReservationRequestStatusToEnded(int reservationRequestId);
+
+	void updateReservationRequestStatusToCancelled(int reservationRequestId);
+
+	void setReservationVisibilityForOwnerToFalse(int reservationRequestId);
+
+	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
+
+	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
 
 	
 	

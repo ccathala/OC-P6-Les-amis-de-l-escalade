@@ -367,17 +367,29 @@ public class WebContentDaoImpl implements WebContentDao {
 	@Transactional
 	public void addReservation(ReservationTopo reservationTopo) {
 		jdbcTemplate.update(
-				"insert into reservation_topo(reservation_topo_id, possesseur_id, demandeur_id, status_id) values(?,?,?,?)",
+				"insert into reservation_topo(reservation_topo_id, possesseur_id, demandeur_id, status_id, visible_for_owner, visible_for_requester) values(?,?,?,?,?,?)",
 				reservationTopo.getReservation_topo_id(), reservationTopo.getPossesseur_id(),
-				reservationTopo.getDemandeur_id(), 1);
+				reservationTopo.getDemandeur_id(), 1, true, true);
 	}
 
 	@Override
-	public ReservationTopo findReservationTopoByRequesterIdAndTopoId(int requesterId, int topoId) {
+	public ReservationTopo findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(int requesterId, int topoId) {
 		return jdbcTemplate.queryForObject(
-				"select * from reservation_topo where reservation_topo_id=? and demandeur_id = ?",
-				new Object[] { topoId, requesterId },
+				"select * from reservation_topo where reservation_topo_id=? and demandeur_id = ? and status_id = ?",
+				new Object[] { topoId, requesterId, 1 },
 				new BeanPropertyRowMapper<ReservationTopo>(ReservationTopo.class));
+	}
+	
+	@Override
+	@Transactional
+	public void setReservationVisibilityForOwnerToFalse(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set visible_for_owner = ? where id = ?" , false, reservationRequestId);
+	}
+	
+	@Override
+	@Transactional
+	public void setReservationVisibilityForRequesterToFalse(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set visible_for_requester = ? where id = ?", false, reservationRequestId);
 	}
 
 	/*
@@ -393,17 +405,19 @@ public class WebContentDaoImpl implements WebContentDao {
 		jdbcTemplate.update("INSERT INTO possesseur_topo (topo_id, utilisateur_id, disponible) VALUES(?, ?, ?)",
 				possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id(), possesseurTopo.getDisponible());
 	}
-	
+
 	@Override
 	@Transactional
 	public void setTopoAvailability(PossesseurTopo possesseurTopo) {
-		jdbcTemplate.update("update possesseur_topo set disponible = ? where topo_id=? and utilisateur_id=?", possesseurTopo.getDisponible(), possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id());
+		jdbcTemplate.update("update possesseur_topo set disponible = ? where topo_id=? and utilisateur_id=?",
+				possesseurTopo.getDisponible(), possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id());
 	}
-	
+
 	@Override
 	@Transactional
 	public void deleteOwnedTopo(int topoId, int utilisateurId) {
-		jdbcTemplate.update("delete from possesseur_topo where topo_id = ? and utilisateur_id = ?", topoId, utilisateurId);
+		jdbcTemplate.update("delete from possesseur_topo where topo_id = ? and utilisateur_id = ?", topoId,
+				utilisateurId);
 	}
 
 	/*
@@ -430,46 +444,101 @@ public class WebContentDaoImpl implements WebContentDao {
 	@Override
 	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId) {
 		return jdbcTemplate.query(
-				"select topo_id, "
-				+ "utilisateur_id, "
-				+ "topo.nom as topo_nom, site.nom as site, "
-				+ "concat(departement.code, ' - ', departement.nom) as departement, "
-				+ "topo.date_parution::date, disponible "
-				+ "from topo " 
-				+ "inner join possesseur_topo on topo.id = possesseur_topo.topo_id "
-				+ "inner join site on topo.site_id = site.id "
-				+ "inner join departement on site.departement_id = departement.id " 
-				+ "where possesseur_topo.utilisateur_id=?",
+				"select topo_id, " + "utilisateur_id, " + "topo.nom as topo_nom, site.nom as site, "
+						+ "concat(departement.code, ' - ', departement.nom) as departement, "
+						+ "topo.date_parution::date, disponible " + "from topo "
+						+ "inner join possesseur_topo on topo.id = possesseur_topo.topo_id "
+						+ "inner join site on topo.site_id = site.id "
+						+ "inner join departement on site.departement_id = departement.id "
+						+ "where possesseur_topo.utilisateur_id=?",
 				new Object[] { utilisateurId }, new BeanPropertyRowMapper<MyTopo>(MyTopo.class));
 	}
-	
+
 	/*
 	 * =============================================================================
 	 * =============== DTO RESERVATIONREQUEST
 	 * =============================================================================
 	 * ===============
 	 */
-	
+
 	@Override
 	public List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId){
 		return jdbcTemplate.query(
-				"select reservation_topo.id as reservation_id, "
+				"select distinct reservation_topo.id as reservation_id, "
 				+ "reservation_topo_id, "
 				+ "topo.nom as reservation_topo_nom, "
+				+ "possesseur_id, "
 				+ "demandeur_id, "
-				+ "utilisateur.nom as demandeur_nom, " 
+				+ "utilisateur.nom as demandeur_nom, "
+				+ "utilisateur.email as demandeur_email, "
 				+ "status_demande_reservation.id as status_id, "
 				+ "status_demande_reservation.status as status, "
-				+ "concat(departement.code,' - ',departement.nom) as departement, "
-				+ "topo.date_parution::date, "
-				+ "site.nom as site_nom " 
-				+ "from reservation_topo " 
-				+ "inner join topo on reservation_topo.reservation_topo_id = topo.id " 
-				+ "inner join utilisateur on reservation_topo.demandeur_id = utilisateur.id " 
-				+ "inner join site on topo.site_id = site.id " 
+				+ "concat(departement.code, ' - ', departement.nom) as departement, topo.date_parution::date, "
+				+ "site.nom as site_nom, "
+				+ "possesseur_topo.disponible "
+				+ "from reservation_topo "
+				+ "inner join topo on reservation_topo.reservation_topo_id = topo.id "
+				+ "inner join utilisateur on reservation_topo.demandeur_id = utilisateur.id "
+				+ "inner join site on topo.site_id = site.id "
 				+ "inner join departement on site.departement_id = departement.id "
 				+ "inner join status_demande_reservation on reservation_topo.status_id = status_demande_reservation.id "
-				+ "where reservation_topo.possesseur_id = ?", new Object[] {utilisateurId}, new BeanPropertyRowMapper<ReservationRequest>(ReservationRequest.class));
+				+ "inner join possesseur_topo on reservation_topo.reservation_topo_id = possesseur_topo.topo_id "
+				+ "where reservation_topo.possesseur_id = ? "
+				+ "and visible_for_owner = ?", 
+				new Object[] {utilisateurId, true}, 
+				new BeanPropertyRowMapper<ReservationRequest>(ReservationRequest.class));
 	}
 	
+	@Override
+	public List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId){
+		return jdbcTemplate.query(
+				"select distinct reservation_topo.id as reservation_id, "
+				+ "reservation_topo_id, "
+				+ "topo.nom as reservation_topo_nom, "
+				+ "possesseur_id, "
+				+ "demandeur_id, "
+				+ "utilisateur.nom as possesseur_nom, "
+				+ "utilisateur.email as possesseur_email, "
+				+ "status_demande_reservation.id as status_id, "
+				+ "status_demande_reservation.status as status, "
+				+ "concat(departement.code, ' - ', departement.nom) as departement, topo.date_parution::date, "
+				+ "site.nom as site_nom, "
+				+ "possesseur_topo.disponible "
+				+ "from reservation_topo "
+				+ "inner join topo on reservation_topo.reservation_topo_id = topo.id "
+				+ "inner join utilisateur on reservation_topo.possesseur_id = utilisateur.id "
+				+ "inner join site on topo.site_id = site.id "
+				+ "inner join departement on site.departement_id = departement.id "
+				+ "inner join status_demande_reservation on reservation_topo.status_id = status_demande_reservation.id "
+				+ "inner join possesseur_topo on reservation_topo.reservation_topo_id = possesseur_topo.topo_id "
+				+ "where reservation_topo.demandeur_id = ? "
+				+ "and visible_for_requester = ?", 
+				new Object[] {utilisateurId, true}, 
+				new BeanPropertyRowMapper<ReservationRequest>(ReservationRequest.class));
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 2, reservationRequestId );
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 3, reservationRequestId );
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 5, reservationRequestId );
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 4, reservationRequestId );
+	}
+
 }

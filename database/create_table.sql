@@ -190,6 +190,8 @@ CREATE TABLE public.reservation_topo (
                 possesseur_id INTEGER NOT NULL,
                 demandeur_id INTEGER NOT NULL,
                 status_id INTEGER NOT NULL,
+                visible_for_owner BOOLEAN NOT NULL,
+                visible_for_requester BOOLEAN NOT NULL,
                 CONSTRAINT reservation_topo_pk PRIMARY KEY (id)
 );
 

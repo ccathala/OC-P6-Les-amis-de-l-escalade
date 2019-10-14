@@ -43,7 +43,10 @@ public class AccountPageController {
 			model.addAttribute("departements", webContentManager.findAllDepartement());
 			model.addAttribute("departementId", departementId);
 			model.addAttribute("myTopos", webContentManager.findAllMyTopoByUtilisateurId(sessionUtilisateurId));
-			model.addAttribute("receivedReservationRequest", webContentManager.findAllReceivedReservationRequestByUtilisateurId(sessionUtilisateur.getId()));
+			model.addAttribute("receivedReservationRequest",
+					webContentManager.findAllReceivedReservationRequestByUtilisateurId(sessionUtilisateur.getId()));
+			model.addAttribute("sentReservationRequest",
+					webContentManager.findAllSentReservationRequestByUtilisateurId(sessionUtilisateur.getId()));
 			if (departementId != null) {
 				model.addAttribute("newPossesseurTopo", new PossesseurTopo());
 				model.addAttribute("topos", webContentManager.getDataForAccountPageDataBySiteId(departementId));
@@ -71,46 +74,132 @@ public class AccountPageController {
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@ModelAttribute(value = "newPossesseurTopo") PossesseurTopo newPossesseurTopo,
 			RedirectAttributes redirectAttributes) {
-		if(webContentManager.addPossesseurTopo(newPossesseurTopo)) {
-			redirectAttributes.addFlashAttribute("messageAddPossesseurTopoSuccessfully", "Le topo a été ajouté avec succès dans votre espace personnel.");
-		}else {
-			redirectAttributes.addFlashAttribute("messageAddPossesseurTopoError", "Erreur - Vous possédez déjà ce topo.");
+		if (webContentManager.addPossesseurTopo(newPossesseurTopo)) {
+			redirectAttributes.addFlashAttribute("messageAddPossesseurTopoSuccessfully",
+					"Le topo a été ajouté avec succès dans votre espace personnel.");
+		} else {
+			redirectAttributes.addFlashAttribute("messageAddPossesseurTopoError",
+					"Erreur - Vous possédez déjà ce topo.");
 		}
 		return "redirect:/accountPage/" + sessionUtilisateur.getId();
 
 	}
-	
-	@RequestMapping(value="/setTopoAvailability/{topoId}/{utilisateurId}/{available}", method = RequestMethod.GET)
-	public String setTopoAvailability(Model model, @SessionAttribute(value = "sessionUtilisateur", 
-	required = false) Utilisateur sessionUtilisateur,
-			@PathVariable(value="topoId") int topoId,
-			@PathVariable(value="utilisateurId") int utilisateurId,
-			@PathVariable(value="available") Boolean available) {
-		
+
+	@RequestMapping(value = "/setTopoAvailability/{topoId}/{utilisateurId}/{available}", method = RequestMethod.GET)
+	public String setTopoAvailability(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "topoId") int topoId, @PathVariable(value = "utilisateurId") int utilisateurId,
+			@PathVariable(value = "available") Boolean available) {
+
 		if (utilisateurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
-		}else {
+		} else {
 			webContentManager.setTopoAvailability(new PossesseurTopo(topoId, utilisateurId, available));
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
-		
-		
+
 	}
-	
-	@RequestMapping(value="/deleteOwnedTopo/{topoId}/{utilisateurId}", method = RequestMethod.GET)
-	public String deleteOwnedTopo(Model model, @SessionAttribute(value = "sessionUtilisateur", 
-	required = false) Utilisateur sessionUtilisateur,
-			@PathVariable(value="topoId") int topoId,
-			@PathVariable(value="utilisateurId") int utilisateurId) {
-		
+
+	@RequestMapping(value = "/deleteOwnedTopo/{topoId}/{utilisateurId}", method = RequestMethod.GET)
+	public String deleteOwnedTopo(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "topoId") int topoId, @PathVariable(value = "utilisateurId") int utilisateurId) {
+
 		if (utilisateurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
-		}else {
+		} else {
 			webContentManager.deleteOwnedTopo(topoId, utilisateurId);
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
-		
-		
+
+	}
+
+	// ==================================================================================================================
+	// Received Request Section
+	// ==================================================================================================================
+
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToAccepted/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	public String processUpdateReservationRequestStatusToAccepted(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "reservationRequestId") int reservationRequestId,
+			@PathVariable(value = "possesseurId") int possesseurId) {
+
+		if (possesseurId != sessionUtilisateur.getId()) {
+			return "redirect:/";
+		} else {
+			webContentManager.updateReservationRequestStatusToAccepted(reservationRequestId);
+			return "redirect:/accountPage/" + sessionUtilisateur.getId();
+		}
+	}
+
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToRefused/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	public String processUpdateReservationRequestStatusToRefused(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "reservationRequestId") int reservationRequestId,
+			@PathVariable(value = "possesseurId") int possesseurId) {
+
+		if (possesseurId != sessionUtilisateur.getId()) {
+			return "redirect:/";
+		} else {
+			webContentManager.updateReservationRequestStatusToRefused(reservationRequestId);
+			return "redirect:/accountPage/" + sessionUtilisateur.getId();
+		}
+	}
+
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToEnded/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	public String processUpdateReservationRequestStatusToEnded(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "reservationRequestId") int reservationRequestId,
+			@PathVariable(value = "possesseurId") int possesseurId) {
+
+		if (possesseurId != sessionUtilisateur.getId()) {
+			return "redirect:/";
+		} else {
+			webContentManager.updateReservationRequestStatusToEnded(reservationRequestId);
+			return "redirect:/accountPage/" + sessionUtilisateur.getId();
+		}
+	}
+	
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToCancelled/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	public String processUpdateReservationRequestStatusToCancelled(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "reservationRequestId") int reservationRequestId,
+			@PathVariable(value = "possesseurId") int possesseurId) {
+
+		if (possesseurId != sessionUtilisateur.getId()) {
+			return "redirect:/";
+		} else {
+			webContentManager.updateReservationRequestStatusToCancelled(reservationRequestId);
+			return "redirect:/accountPage/" + sessionUtilisateur.getId();
+		}
+	}
+
+	@RequestMapping(value = "/processSetReservationVisibilityForOwnerToFalse/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	public String processSetReservationVisibilityToFalse(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "reservationRequestId") int reservationRequestId,
+			@PathVariable(value = "possesseurId") int possesseurId) {
+
+		if (possesseurId != sessionUtilisateur.getId()) {
+			return "redirect:/";
+		} else {
+			webContentManager.setReservationVisibilityForOwnerToFalse(reservationRequestId);
+			return "redirect:/accountPage/" + sessionUtilisateur.getId();
+		}
+	}
+	
+	@RequestMapping(value = "/processSetReservationVisibilityForRequesterToFalse/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	public String processSetReservationVisibilityForRequesterToFalse(Model model,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "reservationRequestId") int reservationRequestId,
+			@PathVariable(value = "possesseurId") int possesseurId) {
+
+		if (possesseurId != sessionUtilisateur.getId()) {
+			return "redirect:/";
+		} else {
+			webContentManager.setReservationVisibilityForRequesterToFalse(reservationRequestId);
+			return "redirect:/accountPage/" + sessionUtilisateur.getId();
+		}
 	}
 
 }

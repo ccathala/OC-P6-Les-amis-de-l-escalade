@@ -9,14 +9,19 @@ public class ReservationRequest {
 	private String reservation_topo_nom;
 	private int possesseur_id;
 	private String possesseur_nom;
+	private String possesseur_email;
 	private int demandeur_id;
 	private String demandeur_nom;
+	private String demandeur_email;
 	private String site_nom;
 	private int status_id;
 	private String status;
 	private String departement;
 	private Date date_parution;
 	private String dateParution;
+	private Boolean disponible;
+	private Boolean visible_for_owner;
+	private Boolean visible_for_requester;
 	
 	public ReservationRequest() {
 		super();
@@ -24,22 +29,29 @@ public class ReservationRequest {
 	}
 
 	public ReservationRequest(int reservation_id, int reservation_topo_id, String reservation_topo_nom,
-			int possesseur_id, String possesseur_nom, int demandeur_id, String demandeur_nom, String site_nom,
-			int status_id, String status, String departement, Date date_parution, String dateParution) {
+			int possesseur_id, String possesseur_nom, String possesseur_email, int demandeur_id, String demandeur_nom,
+			String demandeur_email, String site_nom, int status_id, String status, String departement,
+			Date date_parution, String dateParution, Boolean disponible, Boolean visible_for_owner,
+			Boolean visible_for_requester) {
 		super();
 		this.reservation_id = reservation_id;
 		this.reservation_topo_id = reservation_topo_id;
 		this.reservation_topo_nom = reservation_topo_nom;
 		this.possesseur_id = possesseur_id;
 		this.possesseur_nom = possesseur_nom;
+		this.possesseur_email = possesseur_email;
 		this.demandeur_id = demandeur_id;
 		this.demandeur_nom = demandeur_nom;
+		this.demandeur_email = demandeur_email;
 		this.site_nom = site_nom;
 		this.status_id = status_id;
 		this.status = status;
 		this.departement = departement;
 		this.date_parution = date_parution;
 		this.dateParution = dateParution;
+		this.disponible = disponible;
+		this.visible_for_owner = visible_for_owner;
+		this.visible_for_requester = visible_for_requester;
 	}
 
 	public int getReservation_id() {
@@ -82,6 +94,14 @@ public class ReservationRequest {
 		this.possesseur_nom = possesseur_nom;
 	}
 
+	public String getPossesseur_email() {
+		return possesseur_email;
+	}
+
+	public void setPossesseur_email(String possesseur_email) {
+		this.possesseur_email = possesseur_email;
+	}
+
 	public int getDemandeur_id() {
 		return demandeur_id;
 	}
@@ -96,6 +116,14 @@ public class ReservationRequest {
 
 	public void setDemandeur_nom(String demandeur_nom) {
 		this.demandeur_nom = demandeur_nom;
+	}
+
+	public String getDemandeur_email() {
+		return demandeur_email;
+	}
+
+	public void setDemandeur_email(String demandeur_email) {
+		this.demandeur_email = demandeur_email;
 	}
 
 	public String getSite_nom() {
@@ -146,15 +174,48 @@ public class ReservationRequest {
 		this.dateParution = dateParution;
 	}
 
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Boolean disponible) {
+		this.disponible = disponible;
+	}
+
+	public Boolean getVisible_for_owner() {
+		return visible_for_owner;
+	}
+
+	public void setVisible_for_owner(Boolean visible_for_owner) {
+		this.visible_for_owner = visible_for_owner;
+	}
+
+	public Boolean getVisible_for_requester() {
+		return visible_for_requester;
+	}
+
+	public void setVisible_for_requester(Boolean visible_for_requester) {
+		this.visible_for_requester = visible_for_requester;
+	}
+
 	@Override
 	public String toString() {
 		return "ReservationRequest [reservation_id=" + reservation_id + ", reservation_topo_id=" + reservation_topo_id
 				+ ", reservation_topo_nom=" + reservation_topo_nom + ", possesseur_id=" + possesseur_id
-				+ ", possesseur_nom=" + possesseur_nom + ", demandeur_id=" + demandeur_id + ", demandeur_nom="
-				+ demandeur_nom + ", site_nom=" + site_nom + ", status_id=" + status_id + ", status=" + status
-				+ ", departement=" + departement + ", date_parution=" + date_parution + ", dateParution=" + dateParution
-				+ "]";
+				+ ", possesseur_nom=" + possesseur_nom + ", possesseur_email=" + possesseur_email + ", demandeur_id="
+				+ demandeur_id + ", demandeur_nom=" + demandeur_nom + ", demandeur_email=" + demandeur_email
+				+ ", site_nom=" + site_nom + ", status_id=" + status_id + ", status=" + status + ", departement="
+				+ departement + ", date_parution=" + date_parution + ", dateParution=" + dateParution + ", disponible="
+				+ disponible + ", visible_for_owner=" + visible_for_owner + ", visible_for_requester="
+				+ visible_for_requester + "]";
 	}
+
+	
+	
+
+	
+
+	
 
 	
 

@@ -97,4 +97,18 @@ public interface WebContentManager {
 
 	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
 
+	void updateReservationRequestStatusToAccepted(int reservationRequestId);
+
+	void updateReservationRequestStatusToRefused(int reservationRequestId);
+
+	void updateReservationRequestStatusToEnded(int reservationRequestId);
+
+	void updateReservationRequestStatusToCancelled(int reservationRequestId);
+
+	void setReservationVisibilityForOwnerToFalse(int reservationRequestId);
+
+	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
+
+	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
+
 }
