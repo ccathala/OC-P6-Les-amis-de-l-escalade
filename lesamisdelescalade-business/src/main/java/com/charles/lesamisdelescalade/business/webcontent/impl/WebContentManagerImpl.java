@@ -13,7 +13,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
-import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.dto.AccountPageDataDao;
 import com.charles.lesamisdelescalade.consumer.dto.MyTopoDao;
 import com.charles.lesamisdelescalade.consumer.dto.ReservationRequestDao;
@@ -25,6 +24,7 @@ import com.charles.lesamisdelescalade.consumer.model.ReservationTopoDao;
 import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
 import com.charles.lesamisdelescalade.consumer.model.SiteDao;
 import com.charles.lesamisdelescalade.consumer.model.TopoDao;
+import com.charles.lesamisdelescalade.consumer.model.UtilisateurDao;
 import com.charles.lesamisdelescalade.consumer.model.VoieDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
@@ -51,9 +51,6 @@ import com.charles.lesamisdelescalade.model.dto.SitePageData;
  */
 @Service
 public class WebContentManagerImpl implements WebContentManager {
-
-	@Autowired
-	private WebContentDao webContentDao;
 	
 	@Autowired
 	private DepartementDao departementDao;
@@ -81,6 +78,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private PossesseurTopoDao possesseurTopoDao;
+	
+	@Autowired
+	private UtilisateurDao utilisateurDao;
 	
 	@Autowired
 	private AccountPageDataDao accountPageDataDao;
@@ -405,7 +405,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	// ==================================================================================================================
 	
 	private List<Utilisateur> findAllUtilisateurOnlyIdAndName(){
-		return webContentDao.findAllUtilisateurOnlyIdAndName();
+		return utilisateurDao.findAllUtilisateurOnlyIdAndName();
 	}
 	
 	@Override

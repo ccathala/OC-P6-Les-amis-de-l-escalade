@@ -7,7 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.authentification.AuthentificationManager;
-import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
+import com.charles.lesamisdelescalade.consumer.model.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.LoginData;
 

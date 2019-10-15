@@ -1,8 +1,6 @@
 package com.charles.lesamisdelescalade.model.beans;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-
 import javax.validation.constraints.Size;
 
 public class Commentaire {

@@ -1,27 +1,20 @@
-package com.charles.lesamisdelescalade.consumer;
+package com.charles.lesamisdelescalade.consumer.model;
 
 import java.util.List;
-
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
-
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
 public interface UtilisateurDao {
 	
 	public void addUtilisateur(Utilisateur utilisateur);
 	
-	public void editUtilisateur(Utilisateur utilisateur, int utilisateurId);
-	
-	public void deleteUtilisateur(int utilisateurId);
-	
-	public Utilisateur find(int utilisateurId);
-	
 	public Utilisateur findByEmail(String utilisateurEmail) throws EmptyResultDataAccessException;
 	
 	public Utilisateur findByUsername(String utilisateurNom) throws EmptyResultDataAccessException;
 	
 	public List<Utilisateur> findAll();
+	
+	public List<Utilisateur> findAllUtilisateurOnlyIdAndName();
 	
 
 }

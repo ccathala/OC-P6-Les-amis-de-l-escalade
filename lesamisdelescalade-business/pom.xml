@@ -9,9 +9,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.charles.lesamisdelescalade</groupId>
+	
 	<artifactId>lesamisdelescalade-business</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	
 
 	<name>lesamisdelescalade-business</name>
 	<!-- FIXME change it to the project's website -->

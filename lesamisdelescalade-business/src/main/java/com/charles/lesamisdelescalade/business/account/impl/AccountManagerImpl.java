@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.charles.lesamisdelescalade.business.account.AccountManager;
-import com.charles.lesamisdelescalade.consumer.UtilisateurDao;
+import com.charles.lesamisdelescalade.consumer.model.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;
 
 @Service
