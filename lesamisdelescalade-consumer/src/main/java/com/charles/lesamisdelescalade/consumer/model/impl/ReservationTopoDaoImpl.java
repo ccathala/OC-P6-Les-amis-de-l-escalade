@@ -41,5 +41,33 @@ public class ReservationTopoDaoImpl implements ReservationTopoDao {
 	public void setReservationVisibilityForRequesterToFalse(int reservationRequestId) {
 		jdbcTemplate.update("update reservation_topo set visible_for_requester = ? where id = ?", false, reservationRequestId);
 	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 2, reservationRequestId );
+		// TODO refactor method name
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 3, reservationRequestId );
+		// TODO refactor method name
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 5, reservationRequestId );
+		// TODO refactor method name
+	}
+	
+	@Override
+	@Transactional
+	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
+		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 4, reservationRequestId );
+		// TODO refactor method name
+	}
 
 }

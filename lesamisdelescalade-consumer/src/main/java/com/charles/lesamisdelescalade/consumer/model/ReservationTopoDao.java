@@ -12,4 +12,12 @@ public interface ReservationTopoDao {
 
 	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
 
+	void updateReservationRequestStatusToAccepted(int reservationRequestId);
+
+	void updateReservationRequestStatusToRefused(int reservationRequestId);
+
+	void updateReservationRequestStatusToEnded(int reservationRequestId);
+
+	void updateReservationRequestStatusToCancelled(int reservationRequestId);
+
 }

@@ -235,28 +235,6 @@ public class WebContentDaoImpl implements WebContentDao {
 				new BeanPropertyRowMapper<ReservationRequest>(ReservationRequest.class));
 	}
 	
-	@Override
-	@Transactional
-	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
-		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 2, reservationRequestId );
-	}
 	
-	@Override
-	@Transactional
-	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
-		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 3, reservationRequestId );
-	}
-	
-	@Override
-	@Transactional
-	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
-		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 5, reservationRequestId );
-	}
-	
-	@Override
-	@Transactional
-	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
-		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 4, reservationRequestId );
-	}
 
 }

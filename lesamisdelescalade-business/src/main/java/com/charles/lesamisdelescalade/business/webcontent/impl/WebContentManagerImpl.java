@@ -91,7 +91,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
 			possesseurTopo.setDisponible(false);
 			possesseurTopo.setShared(true);
-			webContentDao.updateReservationRequestStatusToAccepted(reservationId);
+			reservationTopoDao.updateReservationRequestStatusToAccepted(reservationId);
 			possesseurTopoDao.setTopoAvailability(possesseurTopo);
 			possesseurTopoDao.setTopoSharedState(possesseurTopo);
 			
@@ -101,7 +101,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		public void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
 			possesseurTopo.setDisponible(true);
 			possesseurTopo.setShared(false);
-			webContentDao.updateReservationRequestStatusToEnded(reservationId);
+			reservationTopoDao.updateReservationRequestStatusToEnded(reservationId);
 			possesseurTopoDao.setTopoAvailability(possesseurTopo);
 			possesseurTopoDao.setTopoSharedState(possesseurTopo);
 		}
@@ -470,6 +470,31 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public void setReservationVisibilityForRequesterToFalse(int reservationRequestId) {
 		reservationTopoDao.setReservationVisibilityForRequesterToFalse(reservationRequestId);
+		
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
+		reservationTopoDao.updateReservationRequestStatusToAccepted(reservationRequestId);
+		// TODO refactor method name
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
+		reservationTopoDao.updateReservationRequestStatusToRefused(reservationRequestId);
+		// TODO refactor method name
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
+		reservationTopoDao.updateReservationRequestStatusToEnded(reservationRequestId);
+		// TODO refactor method name
+	}
+	
+	@Override
+	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
+		reservationTopoDao.updateReservationRequestStatusToCancelled(reservationRequestId);
+		// TODO refactor method name
 	}
 	
 	// ==================================================================================================================
@@ -551,25 +576,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	
 	
-	@Override
-	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
-		webContentDao.updateReservationRequestStatusToAccepted(reservationRequestId);
-	}
 	
-	@Override
-	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
-		webContentDao.updateReservationRequestStatusToRefused(reservationRequestId);
-	}
-	
-	@Override
-	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
-		webContentDao.updateReservationRequestStatusToEnded(reservationRequestId);
-	}
-	
-	@Override
-	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
-		webContentDao.updateReservationRequestStatusToCancelled(reservationRequestId);
-	}
 	
 	/* ========================================================================== */
 	/* Utils methods */
