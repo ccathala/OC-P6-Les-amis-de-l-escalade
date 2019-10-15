@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer;
+package com.charles.lesamisdelescalade.consumer.model;
 
 import java.util.List;
 

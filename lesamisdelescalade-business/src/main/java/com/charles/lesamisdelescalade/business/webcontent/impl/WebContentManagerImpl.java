@@ -13,8 +13,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
-import com.charles.lesamisdelescalade.consumer.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
+import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
+import com.charles.lesamisdelescalade.consumer.model.SiteDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
@@ -46,6 +48,12 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private DepartementDao departementDao;
+	
+	@Autowired
+	private SiteDao siteDao;
+	
+	@Autowired
+	private SecteurDao secteurDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -75,9 +83,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		}
 
 	
-	/* ========================================================================== */
-	/* Site bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Site Methods
+	// ==================================================================================================================
 
 	/**
 	 * Find site by id input
@@ -86,47 +94,48 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @return Site
 	 */
 	private Site findSiteById(int siteId) {
-		return webContentDao.findSite(siteId);
+		return siteDao.findSite(siteId);
 	}
+	
 
 	@Override
 	public List<Site> findAllSiteByDepartement(int departementId) {
-		return webContentDao.findAllSiteByDepartement(departementId);
+		return siteDao.findAllSiteByDepartement(departementId);
 	}
 
 	@Override
 	public int getSiteIdBySecteurId(int secteurId) {
-		return webContentDao.getSiteIdBySecteurId(secteurId);
+		return siteDao.getSiteIdBySecteurId(secteurId);
 	}
 
 	@Override
 	public void addOfficialTagOnSite(int siteId) {
-		webContentDao.addOfficialTagOnSite(siteId);
+		siteDao.addOfficialTagOnSite(siteId);
 	}
 
 	@Override
 	public void deleteOfficialTagOnSite(int siteId) {
-		webContentDao.deleteOfficialTagOnSite(siteId);
+		siteDao.deleteOfficialTagOnSite(siteId);
 	}
 
 	@Override
 	public List<Site> findAllSite() {
-		return webContentDao.findAllSite();
+		return siteDao.findAllSite();
 	}
 
 	@Override
 	public List<Site> findAllSiteByCotation(int cotationId) {
-		return webContentDao.findAllSiteByCotation(cotationId);
+		return siteDao.findAllSiteByCotation(cotationId);
 	}
 
 	@Override
 	public List<Site> findAllSiteBySecteurCount(int secteurCount) {
-		return webContentDao.findAllSiteBySecteurCount(secteurCount);
+		return siteDao.findAllSiteBySecteurCount(secteurCount);
 	}
 
 	@Override
 	public List<Integer> getSecteurCountBySite() {
-		return webContentDao.getSecteurCountBySite();
+		return siteDao.getSecteurCountBySite();
 	}
 
 	@Override
@@ -134,16 +143,16 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		if (departementId > 0 || cotationId > 0 || secteurCount > 0 || !nom.isEmpty()) {
 			if (!nom.isEmpty()) {
-				return webContentDao.findAllSiteByName("%"+nom+"%");
+				return siteDao.findAllSiteByName("%"+nom+"%");
 
 			} else {
 
 				CriteresSql criteresSql = createSqlRequestToFindAllSiteByMultiCritere(departementId, cotationId,
 						secteurCount);
-				return webContentDao.findAllSiteByMultiCritere(criteresSql.getCriteresSql(), criteresSql.getSql());
+				return siteDao.findAllSiteByMultiCritere(criteresSql.getCriteresSql(), criteresSql.getSql());
 			}
 		} else {
-			return webContentDao.findAllSite();
+			return siteDao.findAllSite();
 		}
 	}
 	
@@ -158,7 +167,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		Boolean siteAddedWithSuccess;
 		logger.info("Add site attempt");
 		try {
-			webContentDao.addSite(site);
+			siteDao.addSite(site);
 			siteAddedWithSuccess = true;
 			logger.debug("Site added with success - site id: " + site.getId() + " - site name: " + site.getNom());
 		} catch (DuplicateKeyException e) {
@@ -168,18 +177,18 @@ public class WebContentManagerImpl implements WebContentManager {
 		return siteAddedWithSuccess;
 	}
 
-	/* ========================================================================== */
-	/* Secteur Bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Secteur Methods
+	// ==================================================================================================================
 
 	@Override
 	public List<Secteur> getAllSecteurBySite(int siteId) {
-		return webContentDao.findAllSecteurBySite(siteId);
+		return secteurDao.findAllSecteurBySite(siteId);
 	}
 
 	@Override
 	public int getSecteurIdByVoieId(int voieId) {
-		return webContentDao.getSecteurIdByVoieId(voieId);
+		return secteurDao.getSecteurIdByVoieId(voieId);
 	}
 	
 	/**
@@ -193,7 +202,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		Boolean secteurAddedWithSuccess;
 		logger.info("Add secteur attempt");
 		try {
-			webContentDao.addSecteur(secteur);
+			secteurDao.addSecteur(secteur);
 			secteurAddedWithSuccess = true;
 			logger.debug("Secteur added with success - secteur id: " + secteur.getId() + " - secteur name: "
 					+ secteur.getNom());

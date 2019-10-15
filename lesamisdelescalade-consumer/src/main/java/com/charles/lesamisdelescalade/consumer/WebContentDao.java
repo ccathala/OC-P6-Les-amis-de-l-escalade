@@ -29,15 +29,15 @@ public interface WebContentDao {
 
 	//int getDepartementIdBySiteId(int siteId);
 
-	void addSite(Site site) throws DuplicateKeyException;
+//	void addSite(Site site) throws DuplicateKeyException;
 
-	Site findSite(int siteId);
+//	Site findSite(int siteId);
 
-	List<Site> findAllSiteByDepartement(int departementId);
+//	List<Site> findAllSiteByDepartement(int departementId);
 
-	void addSecteur(Secteur secteur) throws DuplicateKeyException;
+//	void addSecteur(Secteur secteur) throws DuplicateKeyException;
 
-	List<Secteur> findAllSecteurBySite(int siteId);
+//	List<Secteur> findAllSecteurBySite(int siteId);
 
 	List<Voie> findVoieBySite(int siteId);
 
@@ -51,7 +51,7 @@ public interface WebContentDao {
 
 	List<Longueur> findLongueurBySite(int siteId);
 
-	int getSiteIdBySecteurId(int secteurId);
+//	int getSiteIdBySecteurId(int secteurId);
 
 	Voie findVoieByNomAndSecteur(String nom, int secteurId) throws EmptyResultDataAccessException;
 
@@ -63,27 +63,27 @@ public interface WebContentDao {
 
 	Longueur findLongueurByNumeroAndVoie(int numero, int voieId);
 
-	int getSecteurIdByVoieId(int voieId) ;
+//	int getSecteurIdByVoieId(int voieId) ;
 
 	List<Cotation> findAllCotation();
 
 	List<Longueur> findAllLongueurByVoie(int voieId);
 
-	void addOfficialTagOnSite(int siteId);
+//	void addOfficialTagOnSite(int siteId);
+//
+//	void deleteOfficialTagOnSite(int siteId);
 
-	void deleteOfficialTagOnSite(int siteId);
+//	List<Site> findAllSite();
+//
+//	List<Site> findAllSiteByCotation(int cotationId);
+//
+//	List<Site> findAllSiteBySecteurCount(int secteurCount);
+//
+//	List<Integer> getSecteurCountBySite();
 
-	List<Site> findAllSite();
-
-	List<Site> findAllSiteByCotation(int cotationId);
-
-	List<Site> findAllSiteBySecteurCount(int secteurCount);
-
-	List<Integer> getSecteurCountBySite();
-
-	List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql);
-
-	List<Site> findAllSiteByName(String nom);
+//	List<Site> findAllSiteByMultiCritere(Object[] criteresSql, String sql);
+//
+//	List<Site> findAllSiteByName(String nom);
 
 	List<Commentaire> findAllCommentaireBySite(int siteId);
 
