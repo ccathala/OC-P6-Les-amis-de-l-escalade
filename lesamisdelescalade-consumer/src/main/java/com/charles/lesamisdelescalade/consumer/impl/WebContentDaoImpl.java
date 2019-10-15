@@ -44,18 +44,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	 * ===============
 	 */
 
-	@Override
-	public List<Departement> findAllDepartement() {
-		return jdbcTemplate.query("select * from departement",
-				new BeanPropertyRowMapper<Departement>(Departement.class));
-
-	}
-
-	@Override
-	public int getDepartementIdBySiteId(int siteId) {
-		return jdbcTemplate.queryForObject("SELECT departement_id FROM site where id=?", new Object[] { siteId },
-				Integer.class);
-	}
+	
 
 	/*
 	 * =============================================================================

@@ -13,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
+import com.charles.lesamisdelescalade.consumer.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
@@ -42,6 +43,9 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	@Autowired
 	private WebContentDao webContentDao;
+	
+	@Autowired
+	private DepartementDao departementDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -309,12 +313,12 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	@Override
 	public List<Departement> findAllDepartement() {
-		return webContentDao.findAllDepartement();
+		return departementDao.findAllDepartement();
 	}
 
 	@Override
 	public int getDepartementIdBySiteId(int siteId) {
-		return webContentDao.getDepartementIdBySiteId(siteId);
+		return departementDao.getDepartementIdBySiteId(siteId);
 	}
 	
 	/* ========================================================================== */

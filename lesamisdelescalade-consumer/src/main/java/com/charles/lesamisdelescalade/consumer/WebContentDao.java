@@ -25,9 +25,9 @@ import com.charles.lesamisdelescalade.model.dto.ReservationRequest;
 
 public interface WebContentDao {
 
-	List<Departement> findAllDepartement();
+	//List<Departement> findAllDepartement();
 
-	int getDepartementIdBySiteId(int siteId);
+	//int getDepartementIdBySiteId(int siteId);
 
 	void addSite(Site site) throws DuplicateKeyException;
 
