@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
+import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
 import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
 import com.charles.lesamisdelescalade.consumer.model.SiteDao;
 import com.charles.lesamisdelescalade.consumer.model.VoieDao;
@@ -58,6 +59,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private VoieDao voieDao;
+	
+	@Autowired
+	private LongueurDao longueurDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -271,12 +275,12 @@ public class WebContentManagerImpl implements WebContentManager {
 	/* ========================================================================== */
 
 	public List<Longueur> findLongueursBySite(int siteId) {
-		return webContentDao.findLongueurBySite(siteId);
+		return longueurDao.findLongueurBySite(siteId);
 	}
 
 	@Override
 	public List<Longueur> findAllLongueurByVoie(int voieId) {
-		return webContentDao.findAllLongueurByVoie(voieId);
+		return longueurDao.findAllLongueurByVoie(voieId);
 	}
 	
 	/**
@@ -290,12 +294,12 @@ public class WebContentManagerImpl implements WebContentManager {
 		Boolean NumeroIsAlreadyUsed;
 		logger.info("Add longueur attempt");
 		try {
-			webContentDao.findLongueurByNumeroAndVoie(longueur.getNumero(), longueur.getVoie_id());
+			longueurDao.findLongueurByNumeroAndVoie(longueur.getNumero(), longueur.getVoie_id());
 			NumeroIsAlreadyUsed = true;
 			logger.debug("Longueur added with success - longueur id: " + longueur.getId() + " - longueur numero: "
 					+ longueur.getNumero());
 		} catch (EmptyResultDataAccessException e) {
-			webContentDao.addLongeur(longueur);
+			longueurDao.addLongeur(longueur);
 			NumeroIsAlreadyUsed = false;
 			logger.debug("Longueur add failed - Cause: voie numero already exist");
 		}
@@ -319,7 +323,8 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	@Override
 	public List<Cotation> findAllCotation() {
-		return webContentDao.findAllCotation();
+		return longueurDao.findAllCotation();
+		// TODO refactor
 	}
 
 	/* ========================================================================== */

@@ -49,7 +49,7 @@ public interface WebContentDao {
 
 //	void addVoie(Voie voie);
 
-	List<Longueur> findLongueurBySite(int siteId);
+//	List<Longueur> findLongueurBySite(int siteId);
 
 //	int getSiteIdBySecteurId(int secteurId);
 
@@ -59,15 +59,15 @@ public interface WebContentDao {
 
 //	List<Voie> findAllVoieBySecteur(int secteurId);
 
-	void addLongeur(Longueur longueur);
+//	void addLongeur(Longueur longueur);
 
-	Longueur findLongueurByNumeroAndVoie(int numero, int voieId);
+//	Longueur findLongueurByNumeroAndVoie(int numero, int voieId);
 
 //	int getSecteurIdByVoieId(int voieId) ;
 
-	List<Cotation> findAllCotation();
+//	List<Cotation> findAllCotation();
 
-	List<Longueur> findAllLongueurByVoie(int voieId);
+//	List<Longueur> findAllLongueurByVoie(int voieId);
 
 //	void addOfficialTagOnSite(int siteId);
 //
