@@ -89,33 +89,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	 * ===============
 	 */
 
-	@Override
-	public List<Commentaire> findAllCommentaireBySite(int siteId) {
-		return jdbcTemplate.query("select * from commentaire where site_id=? order by id asc", new Object[] { siteId },
-				new BeanPropertyRowMapper<Commentaire>(Commentaire.class));
-	}
-
-	@Override
-	@Transactional
-	public void addCommentaire(Commentaire commentaire) {
-		jdbcTemplate.update(
-				"insert into commentaire (texte, date, status_id, utilisateur_id, site_id) values(?,current_timestamp(0),?,?,?)",
-				commentaire.getTexte(), commentaire.getStatus_id(), commentaire.getUtilisateur_id(),
-				commentaire.getSite_id());
-	}
-
-	@Override
-	@Transactional
-	public void updateCommentaire(Commentaire commentaire, int utilisateurId) {
-		jdbcTemplate.update("update commentaire set texte= ?, status_id=? where id=?", commentaire.getTexte(),
-				commentaire.getStatus_id(), utilisateurId);
-	}
-
-	@Override
-	@Transactional
-	public void updateCommentaireStatus(int commentaireId) {
-		jdbcTemplate.update("update commentaire set status_id=? where id=?", 3, commentaireId);
-	}
+	
 
 	/*
 	 * =============================================================================
@@ -137,52 +111,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	 * ===============
 	 */
 
-	@Override
-	@Transactional
-	public void addTopo(Topo topo) {
-		jdbcTemplate.update("insert into topo (nom, description, date_parution, site_id) values (?,?,?,?)",
-				topo.getNom(), topo.getDescription(), topo.getDate_parution(), topo.getSite_id());
-	}
-
-	@Override
-	public Topo findTopoBySiteIdAndAnneeParution(int siteId, Date dateParution) {
-		return (Topo) jdbcTemplate.queryForObject(
-				"select date_parution, site_id from topo where date_parution=? and site_id=?",
-				new Object[] { dateParution, siteId }, new BeanPropertyRowMapper<Topo>(Topo.class));
-	}
-
-	@Override
-	public List<ListTopoPageData> findAllTopoAndExtendedData() {
-		return jdbcTemplate.query(
-				"select "
-				+ "departement.code as \"code_postal\", "
-				+ "departement.nom as departement, "
-				+ "topo.id as topo_id, "
-				+ "topo.nom as topo_nom, "
-				+ "site.nom as site, "
-				+ "topo.description, "
-				+ "topo.date_parution::date "
-				+ "from topo "
-				+ "inner join site on topo.site_id = site.id "
-				+ "inner join departement on site.departement_id = departement.id",
-				new BeanPropertyRowMapper<ListTopoPageData>(ListTopoPageData.class));
-	}
-
-	@Override
-	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId) {
-		return jdbcTemplate.query(
-				"select "
-				+ "id as possesseur_id, "
-				+ "nom as possesseur_nom, "
-				+ "topo_id, "
-				+ "disponible "
-				+ "from utilisateur "
-				+ "inner join possesseur_topo on utilisateur.id = possesseur_topo.utilisateur_id "
-				+ "where possesseur_topo.disponible = ? "
-				+ "and id != ?",
-				new Object[] {true, utilisateurId},
-				new BeanPropertyRowMapper<ListTopoPageData>(ListTopoPageData.class));
-	}
+	
 
 	/*
 	 * =============================================================================

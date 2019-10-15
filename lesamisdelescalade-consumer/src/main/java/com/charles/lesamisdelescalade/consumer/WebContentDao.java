@@ -85,23 +85,23 @@ public interface WebContentDao {
 //
 //	List<Site> findAllSiteByName(String nom);
 
-	List<Commentaire> findAllCommentaireBySite(int siteId);
+//	List<Commentaire> findAllCommentaireBySite(int siteId);
 
 	List<Utilisateur> findAllUtilisateurOnlyIdAndName();
 
-	void addCommentaire(Commentaire commentaire);
+//	void addCommentaire(Commentaire commentaire);
+//
+//	void updateCommentaire(Commentaire commentaire, int utilisateurId);
+//
+//	void updateCommentaireStatus(int commentaireId);
 
-	void updateCommentaire(Commentaire commentaire, int utilisateurId);
-
-	void updateCommentaireStatus(int commentaireId);
-
-	void addTopo(Topo topo);
-
-	Topo findTopoBySiteIdAndAnneeParution(int siteId, Date anneeParution);
-
-	List<ListTopoPageData> findAllTopoAndExtendedData();
-
-	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
+//	void addTopo(Topo topo);
+//
+//	Topo findTopoBySiteIdAndAnneeParution(int siteId, Date anneeParution);
+//
+//	List<ListTopoPageData> findAllTopoAndExtendedData();
+//
+//	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
 
 	void addReservation(ReservationTopo reservationTopo);
 

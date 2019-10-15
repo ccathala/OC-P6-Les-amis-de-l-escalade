@@ -14,10 +14,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
 import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
 import com.charles.lesamisdelescalade.consumer.model.SiteDao;
+import com.charles.lesamisdelescalade.consumer.model.TopoDao;
 import com.charles.lesamisdelescalade.consumer.model.VoieDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
@@ -62,6 +64,12 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private LongueurDao longueurDao;
+	
+	@Autowired
+	private CommentaireDao commentaireDao;
+	
+	@Autowired
+	private TopoDao topoDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -221,9 +229,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return secteurAddedWithSuccess;
 	}
 
-	/* ========================================================================== */
-	/* Voie bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Voie Methods
+	// ==================================================================================================================
 
 	public List<Voie> findVoiesBySite(int siteId) {
 		return voieDao.findVoieBySite(siteId);
@@ -270,9 +278,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return causeError;
 	}
 
-	/* ========================================================================== */
-	/* Longueur bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Longueur Methods
+	// ==================================================================================================================
 
 	public List<Longueur> findLongueursBySite(int siteId) {
 		return longueurDao.findLongueurBySite(siteId);
@@ -307,9 +315,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return NumeroIsAlreadyUsed;
 	}
 
-	/* ========================================================================== */
-	/* Cotation bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Cotation Methods
+	// ==================================================================================================================
 
 	public String getMinCotation(int secteurId) {
 		return voieDao.getSecteurMinCotation(secteurId);
@@ -327,10 +335,10 @@ public class WebContentManagerImpl implements WebContentManager {
 		// TODO refactor
 	}
 
-	/* ========================================================================== */
-	/* Departement bean methods */
-	/* ========================================================================== */
-
+	// ==================================================================================================================
+	//                                             Bean Model Departement Methods
+	// ==================================================================================================================
+	
 	@Override
 	public List<Departement> findAllDepartement() {
 		return departementDao.findAllDepartement();
@@ -341,13 +349,13 @@ public class WebContentManagerImpl implements WebContentManager {
 		return departementDao.getDepartementIdBySiteId(siteId);
 	}
 	
-	/* ========================================================================== */
-	/* Commentaire bean methods*/
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Commentaire Methods
+	// ==================================================================================================================
 	
 	@Override
 	public List<Commentaire> findAllCommentaireBySite(int siteId){
-		return webContentDao.findAllCommentaireBySite(siteId);
+		return commentaireDao.findAllCommentaireBySite(siteId);
 	}
 	
 	@Override 
@@ -357,18 +365,18 @@ public class WebContentManagerImpl implements WebContentManager {
 	      new SimpleDateFormat ("yyyy.MM.dd 'à' hh:mm:ss");
 		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + "."  ;
 		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
-		webContentDao.updateCommentaire(commentaire, utilisateur.getId());
+		commentaireDao.updateCommentaire(commentaire, utilisateur.getId());
 		
 	}
 	
 	@Override
 	public void updateCommentaireStatus(int commentaireId) {
-		webContentDao.updateCommentaireStatus(commentaireId);
+		commentaireDao.updateCommentaireStatus(commentaireId);
 	}
 	
 	@Override
 	public void addCommentaire(Commentaire commentaire) {
-		webContentDao.addCommentaire(commentaire);
+		commentaireDao.addCommentaire(commentaire);
 	}
 	
 	/* ========================================================================== */
@@ -392,10 +400,10 @@ public class WebContentManagerImpl implements WebContentManager {
 	public Boolean addTopo(Topo topo) {
 		Boolean topoAlreadyExist;
 		try {
-			webContentDao.findTopoBySiteIdAndAnneeParution(topo.getSite_id(), topo.getDate_parution());
+			topoDao.findTopoBySiteIdAndAnneeParution(topo.getSite_id(), topo.getDate_parution());
 			topoAlreadyExist = true;
 		}catch (EmptyResultDataAccessException e) {
-			webContentDao.addTopo(topo);
+			topoDao.addTopo(topo);
 			topoAlreadyExist = false;
 		}
 		return topoAlreadyExist;
@@ -403,7 +411,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<ListTopoPageData> findAllTopoAndExtendedData(){
-		List<ListTopoPageData> topoList = webContentDao.findAllTopoAndExtendedData();
+		List<ListTopoPageData> topoList = topoDao.findAllTopoAndExtendedData();
 		for(ListTopoPageData listTopoPageData: topoList) {
 			listTopoPageData.setDateParution(convertDateToString(listTopoPageData.getDate_parution()));
 		
@@ -413,7 +421,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId){
-		List<ListTopoPageData> availableTopoAndExtendedDataList = webContentDao.findAllAvailableTopoAndExtendedData(utilisateurId);
+		List<ListTopoPageData> availableTopoAndExtendedDataList = topoDao.findAllAvailableTopoAndExtendedData(utilisateurId);
 		List<PossesseurTopo> OwnedTopoList = webContentDao.findAllOwnedTopoByUtilisateurId(utilisateurId);
 		
 		
