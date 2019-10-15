@@ -17,6 +17,7 @@ import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
 import com.charles.lesamisdelescalade.consumer.model.SiteDao;
+import com.charles.lesamisdelescalade.consumer.model.VoieDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
@@ -54,6 +55,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private SecteurDao secteurDao;
+	
+	@Autowired
+	private VoieDao voieDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -218,16 +222,16 @@ public class WebContentManagerImpl implements WebContentManager {
 	/* ========================================================================== */
 
 	public List<Voie> findVoiesBySite(int siteId) {
-		return webContentDao.findVoieBySite(siteId);
+		return voieDao.findVoieBySite(siteId);
 	}
 
 	public int getVoieCountBySecteurs(int secteurId) {
-		return webContentDao.getVoieCountBySecteur(secteurId);
+		return voieDao.getVoieCountBySecteur(secteurId);
 	}
 
 	@Override
 	public List<Voie> findAllVoieBySecteur(int secteurId) {
-		return webContentDao.findAllVoieBySecteur(secteurId);
+		return voieDao.findAllVoieBySecteur(secteurId);
 	}
 	
 	/**
@@ -241,21 +245,21 @@ public class WebContentManagerImpl implements WebContentManager {
 		String causeError = "";
 		logger.info("Add voie attempt");
 		try {
-			webContentDao.findVoieByNumeroAndSecteur(voie.getNumero(), voie.getSecteur_id());
+			voieDao.findVoieByNumeroAndSecteur(voie.getNumero(), voie.getSecteur_id());
 			causeError = "numero";
 			logger.debug("Voie add failed - Cause: voie numero already exist");
 		} catch (EmptyResultDataAccessException e) {
 
 		}
 		try {
-			webContentDao.findVoieByNomAndSecteur(voie.getNom(), voie.getSecteur_id());
+			voieDao.findVoieByNomAndSecteur(voie.getNom(), voie.getSecteur_id());
 			causeError = "nom";
 			logger.debug("Voie add failed - Cause: voie name already exist");
 		} catch (EmptyResultDataAccessException e) {
 
 		}
 		if (causeError.equals("")) {
-			webContentDao.addVoie(voie);
+			voieDao.addVoie(voie);
 			logger.debug("Voie added with success - voie id: " + voie.getId() + " - voie numero: " + voie.getNumero()
 					+ " - voie name: " + voie.getNom());
 		}
@@ -304,11 +308,13 @@ public class WebContentManagerImpl implements WebContentManager {
 	/* ========================================================================== */
 
 	public String getMinCotation(int secteurId) {
-		return webContentDao.getSecteurMinCotation(secteurId);
+		return voieDao.getSecteurMinCotation(secteurId);
+		// TODO refactor
 	}
 
 	public String getMaxCotation(int secteurId) {
-		return webContentDao.getSecteurMaxCotation(secteurId);
+		return voieDao.getSecteurMaxCotation(secteurId);
+		// TODO refactor
 	}
 
 	@Override

@@ -39,25 +39,25 @@ public interface WebContentDao {
 
 //	List<Secteur> findAllSecteurBySite(int siteId);
 
-	List<Voie> findVoieBySite(int siteId);
+//	List<Voie> findVoieBySite(int siteId);
+//
+//	int getVoieCountBySecteur(int secteurId);
+//
+//	String getSecteurMinCotation(int secteurId) throws NullPointerException;
+//
+//	String getSecteurMaxCotation(int secteurId) throws NullPointerException;
 
-	int getVoieCountBySecteur(int secteurId);
-
-	String getSecteurMinCotation(int secteurId) throws NullPointerException;
-
-	String getSecteurMaxCotation(int secteurId) throws NullPointerException;
-
-	void addVoie(Voie voie);
+//	void addVoie(Voie voie);
 
 	List<Longueur> findLongueurBySite(int siteId);
 
 //	int getSiteIdBySecteurId(int secteurId);
 
-	Voie findVoieByNomAndSecteur(String nom, int secteurId) throws EmptyResultDataAccessException;
+//	Voie findVoieByNomAndSecteur(String nom, int secteurId) throws EmptyResultDataAccessException;
+//
+//	Voie findVoieByNumeroAndSecteur(int numero, int secteurId) throws EmptyResultDataAccessException;
 
-	Voie findVoieByNumeroAndSecteur(int numero, int secteurId) throws EmptyResultDataAccessException;
-
-	List<Voie> findAllVoieBySecteur(int secteurId);
+//	List<Voie> findAllVoieBySecteur(int secteurId);
 
 	void addLongeur(Longueur longueur);
 
