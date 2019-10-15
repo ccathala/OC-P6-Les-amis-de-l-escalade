@@ -133,23 +133,30 @@
 									<p class="text-danger">Non disponible</p>
 								</c:when>
 							</c:choose>
-						<td><c:choose>
-								<c:when test="${myTopo.disponible}">
-									<a
-										href="<c:url value="/setTopoAvailability/${myTopo.topo_id}/${sessionUtilisateur.id }/${!myTopo.disponible}"></c:url>"
-										title="Retirer le topo de la liste de prêt"><span
-										style="color: red;"><i class="fas fa-eye-slash fa-lg"></i></span></a>
-								</c:when>
-								<c:when test="${!myTopo.disponible}">
-									<a
-										href="<c:url value="/setTopoAvailability/${myTopo.topo_id}/${sessionUtilisateur.id }/${!myTopo.disponible}"></c:url>"
-										title="Ajouter le topo à la liste de prêt"><span
-										style="color: DodgerBlue;"><i class="fas fa-eye fa-lg"></i></span></a>
-								</c:when>
-							</c:choose> <a
-							href="<c:url value="/deleteOwnedTopo/${myTopo.topo_id}/${sessionUtilisateur.id }"></c:url>"
-							title="Supprimer le topo"><span style="color: black;"><i
-									class="fas fa-trash-alt fa-lg"></i></span></a></td>
+						<td><c:if test="${!myTopo.shared}">
+								<c:choose>
+
+									<c:when test="${myTopo.disponible}">
+										<a
+											href="<c:url value="/setTopoAvailability/${myTopo.topo_id}/${sessionUtilisateur.id }/${!myTopo.disponible}"></c:url>"
+											title="Retirer le topo de la liste de prêt"><span
+											style="color: red;"><i class="fas fa-eye-slash fa-2x"></i></span></a>
+									</c:when>
+									<c:when test="${!myTopo.disponible}">
+										<a
+											href="<c:url value="/setTopoAvailability/${myTopo.topo_id}/${sessionUtilisateur.id }/${!myTopo.disponible}"></c:url>"
+											title="Ajouter le topo à la liste de prêt"><span
+											style="color: DodgerBlue;"><i class="fas fa-eye fa-2x"></i></span></a>
+									</c:when>
+
+								</c:choose>
+
+								<a
+									href="<c:url value="/deleteOwnedTopo/${myTopo.topo_id}/${sessionUtilisateur.id }"></c:url>"
+									title="Supprimer le topo"><span style="color: black;"><i
+										class="fas fa-trash-alt fa-2x"></i></span></a>
+							</c:if></td>
+
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -192,19 +199,19 @@
 								<c:when test="${request.status_id == 1 }">
 									<c:if test="${request.disponible == true }">
 										<a
-											href="<c:url value="/processUpdateReservationRequestStatusToAccepted/${request.reservation_id }/${request.possesseur_id }"></c:url>"
+											href="<c:url value="/processUpdateReservationRequestStatusToAccepted/${request.reservation_id }/${request.possesseur_id }/${request.reservation_topo_id }"></c:url>"
 											title="Accepter la demande de réservation"><span
 											style="color: LimeGreen;"><i
-												class="far fa-check-circle fa-lg"></i></span></a>
+												class="far fa-check-circle fa-2x"></i></span></a>
 									</c:if>
 									<a
 										href="<c:url value="/processUpdateReservationRequestStatusToRefused/${request.reservation_id }/${request.possesseur_id }"></c:url>"
 										title="Refuser la demande de réservation"><span
-										style="color: red;"><i class="fas fa-ban fa-lg"></i></span></a>
+										style="color: red;"><i class="fas fa-ban fa-2x"></i></span></a>
 								</c:when>
 								<c:when test="${request.status_id == 2 }">
 									<a
-										href="<c:url value="/processUpdateReservationRequestStatusToEnded/${request.reservation_id }/${request.possesseur_id }"></c:url>"
+										href="<c:url value="/processUpdateReservationRequestStatusToEnded/${request.reservation_id }/${request.possesseur_id }/${request.reservation_topo_id }"></c:url>"
 										title="Confirmer le retour du topo"><span
 										style="color: blue;"><i
 											class="far fa-arrow-alt-circle-left fa-2x"></i></span></a>
@@ -214,7 +221,7 @@
 									<a
 										href="<c:url value="/processSetReservationVisibilityForOwnerToFalse/${request.reservation_id }/${request.possesseur_id }"></c:url>"
 										title="Effacer la réservation de la liste"><span
-										style="color: black;"><i class="fas fa-trash-alt fa-lg"></i></span></a>
+										style="color: black;"><i class="fas fa-trash-alt fa-2x"></i></span></a>
 								</c:when>
 							</c:choose></td>
 					</tr>
@@ -258,8 +265,8 @@
 									<a
 										href="<c:url value="/processUpdateReservationRequestStatusToCancelled/${request.reservation_id }/${request.demandeur_id }"></c:url>"
 										title="Annuler la demande de réservation"><span
-										style="color: red;"><i class="far fa-window-close fa-2x"></i></span></a>
-
+										style="color: red;"><i
+											class="far fa-window-close fa-2x"></i></span></a>
 								</c:when>
 
 								<c:when
@@ -267,21 +274,14 @@
 									<a
 										href="<c:url value="/processSetReservationVisibilityForRequesterToFalse/${request.reservation_id }/${request.demandeur_id }"></c:url>"
 										title="Effacer la réservation de la liste"><span
-										style="color: black;"><i class="fas fa-trash-alt fa-lg"></i></span></a>
+										style="color: black;"><i class="fas fa-trash-alt fa-2x"></i></span></a>
 								</c:when>
-							</c:choose>
-						<td>
+							</c:choose></td>
 					</tr>
 				</c:forEach>
-
-
 			</tbody>
 		</table>
-
-
 	</div>
-
-
 
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -297,9 +297,6 @@
 		crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/60efee8a0b.js"
 		crossorigin="anonymous"></script>
-
-
-
 
 </body>
 </html>

@@ -79,7 +79,7 @@ public interface WebContentManager {
 
 	List<ListTopoPageData> findAllTopoAndExtendedData();
 
-	List<ListTopoPageData> findAllAvailableTopoAndExtendedData();
+	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
 	
 	List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList);
 
@@ -110,5 +110,9 @@ public interface WebContentManager {
 	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
 
 	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
+
+	void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo);
+
+	void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo);
 
 }

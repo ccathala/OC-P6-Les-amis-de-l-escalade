@@ -33,6 +33,9 @@ public class WebContentDaoImpl implements WebContentDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	
+	
 
 	/*
 	 * =============================================================================
@@ -345,14 +348,33 @@ public class WebContentDaoImpl implements WebContentDao {
 	@Override
 	public List<ListTopoPageData> findAllTopoAndExtendedData() {
 		return jdbcTemplate.query(
-				"select departement.code as \"code_postal\" , departement.nom as departement,topo.id as topo_id, topo.nom as topo_nom, site.nom as site, topo.description, topo.date_parution::date  from topo inner join site on topo.site_id = site.id inner join departement on site.departement_id = departement.id",
+				"select "
+				+ "departement.code as \"code_postal\", "
+				+ "departement.nom as departement, "
+				+ "topo.id as topo_id, "
+				+ "topo.nom as topo_nom, "
+				+ "site.nom as site, "
+				+ "topo.description, "
+				+ "topo.date_parution::date "
+				+ "from topo "
+				+ "inner join site on topo.site_id = site.id "
+				+ "inner join departement on site.departement_id = departement.id",
 				new BeanPropertyRowMapper<ListTopoPageData>(ListTopoPageData.class));
 	}
 
 	@Override
-	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData() {
+	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId) {
 		return jdbcTemplate.query(
-				"select id as possesseur_id, nom as possesseur_nom, topo_id, disponible from utilisateur inner join possesseur_topo on utilisateur.id = possesseur_topo.utilisateur_id where possesseur_topo.disponible = true",
+				"select "
+				+ "id as possesseur_id, "
+				+ "nom as possesseur_nom, "
+				+ "topo_id, "
+				+ "disponible "
+				+ "from utilisateur "
+				+ "inner join possesseur_topo on utilisateur.id = possesseur_topo.utilisateur_id "
+				+ "where possesseur_topo.disponible = ? "
+				+ "and id != ?",
+				new Object[] {true, utilisateurId},
 				new BeanPropertyRowMapper<ListTopoPageData>(ListTopoPageData.class));
 	}
 
@@ -402,8 +424,8 @@ public class WebContentDaoImpl implements WebContentDao {
 	@Override
 	@Transactional
 	public void addPossesseurTopo(PossesseurTopo possesseurTopo) {
-		jdbcTemplate.update("INSERT INTO possesseur_topo (topo_id, utilisateur_id, disponible) VALUES(?, ?, ?)",
-				possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id(), possesseurTopo.getDisponible());
+		jdbcTemplate.update("INSERT INTO possesseur_topo (topo_id, utilisateur_id, disponible, shared) VALUES(?, ?, ?, ?)",
+				possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id(), possesseurTopo.getDisponible(), false);
 	}
 
 	@Override
@@ -412,12 +434,26 @@ public class WebContentDaoImpl implements WebContentDao {
 		jdbcTemplate.update("update possesseur_topo set disponible = ? where topo_id=? and utilisateur_id=?",
 				possesseurTopo.getDisponible(), possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id());
 	}
+	
+	@Override
+	@Transactional
+	public void setTopoSharedState(PossesseurTopo possesseurTopo) {
+		jdbcTemplate.update("update possesseur_topo set shared = ? where topo_id=? and utilisateur_id=?",
+				possesseurTopo.getShared(), possesseurTopo.getTopo_id(), possesseurTopo.getUtilisateur_id());
+	}
 
 	@Override
 	@Transactional
 	public void deleteOwnedTopo(int topoId, int utilisateurId) {
 		jdbcTemplate.update("delete from possesseur_topo where topo_id = ? and utilisateur_id = ?", topoId,
 				utilisateurId);
+	}
+	
+	@Override
+	public List<PossesseurTopo> findAllOwnedTopoByUtilisateurId(int utilisateurId){
+		return jdbcTemplate.query("select * from possesseur_topo where utilisateur_id = ?",
+				new Object[] {utilisateurId},
+				new BeanPropertyRowMapper<PossesseurTopo>(PossesseurTopo.class));
 	}
 
 	/*
@@ -444,9 +480,15 @@ public class WebContentDaoImpl implements WebContentDao {
 	@Override
 	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId) {
 		return jdbcTemplate.query(
-				"select topo_id, " + "utilisateur_id, " + "topo.nom as topo_nom, site.nom as site, "
+				"select topo_id, " 
+						+ "utilisateur_id, " 
+						+ "topo.nom as topo_nom, "
+						+ "site.nom as site, "
 						+ "concat(departement.code, ' - ', departement.nom) as departement, "
-						+ "topo.date_parution::date, disponible " + "from topo "
+						+ "topo.date_parution::date, "
+						+ "disponible, "
+						+ "shared " 
+						+ "from topo "
 						+ "inner join possesseur_topo on topo.id = possesseur_topo.topo_id "
 						+ "inner join site on topo.site_id = site.id "
 						+ "inner join departement on site.departement_id = departement.id "
@@ -512,8 +554,9 @@ public class WebContentDaoImpl implements WebContentDao {
 				+ "inner join status_demande_reservation on reservation_topo.status_id = status_demande_reservation.id "
 				+ "inner join possesseur_topo on reservation_topo.reservation_topo_id = possesseur_topo.topo_id "
 				+ "where reservation_topo.demandeur_id = ? "
-				+ "and visible_for_requester = ?", 
-				new Object[] {utilisateurId, true}, 
+				+ "and visible_for_requester = ? "
+				+ "and possesseur_topo.utilisateur_id != ?", 
+				new Object[] {utilisateurId, true, utilisateurId}, 
 				new BeanPropertyRowMapper<ReservationRequest>(ReservationRequest.class));
 	}
 	

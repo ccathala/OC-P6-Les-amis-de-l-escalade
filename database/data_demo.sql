@@ -299,14 +299,14 @@ values
 
 --Ajout des topos possédés
 INSERT INTO public.possesseur_topo
-(topo_id, utilisateur_id, disponible)
+(topo_id, utilisateur_id, disponible, shared)
 values
-(1, 1, true),
-(2, 1, true),
-(3, 1, true),
-(2, 2, true),
-(3, 2, true),
-(3, 3, true);
+(1, 1, true, false),
+(2, 1, true, false),
+(3, 1, true, false),
+(2, 2, true, false),
+(3, 2, true, false),
+(3, 3, true, false);
 
 --Ajout des status de réservation
 INSERT INTO public.status_demande_reservation

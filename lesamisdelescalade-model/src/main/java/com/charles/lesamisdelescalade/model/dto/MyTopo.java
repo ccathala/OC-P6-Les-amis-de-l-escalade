@@ -12,6 +12,7 @@ public class MyTopo {
 	private Date date_parution;
 	private String dateParution;
 	private Boolean disponible;
+	private Boolean shared;
 	
 	public MyTopo() {
 		super();
@@ -19,7 +20,7 @@ public class MyTopo {
 	}
 
 	public MyTopo(int topo_id, int utilisateur_id, String topo_nom, String site, String departement, Date date_parution,
-			String dateParution, Boolean disponible) {
+			String dateParution, Boolean disponible, Boolean shared) {
 		super();
 		this.topo_id = topo_id;
 		this.utilisateur_id = utilisateur_id;
@@ -29,6 +30,7 @@ public class MyTopo {
 		this.date_parution = date_parution;
 		this.dateParution = dateParution;
 		this.disponible = disponible;
+		this.shared = shared;
 	}
 
 	public int getTopo_id() {
@@ -95,12 +97,22 @@ public class MyTopo {
 		this.disponible = disponible;
 	}
 
+	public Boolean getShared() {
+		return shared;
+	}
+
+	public void setShared(Boolean shared) {
+		this.shared = shared;
+	}
+
 	@Override
 	public String toString() {
 		return "MyTopo [topo_id=" + topo_id + ", utilisateur_id=" + utilisateur_id + ", topo_nom=" + topo_nom
 				+ ", site=" + site + ", departement=" + departement + ", date_parution=" + date_parution
-				+ ", dateParution=" + dateParution + ", disponible=" + disponible + "]";
+				+ ", dateParution=" + dateParution + ", disponible=" + disponible + ", shared=" + shared + "]";
 	}
+
+	
 
 	
 

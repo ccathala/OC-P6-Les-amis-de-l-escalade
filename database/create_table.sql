@@ -178,6 +178,7 @@ CREATE TABLE public.possesseur_topo (
                 topo_id INTEGER NOT NULL,
                 utilisateur_id INTEGER NOT NULL,
                 disponible BOOLEAN NOT NULL,
+                shared BOOLEAN NOT NULL,
                 CONSTRAINT possesseur_topo_pk PRIMARY KEY (topo_id, utilisateur_id)
 );
 

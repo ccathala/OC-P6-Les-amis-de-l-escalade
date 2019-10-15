@@ -94,7 +94,7 @@ public class AccountPageController {
 		if (utilisateurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.setTopoAvailability(new PossesseurTopo(topoId, utilisateurId, available));
+			webContentManager.setTopoAvailability(new PossesseurTopo(topoId, utilisateurId, available, null));
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 
@@ -118,16 +118,17 @@ public class AccountPageController {
 	// Received Request Section
 	// ==================================================================================================================
 
-	@RequestMapping(value = "/processUpdateReservationRequestStatusToAccepted/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToAccepted/{reservationRequestId}/{possesseurId}/{topoId}", method = RequestMethod.GET)
 	public String processUpdateReservationRequestStatusToAccepted(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "reservationRequestId") int reservationRequestId,
-			@PathVariable(value = "possesseurId") int possesseurId) {
+			@PathVariable(value = "possesseurId") int possesseurId,
+			@PathVariable(value="topoId") int topoId) {
 
 		if (possesseurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.updateReservationRequestStatusToAccepted(reservationRequestId);
+			webContentManager.acceptTopoReservation(reservationRequestId, new PossesseurTopo(topoId, possesseurId, null, null));
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 	}
@@ -146,16 +147,17 @@ public class AccountPageController {
 		}
 	}
 
-	@RequestMapping(value = "/processUpdateReservationRequestStatusToEnded/{reservationRequestId}/{possesseurId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToEnded/{reservationRequestId}/{possesseurId}/{topoId}", method = RequestMethod.GET)
 	public String processUpdateReservationRequestStatusToEnded(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "reservationRequestId") int reservationRequestId,
-			@PathVariable(value = "possesseurId") int possesseurId) {
+			@PathVariable(value = "possesseurId") int possesseurId, 
+			@PathVariable(value="topoId") int topoId) {
 
 		if (possesseurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.updateReservationRequestStatusToEnded(reservationRequestId);
+			webContentManager.setOverTopoReservation(reservationRequestId, new PossesseurTopo(topoId, possesseurId, null, null));
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 	}

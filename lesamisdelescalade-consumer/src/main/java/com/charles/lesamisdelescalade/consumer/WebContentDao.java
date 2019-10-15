@@ -101,7 +101,7 @@ public interface WebContentDao {
 
 	List<ListTopoPageData> findAllTopoAndExtendedData();
 
-	List<ListTopoPageData> findAllAvailableTopoAndExtendedData();
+	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
 
 	void addReservation(ReservationTopo reservationTopo);
 
@@ -132,6 +132,10 @@ public interface WebContentDao {
 	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
 
 	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
+
+	void setTopoSharedState(PossesseurTopo possesseurTopo);
+
+	List<PossesseurTopo> findAllOwnedTopoByUtilisateurId(int utilisateurId);
 
 	
 	

@@ -38,7 +38,7 @@ public class TopoListController {
 		} else {
 
 			List<ListTopoPageData> avalaibleTopoAndExtendedDataList = webContentManager
-					.findAllAvailableTopoAndExtendedData();
+					.findAllAvailableTopoAndExtendedData(sessionUtilisateur.getId());
 			model.addAttribute("liste_topos", webContentManager.findAllTopoAndExtendedData());
 			model.addAttribute("liste_topos_disponibles", avalaibleTopoAndExtendedDataList);
 			model.addAttribute("sessionUtilisateur", sessionUtilisateur);

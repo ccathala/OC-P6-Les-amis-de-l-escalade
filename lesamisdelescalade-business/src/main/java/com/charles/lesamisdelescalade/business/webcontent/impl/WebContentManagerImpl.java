@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,30 @@ public class WebContentManagerImpl implements WebContentManager {
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
+	
+	
+	// ==================================================================================================================
+	//                                               Account Page Data
+	// ==================================================================================================================
+		
+		@Override
+		public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
+			possesseurTopo.setDisponible(false);
+			possesseurTopo.setShared(true);
+			webContentDao.updateReservationRequestStatusToAccepted(reservationId);
+			webContentDao.setTopoAvailability(possesseurTopo);
+			webContentDao.setTopoSharedState(possesseurTopo);
+			
+		}
+		
+		@Override
+		public void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
+			possesseurTopo.setDisponible(true);
+			possesseurTopo.setShared(false);
+			webContentDao.updateReservationRequestStatusToEnded(reservationId);
+			webContentDao.setTopoAvailability(possesseurTopo);
+			webContentDao.setTopoSharedState(possesseurTopo);
+		}
 
 	
 	/* ========================================================================== */
@@ -363,8 +388,21 @@ public class WebContentManagerImpl implements WebContentManager {
 	}
 	
 	@Override
-	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(){
-		return webContentDao.findAllAvailableTopoAndExtendedData();
+	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId){
+		List<ListTopoPageData> availableTopoAndExtendedDataList = webContentDao.findAllAvailableTopoAndExtendedData(utilisateurId);
+		List<PossesseurTopo> OwnedTopoList = webContentDao.findAllOwnedTopoByUtilisateurId(utilisateurId);
+		
+		
+		for(PossesseurTopo ownedTopo : OwnedTopoList) {
+			Iterator<ListTopoPageData> AvailableTopoListIterator = availableTopoAndExtendedDataList.iterator();
+			while(AvailableTopoListIterator.hasNext()) {
+				int iteratorTopoId = AvailableTopoListIterator.next().getTopo_id();
+				if(ownedTopo.getTopo_id() == iteratorTopoId) {
+					AvailableTopoListIterator.remove();
+				}
+			}
+		}
+		return availableTopoAndExtendedDataList;
 	}
 	
 	/* ========================================================================== */
