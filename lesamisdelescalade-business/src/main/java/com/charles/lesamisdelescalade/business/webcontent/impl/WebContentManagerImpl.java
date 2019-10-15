@@ -17,6 +17,7 @@ import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
+import com.charles.lesamisdelescalade.consumer.model.PossesseurTopoDao;
 import com.charles.lesamisdelescalade.consumer.model.ReservationTopoDao;
 import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
 import com.charles.lesamisdelescalade.consumer.model.SiteDao;
@@ -74,6 +75,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private ReservationTopoDao reservationTopoDao;
+	
+	@Autowired
+	private PossesseurTopoDao possesseurTopoDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -88,8 +92,8 @@ public class WebContentManagerImpl implements WebContentManager {
 			possesseurTopo.setDisponible(false);
 			possesseurTopo.setShared(true);
 			webContentDao.updateReservationRequestStatusToAccepted(reservationId);
-			webContentDao.setTopoAvailability(possesseurTopo);
-			webContentDao.setTopoSharedState(possesseurTopo);
+			possesseurTopoDao.setTopoAvailability(possesseurTopo);
+			possesseurTopoDao.setTopoSharedState(possesseurTopo);
 			
 		}
 		
@@ -98,8 +102,8 @@ public class WebContentManagerImpl implements WebContentManager {
 			possesseurTopo.setDisponible(true);
 			possesseurTopo.setShared(false);
 			webContentDao.updateReservationRequestStatusToEnded(reservationId);
-			webContentDao.setTopoAvailability(possesseurTopo);
-			webContentDao.setTopoSharedState(possesseurTopo);
+			possesseurTopoDao.setTopoAvailability(possesseurTopo);
+			possesseurTopoDao.setTopoSharedState(possesseurTopo);
 		}
 
 	
@@ -426,7 +430,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId){
 		List<ListTopoPageData> availableTopoAndExtendedDataList = topoDao.findAllAvailableTopoAndExtendedData(utilisateurId);
-		List<PossesseurTopo> OwnedTopoList = webContentDao.findAllOwnedTopoByUtilisateurId(utilisateurId);
+		List<PossesseurTopo> OwnedTopoList = possesseurTopoDao.findAllOwnedTopoByUtilisateurId(utilisateurId);
 		
 		
 		for(PossesseurTopo ownedTopo : OwnedTopoList) {
@@ -477,7 +481,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		Boolean posseseurTopoAddedSuccesfully;
 		possesseurTopo.setDisponible(false);
 		try {
-			webContentDao.addPossesseurTopo(possesseurTopo);
+			possesseurTopoDao.addPossesseurTopo(possesseurTopo);
 			posseseurTopoAddedSuccesfully = true;
 		} catch (DuplicateKeyException e) {
 			posseseurTopoAddedSuccesfully = false;
@@ -489,12 +493,12 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public void setTopoAvailability(PossesseurTopo possesseurTopo) {
-		webContentDao.setTopoAvailability(possesseurTopo);
+		possesseurTopoDao.setTopoAvailability(possesseurTopo);
 	}
 	
 	@Override
 	public void deleteOwnedTopo(int topoId, int utilisateurId) {
-		webContentDao.deleteOwnedTopo(topoId, utilisateurId);
+		possesseurTopoDao.deleteOwnedTopo(topoId, utilisateurId);
 	}
 	
 	/* ========================================================================== */

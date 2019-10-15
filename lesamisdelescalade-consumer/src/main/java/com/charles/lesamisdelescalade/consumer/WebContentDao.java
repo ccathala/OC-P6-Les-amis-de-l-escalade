@@ -109,13 +109,13 @@ public interface WebContentDao {
 
 	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
 
-	void addPossesseurTopo(PossesseurTopo possesseurTopo);
+//	void addPossesseurTopo(PossesseurTopo possesseurTopo);
 
 	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
 
-	void setTopoAvailability(PossesseurTopo possesseurTopo);
+//	void setTopoAvailability(PossesseurTopo possesseurTopo);
 
-	void deleteOwnedTopo(int topoId, int utilisateurId);
+//	void deleteOwnedTopo(int topoId, int utilisateurId);
 
 	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
 
@@ -133,9 +133,9 @@ public interface WebContentDao {
 
 	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
 
-	void setTopoSharedState(PossesseurTopo possesseurTopo);
+//	void setTopoSharedState(PossesseurTopo possesseurTopo);
 
-	List<PossesseurTopo> findAllOwnedTopoByUtilisateurId(int utilisateurId);
+//	List<PossesseurTopo> findAllOwnedTopoByUtilisateurId(int utilisateurId);
 
 	
 	
