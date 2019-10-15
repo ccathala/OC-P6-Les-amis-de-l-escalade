@@ -16,6 +16,7 @@ import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.dto.AccountPageDataDao;
 import com.charles.lesamisdelescalade.consumer.dto.MyTopoDao;
+import com.charles.lesamisdelescalade.consumer.dto.ReservationRequestDao;
 import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
@@ -87,8 +88,10 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Autowired
 	private MyTopoDao MyTopoDao;
 	
+	@Autowired
+	private ReservationRequestDao reservationRequestDao;
 	
-
+	
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
 	
@@ -568,7 +571,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId){
-		List<ReservationRequest> reservationRequestList = webContentDao.findAllReceivedReservationRequestByUtilisateurId(utilisateurId);
+		List<ReservationRequest> reservationRequestList = reservationRequestDao.findAllReceivedReservationRequestByUtilisateurId(utilisateurId);
 		for(ReservationRequest reservationRequest : reservationRequestList) {
 			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
 		}
@@ -577,7 +580,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId){
-		List<ReservationRequest> reservationRequestList = webContentDao.findAllSentReservationRequestByUtilisateurId(utilisateurId);
+		List<ReservationRequest> reservationRequestList = reservationRequestDao.findAllSentReservationRequestByUtilisateurId(utilisateurId);
 		for(ReservationRequest reservationRequest : reservationRequestList) {
 			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
 		}

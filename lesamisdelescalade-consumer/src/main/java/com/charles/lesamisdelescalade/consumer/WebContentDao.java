@@ -117,7 +117,7 @@ public interface WebContentDao {
 
 //	void deleteOwnedTopo(int topoId, int utilisateurId);
 
-	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
+//	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
 
 //	void updateReservationRequestStatusToAccepted(int reservationRequestId);
 //
@@ -131,7 +131,7 @@ public interface WebContentDao {
 //
 //	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
 
-	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
+//	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
 
 //	void setTopoSharedState(PossesseurTopo possesseurTopo);
 
