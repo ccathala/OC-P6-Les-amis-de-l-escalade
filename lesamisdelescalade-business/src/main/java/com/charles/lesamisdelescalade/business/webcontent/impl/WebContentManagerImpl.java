@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.dto.AccountPageDataDao;
+import com.charles.lesamisdelescalade.consumer.dto.MyTopoDao;
 import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
@@ -82,6 +83,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private AccountPageDataDao accountPageDataDao;
+	
+	@Autowired
+	private MyTopoDao MyTopoDao;
 	
 	
 
@@ -551,7 +555,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId){
-		List<MyTopo> myTopoList = webContentDao.findAllMyTopoByUtilisateurId(utilisateurId);
+		List<MyTopo> myTopoList = MyTopoDao.findAllMyTopoByUtilisateurId(utilisateurId);
 		for(MyTopo myTopo : myTopoList ) {
 			myTopo.setDateParution(convertDateToString(myTopo.getDate_parution()));
 		}

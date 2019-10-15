@@ -111,7 +111,7 @@ public interface WebContentDao {
 
 //	void addPossesseurTopo(PossesseurTopo possesseurTopo);
 
-	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
+//	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
 
 //	void setTopoAvailability(PossesseurTopo possesseurTopo);
 

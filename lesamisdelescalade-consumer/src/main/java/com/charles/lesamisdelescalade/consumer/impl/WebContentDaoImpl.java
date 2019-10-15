@@ -147,24 +147,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	 * ===============
 	 */
 
-	@Override
-	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId) {
-		return jdbcTemplate.query(
-				"select topo_id, " 
-						+ "utilisateur_id, " 
-						+ "topo.nom as topo_nom, "
-						+ "site.nom as site, "
-						+ "concat(departement.code, ' - ', departement.nom) as departement, "
-						+ "topo.date_parution::date, "
-						+ "disponible, "
-						+ "shared " 
-						+ "from topo "
-						+ "inner join possesseur_topo on topo.id = possesseur_topo.topo_id "
-						+ "inner join site on topo.site_id = site.id "
-						+ "inner join departement on site.departement_id = departement.id "
-						+ "where possesseur_topo.utilisateur_id=?",
-				new Object[] { utilisateurId }, new BeanPropertyRowMapper<MyTopo>(MyTopo.class));
-	}
+	
 
 	/*
 	 * =============================================================================
