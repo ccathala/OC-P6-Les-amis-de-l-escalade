@@ -14,6 +14,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.WebContentDao;
+import com.charles.lesamisdelescalade.consumer.dto.AccountPageDataDao;
 import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
@@ -78,6 +79,11 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private PossesseurTopoDao possesseurTopoDao;
+	
+	@Autowired
+	private AccountPageDataDao accountPageDataDao;
+	
+	
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -532,7 +538,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Override
 	public List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId){
-		List<AccountPageData> accountPageDataList = webContentDao.getDataForAccountPageDataBySiteId(departementId);
+		List<AccountPageData> accountPageDataList = accountPageDataDao.getDataForAccountPageDataBySiteId(departementId);
 		for(AccountPageData accountPageData : accountPageDataList) {
 			accountPageData.setDateParution(convertDateToString(accountPageData.getDate_parution()));
 		}

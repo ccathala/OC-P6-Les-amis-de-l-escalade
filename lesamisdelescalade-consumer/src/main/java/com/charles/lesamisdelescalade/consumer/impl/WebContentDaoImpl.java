@@ -138,12 +138,7 @@ public class WebContentDaoImpl implements WebContentDao {
 	 * ===============
 	 */
 
-	@Override
-	public List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId) {
-		return jdbcTemplate.query(
-				"select topo.id as topo_id, topo.nom as topo_nom, site.nom as site_nom, topo.date_parution::date from topo inner join site on topo.site_id = site.id where site.departement_id = ?",
-				new Object[] { departementId }, new BeanPropertyRowMapper<AccountPageData>(AccountPageData.class));
-	}
+	
 
 	/*
 	 * =============================================================================

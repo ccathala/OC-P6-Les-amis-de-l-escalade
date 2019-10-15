@@ -107,7 +107,7 @@ public interface WebContentDao {
 //
 //	ReservationTopo findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(int requesterId, int topoId);
 
-	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
+//	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
 
 //	void addPossesseurTopo(PossesseurTopo possesseurTopo);
 
