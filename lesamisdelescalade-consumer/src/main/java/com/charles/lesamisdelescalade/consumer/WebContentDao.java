@@ -103,9 +103,9 @@ public interface WebContentDao {
 //
 //	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
 
-	void addReservation(ReservationTopo reservationTopo);
-
-	ReservationTopo findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(int requesterId, int topoId);
+//	void addReservation(ReservationTopo reservationTopo);
+//
+//	ReservationTopo findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(int requesterId, int topoId);
 
 	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
 
@@ -127,9 +127,9 @@ public interface WebContentDao {
 
 	void updateReservationRequestStatusToCancelled(int reservationRequestId);
 
-	void setReservationVisibilityForOwnerToFalse(int reservationRequestId);
-
-	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
+//	void setReservationVisibilityForOwnerToFalse(int reservationRequestId);
+//
+//	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
 
 	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
 

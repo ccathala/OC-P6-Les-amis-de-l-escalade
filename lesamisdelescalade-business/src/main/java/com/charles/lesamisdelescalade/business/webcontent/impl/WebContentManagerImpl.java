@@ -17,6 +17,7 @@ import com.charles.lesamisdelescalade.consumer.WebContentDao;
 import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
 import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
+import com.charles.lesamisdelescalade.consumer.model.ReservationTopoDao;
 import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
 import com.charles.lesamisdelescalade.consumer.model.SiteDao;
 import com.charles.lesamisdelescalade.consumer.model.TopoDao;
@@ -70,6 +71,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private TopoDao topoDao;
+	
+	@Autowired
+	private ReservationTopoDao reservationTopoDao;
 
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -379,9 +383,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		commentaireDao.addCommentaire(commentaire);
 	}
 	
-	/* ========================================================================== */
-	/* Utilisateur bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Utilisateur Methods
+	// ==================================================================================================================
 	
 	private List<Utilisateur> findAllUtilisateurOnlyIdAndName(){
 		return webContentDao.findAllUtilisateurOnlyIdAndName();
@@ -392,9 +396,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return convertUtilisateurListToHashMap(findAllUtilisateurOnlyIdAndName());
 	}
 	
-	/* ========================================================================== */
-	/* Topo bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model Topo Methods
+	// ==================================================================================================================
 	
 	@Override
 	public Boolean addTopo(Topo topo) {
@@ -437,36 +441,36 @@ public class WebContentManagerImpl implements WebContentManager {
 		return availableTopoAndExtendedDataList;
 	}
 	
-	/* ========================================================================== */
-	/* reservation bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model ReservationTopo Methods
+	// ==================================================================================================================
 	
 	@Override
 	public Boolean addReservation(ReservationTopo reservationTopo ) {
 		Boolean reservationAlreadyAsked;
 		try {
-			webContentDao.findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
+			reservationTopoDao.findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
 			reservationAlreadyAsked = true;
 		} catch (EmptyResultDataAccessException e) {
 			reservationAlreadyAsked = false;
-			webContentDao.addReservation(reservationTopo);
+			reservationTopoDao.addReservation(reservationTopo);
 		}
 		return reservationAlreadyAsked;
 	}
 	
 	@Override
 	public void setReservationVisibilityForOwnerToFalse(int reservationRequestId) {
-		webContentDao.setReservationVisibilityForOwnerToFalse(reservationRequestId);
+		reservationTopoDao.setReservationVisibilityForOwnerToFalse(reservationRequestId);
 	}
 	
 	@Override
 	public void setReservationVisibilityForRequesterToFalse(int reservationRequestId) {
-		webContentDao.setReservationVisibilityForRequesterToFalse(reservationRequestId);
+		reservationTopoDao.setReservationVisibilityForRequesterToFalse(reservationRequestId);
 	}
 	
-	/* ========================================================================== */
-	/* possesseur topo bean methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             Bean Model PossesseurTopo Methods
+	// ==================================================================================================================
 	
 	@Override
 	public Boolean addPossesseurTopo(PossesseurTopo possesseurTopo) {
