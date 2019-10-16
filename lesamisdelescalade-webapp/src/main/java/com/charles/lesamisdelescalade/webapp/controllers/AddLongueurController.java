@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.charles.lesamisdelescalade.business.utils.bean.SecteurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
@@ -27,6 +28,8 @@ public class AddLongueurController {
 	private AddWebContentFormUtil addWebContentFormUtil;
 	@Autowired
 	private SiteManager siteManager;
+	@Autowired
+	private SecteurManager secteurManager;
 
 	@RequestMapping(value = "/site/processChooseDepartementAddLongueur", method = RequestMethod.GET)
 	public String chooseDepartementLongueur(Model model,
@@ -100,7 +103,7 @@ public class AddLongueurController {
 					"Vous devez être connecté pour acceder à la page demandée.");
 			return "redirect:/";
 		} else {
-			int secteurId = webContentManager.getSecteurIdByVoieId(longueur.getVoie_id());
+			int secteurId = secteurManager.getSecteurIdByVoieId(longueur.getVoie_id());
 			int siteId = siteManager.getSiteIdBySecteurId(secteurId);
 			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
 			if (result.hasErrors()) {

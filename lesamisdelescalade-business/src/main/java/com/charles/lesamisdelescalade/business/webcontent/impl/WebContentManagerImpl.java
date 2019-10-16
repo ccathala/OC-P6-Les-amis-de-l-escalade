@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import com.charles.lesamisdelescalade.business.utils.bean.SecteurManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.consumer.bean.CommentaireDao;
 import com.charles.lesamisdelescalade.consumer.bean.DepartementDao;
@@ -91,6 +93,9 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Autowired
 	private ReservationRequestDao reservationRequestDao;
 	
+	@Autowired
+	private SecteurManager secteurManager;
+	
 	
 	/* Logger for LoginManagerImpl class */
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -123,49 +128,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	// ==================================================================================================================
 	//                                             Bean Model Site Methods
 	// ==================================================================================================================
-
-	
-	
-
-//	@Override
-//	public List<Site> findAllSiteByDepartement(int departementId) {
-//		return siteDao.findAllSiteByDepartement(departementId);
-//	}
-//
-//	@Override
-//	public int getSiteIdBySecteurId(int secteurId) {
-//		return siteDao.getSiteIdBySecteurId(secteurId);
-//	}
-//
-//	@Override
-//	public void addOfficialTagOnSite(int siteId) {
-//		siteDao.addOfficialTagOnSite(siteId);
-//	}
-//
-//	@Override
-//	public void deleteOfficialTagOnSite(int siteId) {
-//		siteDao.deleteOfficialTagOnSite(siteId);
-//	}
-//
-//	@Override
-//	public List<Site> findAllSite() {
-//		return siteDao.findAllSite();
-//	}
-//
-//	@Override
-//	public List<Site> findAllSiteByCotation(int cotationId) {
-//		return siteDao.findAllSiteByCotation(cotationId);
-//	}
-//
-//	@Override
-//	public List<Site> findAllSiteBySecteurCount(int secteurCount) {
-//		return siteDao.findAllSiteBySecteurCount(secteurCount);
-//	}
-//
-//	@Override
-//	public List<Integer> getSecteurCountBySite() {
-//		return siteDao.getSecteurCountBySite();
-//	}
 
 	@Override
 	public List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom) {
@@ -210,15 +172,15 @@ public class WebContentManagerImpl implements WebContentManager {
 	//                                             Bean Model Secteur Methods
 	// ==================================================================================================================
 
-	@Override
-	public List<Secteur> getAllSecteurBySite(int siteId) {
-		return secteurDao.findAllSecteurBySite(siteId);
-	}
-
-	@Override
-	public int getSecteurIdByVoieId(int voieId) {
-		return secteurDao.getSecteurIdByVoieId(voieId);
-	}
+//	@Override
+//	public List<Secteur> getAllSecteurBySite(int siteId) {
+//		return secteurDao.findAllSecteurBySite(siteId);
+//	}
+//
+//	@Override
+//	public int getSecteurIdByVoieId(int voieId) {
+//		return secteurDao.getSecteurIdByVoieId(voieId);
+//	}
 	
 	/**
 	 * Add new secteur to database
@@ -599,7 +561,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	public SitePageData setSitePageData(int siteId) {
 		SitePageData sitePageData = new SitePageData();
 		sitePageData.setSite(siteDao.findSiteById(siteId));
-		sitePageData.setSecteurs(getAllSecteurBySite(siteId));
+		sitePageData.setSecteurs(secteurManager.getAllSecteurBySite(siteId));
 		sitePageData.setVoies(findVoiesBySite(siteId));
 		sitePageData.setLongueurs(findLongueursBySite(siteId));
 
@@ -612,7 +574,6 @@ public class WebContentManagerImpl implements WebContentManager {
 				secteur.setCotationMin("NA");
 				secteur.setCotationMax("NA");
 			}
-
 		}
 
 		return sitePageData;

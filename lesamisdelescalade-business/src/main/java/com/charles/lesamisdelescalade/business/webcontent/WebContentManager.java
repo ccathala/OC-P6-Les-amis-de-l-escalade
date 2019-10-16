@@ -31,7 +31,7 @@ public interface WebContentManager {
 	
 	public Boolean addSecteur(Secteur secteur);
 	
-	public List<Secteur> getAllSecteurBySite(int siteId);
+//	public List<Secteur> getAllSecteurBySite(int siteId);
 	
 	public String addVoie (Voie voie);
 	
@@ -45,7 +45,7 @@ public interface WebContentManager {
 
 	Boolean addLongueur(Longueur longueur);
 
-	int getSecteurIdByVoieId(int voieId);
+//	int getSecteurIdByVoieId(int voieId);
 
 	List<Cotation> findAllCotation();
 

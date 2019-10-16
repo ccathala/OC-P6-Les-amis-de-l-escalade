@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
+import com.charles.lesamisdelescalade.business.utils.bean.SecteurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
@@ -20,6 +21,8 @@ public class AddWebContentFormUtil {
 	private WebContentManager webContentManager;
 	@Autowired
 	private SiteManager siteManager;
+	@Autowired
+	private SecteurManager secteurManager;
 
 	public HashMap<String, Object> getAddWebContentAttributes(Utilisateur sessionUtilisateur) {
 		HashMap<String, Object> attributes = new HashMap<String, Object>();
@@ -166,7 +169,7 @@ public class AddWebContentFormUtil {
 			attributes.put("messageErrorVoie", "Erreur - Aucun site n'a été sélectionné");
 		} else {
 			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
-			attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 			attributes.put("departementIdVoie", departementId);
 			attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
 			attributes.put("siteIdVoie", siteId);
@@ -193,7 +196,7 @@ public class AddWebContentFormUtil {
 			attributes.put("departementIdVoie", departementId);
 			attributes.put("siteIdVoie", siteId);
 			attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
-			attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 			attributes.put("secteurIdVoie", secteurId);
 			attributes.put("voies", webContentManager.findAllVoieBySecteur(secteurId));
 
@@ -219,7 +222,7 @@ public class AddWebContentFormUtil {
 		attributes.put("siteIdVoie", siteId);
 		attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
 		attributes.put("site", new Site());
-		attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+		attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 		attributes.put("secteurIdVoie", voie.getSecteur_id());
 		attributes.put("voies", webContentManager.findAllVoieBySecteur(voie.getSecteur_id()));
 		attributes.put("collapseClassVoie", "show");
@@ -281,7 +284,7 @@ public class AddWebContentFormUtil {
 			attributes.put("departementIdLongueur", departementId);
 			attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
 			attributes.put("siteIdLongueur", siteId);
-			attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 		}
 
 		attributes.put("departements", webContentManager.findAllDepartement());
@@ -306,7 +309,7 @@ public class AddWebContentFormUtil {
 			attributes.put("departementIdLongueur", departementId);
 			attributes.put("siteIdLongueur", siteId);
 			attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
-			attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 			attributes.put("secteurIdLongueur", secteurId);
 			attributes.put("voies", webContentManager.findAllVoieBySecteur(secteurId));
 		}
@@ -328,13 +331,13 @@ public class AddWebContentFormUtil {
 		if (voieId == 0) {
 			attributes.put("messageErrorLongueur", "Erreur - Aucune voie n'a été sélectionné");
 		} else {
-			int secteurId = webContentManager.getSecteurIdByVoieId(voieId);
+			int secteurId = secteurManager.getSecteurIdByVoieId(voieId);
 			int siteId = siteManager.getSiteIdBySecteurId(secteurId);
 			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
 			attributes.put("departementIdLongueur", departementId);
 			attributes.put("siteIdLongueur", siteId);
 			attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
-			attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 			attributes.put("secteurIdLongueur", secteurId);
 			attributes.put("voies", webContentManager.findAllVoieBySecteur(secteurId));
 			attributes.put("longueurs", webContentManager.findAllLongueurByVoie(voieId));
@@ -364,7 +367,7 @@ public class AddWebContentFormUtil {
 		attributes.put("siteIdLongueur", siteId);
 		attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
 		attributes.put("site", new Site());
-		attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+		attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 		attributes.put("secteurIdLongueur", secteurId);
 		attributes.put("voies", webContentManager.findAllVoieBySecteur(secteurId));
 		attributes.put("voieIdLongueur", longueur.getVoie_id());
@@ -387,7 +390,7 @@ public class AddWebContentFormUtil {
 			attributes.put("departementIdLongueur", departementId);
 			attributes.put("siteIdLongueur", siteId);
 			attributes.put("sites", siteManager.findAllSiteByDepartement(departementId));
-			attributes.put("secteurs", webContentManager.getAllSecteurBySite(siteId));
+			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 			attributes.put("secteurIdLongueur", secteurId);
 			attributes.put("voies", webContentManager.findAllVoieBySecteur(secteurId));
 			attributes.put("cotations", webContentManager.findAllCotation());
