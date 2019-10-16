@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Topo;
@@ -26,6 +27,8 @@ public class AddTopoController {
 	private WebContentManager webContentManager;
 	@Autowired
 	private SiteManager siteManager;
+	@Autowired
+	private DepartementManager departementManager;
 
 	@RequestMapping(value = "/addTopo", method = RequestMethod.GET)
 	public String displayAddTopoPage(Model model,
@@ -37,7 +40,7 @@ public class AddTopoController {
 					"Vous devez être connecté pour acceder à la page demandée.");
 			return "redirect:/";
 		} else {
-			model.addAttribute("departements", webContentManager.findAllDepartement());
+			model.addAttribute("departements", departementManager.findAllDepartement());
 			model.addAttribute("sessionUtilisateur", sessionUtilisateur);
 			return "addTopo";
 		}
@@ -67,12 +70,12 @@ public class AddTopoController {
 			if(result.getFieldErrorCount("site_id")>0) {
 				model.addAttribute("messageErrorTopo", "Erreur - Aucun site sélectionné.");
 			}else {
-				int departementId = webContentManager.getDepartementIdBySiteId(newTopo.getSite_id());
+				int departementId = departementManager.getDepartementIdBySiteId(newTopo.getSite_id());
 				model.addAttribute("departementId", departementId);
 				model.addAttribute("sites", siteManager.findAllSiteByDepartement(departementId));
 				model.addAttribute("siteId", newTopo.getSite_id());
 			}
-			model.addAttribute("departements", webContentManager.findAllDepartement());
+			model.addAttribute("departements", departementManager.findAllDepartement());
 			return "addTopo";
 		} else {
 			if( webContentManager.addTopo(newTopo)) {

@@ -180,6 +180,17 @@ public class WebContentManagerImpl implements WebContentManager {
 		}
 		return secteurAddedWithSuccess;
 	}
+	
+	
+	public String getMinCotation(int secteurId) {
+		return voieDao.getSecteurMinCotation(secteurId);
+		// TODO refactor
+	}
+
+	public String getMaxCotation(int secteurId) {
+		return voieDao.getSecteurMaxCotation(secteurId);
+		// TODO refactor
+	}
 
 	// ==================================================================================================================
 	//                                             Bean Model Voie Methods
@@ -246,38 +257,10 @@ public class WebContentManagerImpl implements WebContentManager {
 	}
 
 	// ==================================================================================================================
-	//                                             Bean Model Cotation Methods
-	// ==================================================================================================================
-
-	public String getMinCotation(int secteurId) {
-		return voieDao.getSecteurMinCotation(secteurId);
-		// TODO refactor
-	}
-
-	public String getMaxCotation(int secteurId) {
-		return voieDao.getSecteurMaxCotation(secteurId);
-		// TODO refactor
-	}
-
-	@Override
-	public List<Cotation> findAllCotation() {
-		return longueurDao.findAllCotation();
-		// TODO refactor
-	}
-
-	// ==================================================================================================================
 	//                                             Bean Model Departement Methods
 	// ==================================================================================================================
 	
-	@Override
-	public List<Departement> findAllDepartement() {
-		return departementDao.findAllDepartement();
-	}
 
-	@Override
-	public int getDepartementIdBySiteId(int siteId) {
-		return departementDao.getDepartementIdBySiteId(siteId);
-	}
 	
 	// ==================================================================================================================
 	//                                             Bean Model Commentaire Methods

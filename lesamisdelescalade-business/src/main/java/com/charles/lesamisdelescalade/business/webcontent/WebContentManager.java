@@ -35,9 +35,9 @@ public interface WebContentManager {
 	
 	public String addVoie (Voie voie);
 	
-	public int getDepartementIdBySiteId(int siteId);
+//	public int getDepartementIdBySiteId(int siteId);
 	
-	public List<Departement> findAllDepartement();
+//	public List<Departement> findAllDepartement();
 
 //	int getSiteIdBySecteurId(int secteurId);
 
@@ -47,7 +47,7 @@ public interface WebContentManager {
 
 //	int getSecteurIdByVoieId(int voieId);
 
-	List<Cotation> findAllCotation();
+//	List<Cotation> findAllCotation();
 
 //	List<Longueur> findAllLongueurByVoie(int voieId);
 

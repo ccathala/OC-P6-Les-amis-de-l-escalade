@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.PossesseurTopo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -19,6 +21,8 @@ public class AccountPageController {
 
 	@Autowired
 	private WebContentManager webContentManager;
+	@Autowired
+	private DepartementManager departementManager;
 
 	@RequestMapping(value = "/goToAccountPage", method = RequestMethod.GET)
 	public String goToAccountPage(Model model,
@@ -40,7 +44,7 @@ public class AccountPageController {
 		if (sessionUtilisateurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			model.addAttribute("departements", webContentManager.findAllDepartement());
+			model.addAttribute("departements", departementManager.findAllDepartement());
 			model.addAttribute("departementId", departementId);
 			model.addAttribute("myTopos", webContentManager.findAllMyTopoByUtilisateurId(sessionUtilisateurId));
 			model.addAttribute("receivedReservationRequest",

@@ -46,11 +46,10 @@ public class LongueurDaoImpl implements LongueurDao {
 	}
 
 	@Override
-	public List<Cotation> findAllCotation() {
-		List<Cotation> cotations = jdbcTemplate.query("select * from cotation",
-				new BeanPropertyRowMapper<Cotation>(Cotation.class));
-		return cotations;
-		// TODO refactor
+	public List<Cotation> findAllLongueurCotation() {
+		return jdbcTemplate.query("select * from cotation", new BeanPropertyRowMapper<Cotation>(Cotation.class));
+		 
+		
 	}
 
 }

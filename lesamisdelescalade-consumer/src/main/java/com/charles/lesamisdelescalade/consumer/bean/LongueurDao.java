@@ -15,6 +15,6 @@ public interface LongueurDao {
 
 	List<Longueur> findAllLongueurByVoie(int voieId);
 
-	List<Cotation> findAllCotation();
+	List<Cotation> findAllLongueurCotation();
 
 }

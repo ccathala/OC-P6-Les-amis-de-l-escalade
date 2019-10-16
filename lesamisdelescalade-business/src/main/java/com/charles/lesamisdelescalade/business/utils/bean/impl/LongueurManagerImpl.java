@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.utils.bean.LongueurManager;
 import com.charles.lesamisdelescalade.consumer.bean.LongueurDao;
+import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 
 @Service
@@ -17,6 +18,11 @@ public class LongueurManagerImpl implements LongueurManager{
 	@Override
 	public List<Longueur> findAllLongueurByVoie(int voieId) {
 		return longueurDao.findAllLongueurByVoie(voieId);
+	}
+	
+	@Override
+	public List<Cotation> findAllLongueurCotation() {
+		return longueurDao.findAllLongueurCotation();
 	}
 
 }

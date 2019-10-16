@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
+import com.charles.lesamisdelescalade.business.utils.bean.LongueurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Site;
@@ -19,12 +21,16 @@ public class SearchSiteFormUtil {
 	private WebContentManager webContentManager;
 	@Autowired
 	private SiteManager siteManager;
+	@Autowired
+	private LongueurManager longueurManager;
+	@Autowired
+	private DepartementManager departementManager;
 	
 	public HashMap<String, Object> getSearchSiteAttributes(Utilisateur sessionUtilisateur, SearchSiteData searchSiteData, List<Site> sites ){
 		HashMap<String, Object> attributes = new HashMap<String, Object>();
-		attributes.put("departements", webContentManager.findAllDepartement());
+		attributes.put("departements", departementManager.findAllDepartement());
 		attributes.put("departementId", searchSiteData.getDepartementId());
-		attributes.put("cotations", webContentManager.findAllCotation());
+		attributes.put("cotations", longueurManager.findAllLongueurCotation());
 		attributes.put("cotationId", searchSiteData.getCotationId());
 		attributes.put("secteurCountList", siteManager.getSecteurCountBySite());
 		attributes.put("secteurCount", searchSiteData.getSecteurCount());
