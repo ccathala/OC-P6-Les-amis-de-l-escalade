@@ -19,7 +19,7 @@ public class VoieDaoImpl implements VoieDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<Voie> findVoieBySite(int siteId) {
+	public List<Voie> findAllVoieBySite(int siteId) {
 		return jdbcTemplate.query(
 				"select voie.id, voie.nom, voie.numero, voie.secteur_id from secteur inner join voie on secteur.id = voie.secteur_id where site_id = ?",
 				new Object[] { siteId }, new BeanPropertyRowMapper<Voie>(Voie.class));

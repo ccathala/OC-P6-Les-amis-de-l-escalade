@@ -56,43 +56,30 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	@Autowired
 	private DepartementDao departementDao;
-	
 	@Autowired
 	private SiteDao siteDao;
-	
 	@Autowired
 	private SecteurDao secteurDao;
-	
 	@Autowired
 	private VoieDao voieDao;
-	
 	@Autowired
 	private LongueurDao longueurDao;
-	
 	@Autowired
 	private CommentaireDao commentaireDao;
-	
 	@Autowired
 	private TopoDao topoDao;
-	
 	@Autowired
 	private ReservationTopoDao reservationTopoDao;
-	
 	@Autowired
 	private PossesseurTopoDao possesseurTopoDao;
-	
 	@Autowired
 	private UtilisateurDao utilisateurDao;
-	
 	@Autowired
 	private AccountPageDataDao accountPageDataDao;
-	
 	@Autowired
 	private MyTopoDao MyTopoDao;
-	
 	@Autowired
 	private ReservationRequestDao reservationRequestDao;
-	
 	@Autowired
 	private SecteurManager secteurManager;
 	
@@ -171,16 +158,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	// ==================================================================================================================
 	//                                             Bean Model Secteur Methods
 	// ==================================================================================================================
-
-//	@Override
-//	public List<Secteur> getAllSecteurBySite(int siteId) {
-//		return secteurDao.findAllSecteurBySite(siteId);
-//	}
-//
-//	@Override
-//	public int getSecteurIdByVoieId(int voieId) {
-//		return secteurDao.getSecteurIdByVoieId(voieId);
-//	}
 	
 	/**
 	 * Add new secteur to database
@@ -208,18 +185,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	//                                             Bean Model Voie Methods
 	// ==================================================================================================================
 
-	public List<Voie> findVoiesBySite(int siteId) {
-		return voieDao.findVoieBySite(siteId);
-	}
 
-	public int getVoieCountBySecteurs(int secteurId) {
-		return voieDao.getVoieCountBySecteur(secteurId);
-	}
-
-	@Override
-	public List<Voie> findAllVoieBySecteur(int secteurId) {
-		return voieDao.findAllVoieBySecteur(secteurId);
-	}
 	
 	/**
 	 * Add new voie to database
@@ -562,11 +528,11 @@ public class WebContentManagerImpl implements WebContentManager {
 		SitePageData sitePageData = new SitePageData();
 		sitePageData.setSite(siteDao.findSiteById(siteId));
 		sitePageData.setSecteurs(secteurManager.getAllSecteurBySite(siteId));
-		sitePageData.setVoies(findVoiesBySite(siteId));
+		sitePageData.setVoies(voieDao.findAllVoieBySite(siteId));
 		sitePageData.setLongueurs(findLongueursBySite(siteId));
 
 		for (Secteur secteur : sitePageData.getSecteurs()) {
-			secteur.setVoiesCount(getVoieCountBySecteurs(secteur.getId()));
+			secteur.setVoiesCount(voieDao.getVoieCountBySecteur(secteur.getId()));
 			try {
 				secteur.setCotationMin(getMinCotation(secteur.getId()));
 				secteur.setCotationMax(getMaxCotation(secteur.getId()));

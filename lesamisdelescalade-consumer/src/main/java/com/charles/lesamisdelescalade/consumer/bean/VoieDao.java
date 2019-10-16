@@ -8,7 +8,7 @@ import com.charles.lesamisdelescalade.model.beans.Voie;
 
 public interface VoieDao {
 
-	List<Voie> findVoieBySite(int siteId);
+	List<Voie> findAllVoieBySite(int siteId);
 
 	int getVoieCountBySecteur(int secteurId);
 

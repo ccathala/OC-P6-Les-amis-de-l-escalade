@@ -41,7 +41,7 @@ public interface WebContentManager {
 
 //	int getSiteIdBySecteurId(int secteurId);
 
-	List<Voie> findAllVoieBySecteur(int secteurId);
+//	List<Voie> findAllVoieBySecteur(int secteurId);
 
 	Boolean addLongueur(Longueur longueur);
 
