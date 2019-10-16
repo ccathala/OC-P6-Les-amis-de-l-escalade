@@ -369,15 +369,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		
 	}
 	
-	@Override
-	public void setTopoAvailability(PossesseurTopo possesseurTopo) {
-		possesseurTopoDao.setTopoAvailability(possesseurTopo);
-	}
 	
-	@Override
-	public void deleteOwnedTopo(int topoId, int utilisateurId) {
-		possesseurTopoDao.deleteOwnedTopo(topoId, utilisateurId);
-	}
 	
 	/* ========================================================================== */
 	/* AccountPageData DTO methods */

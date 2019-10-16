@@ -91,9 +91,9 @@ public interface WebContentManager {
 
 	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
 
-	void setTopoAvailability(PossesseurTopo possesseurTopo);
-
-	void deleteOwnedTopo(int topoId, int utilisateurId);
+//	void setTopoAvailability(PossesseurTopo possesseurTopo);
+//
+//	void deleteOwnedTopo(int topoId, int utilisateurId);
 
 	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
 

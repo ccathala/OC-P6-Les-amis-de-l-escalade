@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
+import com.charles.lesamisdelescalade.business.utils.bean.PossesseurTopoManager;
 import com.charles.lesamisdelescalade.business.utils.bean.ReservationTopoManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.PossesseurTopo;
@@ -27,6 +28,8 @@ public class AccountPageController {
 	private DepartementManager departementManager;
 	@Autowired
 	private ReservationTopoManager reservationTopoManager;
+	@Autowired
+	private PossesseurTopoManager possesseurTopoManager;
 
 	@RequestMapping(value = "/goToAccountPage", method = RequestMethod.GET)
 	public String goToAccountPage(Model model,
@@ -102,7 +105,7 @@ public class AccountPageController {
 		if (utilisateurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.setTopoAvailability(new PossesseurTopo(topoId, utilisateurId, available, null));
+			possesseurTopoManager.setTopoAvailability(new PossesseurTopo(topoId, utilisateurId, available, null));
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 
@@ -116,7 +119,7 @@ public class AccountPageController {
 		if (utilisateurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.deleteOwnedTopo(topoId, utilisateurId);
+			possesseurTopoManager.deleteOwnedTopo(topoId, utilisateurId);
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 
