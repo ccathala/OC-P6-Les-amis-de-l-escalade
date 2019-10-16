@@ -265,9 +265,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	// ==================================================================================================================
 	//                                             Bean Model Commentaire Methods
 	// ==================================================================================================================
-	
-	
-	
+
 	@Override 
 	public void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur) {
 		Date dNow = new Date( );
@@ -276,7 +274,6 @@ public class WebContentManagerImpl implements WebContentManager {
 		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + "."  ;
 		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
 		commentaireDao.updateCommentaire(commentaire, utilisateur.getId());
-		
 	}
 	
 
@@ -284,14 +281,10 @@ public class WebContentManagerImpl implements WebContentManager {
 	// ==================================================================================================================
 	//                                             Bean Model Utilisateur Methods
 	// ==================================================================================================================
-	
-	private List<Utilisateur> findAllUtilisateurOnlyIdAndName(){
-		return utilisateurDao.findAllUtilisateurOnlyIdAndName();
-	}
-	
+		
 	@Override
 	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName(){
-		return convertUtilisateurListToHashMap(findAllUtilisateurOnlyIdAndName());
+		return convertUtilisateurListToHashMap(utilisateurDao.findAllUtilisateurOnlyIdAndName());
 	}
 	
 	// ==================================================================================================================
@@ -356,40 +349,6 @@ public class WebContentManagerImpl implements WebContentManager {
 		return reservationAlreadyAsked;
 	}
 	
-	@Override
-	public void setReservationVisibilityForOwnerToFalse(int reservationRequestId) {
-		reservationTopoDao.setReservationVisibilityForOwnerToFalse(reservationRequestId);
-	}
-	
-	@Override
-	public void setReservationVisibilityForRequesterToFalse(int reservationRequestId) {
-		reservationTopoDao.setReservationVisibilityForRequesterToFalse(reservationRequestId);
-		
-	}
-	
-	@Override
-	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
-		reservationTopoDao.updateReservationRequestStatusToAccepted(reservationRequestId);
-		// TODO refactor method name
-	}
-	
-	@Override
-	public void updateReservationRequestStatusToRefused(int reservationRequestId) {
-		reservationTopoDao.updateReservationRequestStatusToRefused(reservationRequestId);
-		// TODO refactor method name
-	}
-	
-	@Override
-	public void updateReservationRequestStatusToEnded(int reservationRequestId) {
-		reservationTopoDao.updateReservationRequestStatusToEnded(reservationRequestId);
-		// TODO refactor method name
-	}
-	
-	@Override
-	public void updateReservationRequestStatusToCancelled(int reservationRequestId) {
-		reservationTopoDao.updateReservationRequestStatusToCancelled(reservationRequestId);
-		// TODO refactor method name
-	}
 	
 	// ==================================================================================================================
 	//                                             Bean Model PossesseurTopo Methods

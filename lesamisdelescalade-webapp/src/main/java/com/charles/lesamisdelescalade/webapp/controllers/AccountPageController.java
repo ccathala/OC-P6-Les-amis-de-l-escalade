@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
+import com.charles.lesamisdelescalade.business.utils.bean.ReservationTopoManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.PossesseurTopo;
+import com.charles.lesamisdelescalade.model.beans.ReservationTopo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
 @Controller
@@ -23,6 +25,8 @@ public class AccountPageController {
 	private WebContentManager webContentManager;
 	@Autowired
 	private DepartementManager departementManager;
+	@Autowired
+	private ReservationTopoManager reservationTopoManager;
 
 	@RequestMapping(value = "/goToAccountPage", method = RequestMethod.GET)
 	public String goToAccountPage(Model model,
@@ -146,7 +150,7 @@ public class AccountPageController {
 		if (possesseurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.updateReservationRequestStatusToRefused(reservationRequestId);
+			reservationTopoManager.updateReservationRequestStatusToRefused(reservationRequestId);
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 	}
@@ -175,7 +179,7 @@ public class AccountPageController {
 		if (possesseurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.updateReservationRequestStatusToCancelled(reservationRequestId);
+			reservationTopoManager.updateReservationRequestStatusToCancelled(reservationRequestId);
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 	}
@@ -189,7 +193,7 @@ public class AccountPageController {
 		if (possesseurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.setReservationVisibilityForOwnerToFalse(reservationRequestId);
+			reservationTopoManager.setReservationVisibilityForOwnerToFalse(reservationRequestId);
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 	}
@@ -203,7 +207,7 @@ public class AccountPageController {
 		if (possesseurId != sessionUtilisateur.getId()) {
 			return "redirect:/";
 		} else {
-			webContentManager.setReservationVisibilityForRequesterToFalse(reservationRequestId);
+			reservationTopoManager.setReservationVisibilityForRequesterToFalse(reservationRequestId);
 			return "redirect:/accountPage/" + sessionUtilisateur.getId();
 		}
 	}
