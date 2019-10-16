@@ -60,7 +60,7 @@ public class AccountPageController {
 					webContentManager.findAllSentReservationRequestByUtilisateurId(sessionUtilisateur.getId()));
 			if (departementId != null) {
 				model.addAttribute("newPossesseurTopo", new PossesseurTopo());
-				model.addAttribute("topos", webContentManager.getDataForAccountPageDataBySiteId(departementId));
+				model.addAttribute("topos", webContentManager.getTopoListForAccountPageFilteredByDepartementId(departementId));
 			}
 
 			return "accountPage";

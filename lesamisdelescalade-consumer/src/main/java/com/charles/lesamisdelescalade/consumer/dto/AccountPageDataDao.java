@@ -6,6 +6,6 @@ import com.charles.lesamisdelescalade.model.dto.AccountPageData;
 
 public interface AccountPageDataDao {
 
-	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
+	List<AccountPageData> getTopoListForAccountPageFilteredByDepartementId(int departementId);
 
 }

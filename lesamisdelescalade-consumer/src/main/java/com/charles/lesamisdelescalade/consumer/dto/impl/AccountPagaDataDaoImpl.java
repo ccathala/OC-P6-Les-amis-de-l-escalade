@@ -17,10 +17,18 @@ public class AccountPagaDataDaoImpl implements AccountPageDataDao{
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId) {
+	public List<AccountPageData> getTopoListForAccountPageFilteredByDepartementId(int departementId) {
 		return jdbcTemplate.query(
-				"select topo.id as topo_id, topo.nom as topo_nom, site.nom as site_nom, topo.date_parution::date from topo inner join site on topo.site_id = site.id where site.departement_id = ?",
-				new Object[] { departementId }, new BeanPropertyRowMapper<AccountPageData>(AccountPageData.class));
+				"select "
+				+ "topo.id as topo_id, "
+				+ "topo.nom as topo_nom, "
+				+ "site.nom as site_nom, "
+				+ "topo.date_parution::date "
+				+ "from topo "
+				+ "inner join site on topo.site_id = site.id "
+				+ "where site.departement_id = ?",
+				new Object[] { departementId }, 
+				new BeanPropertyRowMapper<AccountPageData>(AccountPageData.class));
 		// TODO refactor name
 	}
 

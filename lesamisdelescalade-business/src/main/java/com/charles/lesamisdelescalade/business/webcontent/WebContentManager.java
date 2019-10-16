@@ -54,7 +54,7 @@ public interface WebContentManager {
 	SitePageData setSitePageData(int siteId);
 	
 	// DTO AccountPageData
-	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
+	List<AccountPageData> getTopoListForAccountPageFilteredByDepartementId(int departementId);
 	
 	// DTO MyTopo
 	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
