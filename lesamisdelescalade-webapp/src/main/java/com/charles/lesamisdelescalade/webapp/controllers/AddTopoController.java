@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -22,6 +24,8 @@ public class AddTopoController {
 
 	@Autowired
 	private WebContentManager webContentManager;
+	@Autowired
+	private SiteManager siteManager;
 
 	@RequestMapping(value = "/addTopo", method = RequestMethod.GET)
 	public String displayAddTopoPage(Model model,
@@ -48,7 +52,7 @@ public class AddTopoController {
 		}else {
 			redirectAttributes.addFlashAttribute("newTopo", new Topo());
 			redirectAttributes.addFlashAttribute("departementId", departementId);
-			redirectAttributes.addFlashAttribute("sites", webContentManager.findAllSiteByDepartement(departementId));
+			redirectAttributes.addFlashAttribute("sites", siteManager.findAllSiteByDepartement(departementId));
 			return "redirect:/addTopo";
 		}
 
@@ -65,7 +69,7 @@ public class AddTopoController {
 			}else {
 				int departementId = webContentManager.getDepartementIdBySiteId(newTopo.getSite_id());
 				model.addAttribute("departementId", departementId);
-				model.addAttribute("sites", webContentManager.findAllSiteByDepartement(departementId));
+				model.addAttribute("sites", siteManager.findAllSiteByDepartement(departementId));
 				model.addAttribute("siteId", newTopo.getSite_id());
 			}
 			model.addAttribute("departements", webContentManager.findAllDepartement());

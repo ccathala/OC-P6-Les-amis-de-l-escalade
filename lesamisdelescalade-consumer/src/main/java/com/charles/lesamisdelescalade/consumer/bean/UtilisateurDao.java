@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model;
+package com.charles.lesamisdelescalade.consumer.bean;
 
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;

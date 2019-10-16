@@ -27,7 +27,7 @@ public interface WebContentManager {
 	
 	public Boolean addSite(Site site);
 	
-	public List<Site> findAllSiteByDepartement(int departementId);
+//	public List<Site> findAllSiteByDepartement(int departementId);
 	
 	public Boolean addSecteur(Secteur secteur);
 	
@@ -39,7 +39,7 @@ public interface WebContentManager {
 	
 	public List<Departement> findAllDepartement();
 
-	int getSiteIdBySecteurId(int secteurId);
+//	int getSiteIdBySecteurId(int secteurId);
 
 	List<Voie> findAllVoieBySecteur(int secteurId);
 
@@ -51,17 +51,17 @@ public interface WebContentManager {
 
 	List<Longueur> findAllLongueurByVoie(int voieId);
 
-	void addOfficialTagOnSite(int siteId);
+//	void addOfficialTagOnSite(int siteId);
+//
+//	void deleteOfficialTagOnSite(int siteId);
 
-	void deleteOfficialTagOnSite(int siteId);
-
-	List<Site> findAllSite();
-
-	List<Site> findAllSiteByCotation(int cotationId);
-
-	List<Site> findAllSiteBySecteurCount(int secteurCount);
-
-	List<Integer> getSecteurCountBySite();
+//	List<Site> findAllSite();
+//
+//	List<Site> findAllSiteByCotation(int cotationId);
+//
+//	List<Site> findAllSiteBySecteurCount(int secteurCount);
+//
+//	List<Integer> getSecteurCountBySite();
 
 	List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom);
 

@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model;
+package com.charles.lesamisdelescalade.consumer.bean;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface SiteDao {
 
 	void addSite(Site site) throws DuplicateKeyException;
 
-	Site findSite(int siteId);
+	Site findSiteById(int siteId);
 
 	List<Site> findAllSiteByDepartement(int departementId);
 

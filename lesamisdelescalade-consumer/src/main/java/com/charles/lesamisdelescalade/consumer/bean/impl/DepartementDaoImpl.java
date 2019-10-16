@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
+import com.charles.lesamisdelescalade.consumer.bean.DepartementDao;
 import com.charles.lesamisdelescalade.model.beans.Departement;
 
 @Repository

@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 
 import java.util.List;
 
@@ -8,7 +8,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.charles.lesamisdelescalade.consumer.model.VoieDao;
+
+import com.charles.lesamisdelescalade.consumer.bean.VoieDao;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 
 @Repository

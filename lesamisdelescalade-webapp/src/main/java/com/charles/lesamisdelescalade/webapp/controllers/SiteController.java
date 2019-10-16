@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+
+import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -22,6 +24,8 @@ public class SiteController {
 
 	@Autowired
 	private WebContentManager webContentManager;
+	@Autowired
+	private SiteManager siteManager;
 
 	
 
@@ -55,7 +59,7 @@ public class SiteController {
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
 
-		webContentManager.addOfficialTagOnSite(siteId);
+		siteManager.addOfficialTagOnSite(siteId);
 		return "redirect:/site/" + siteId;
 	}
 
@@ -64,7 +68,7 @@ public class SiteController {
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
 
-		webContentManager.deleteOfficialTagOnSite(siteId);
+		siteManager.deleteOfficialTagOnSite(siteId);
 		return "redirect:/site/" + siteId;
 	}
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -23,6 +25,8 @@ public class AddLongueurController {
 	private WebContentManager webContentManager;
 	@Autowired
 	private AddWebContentFormUtil addWebContentFormUtil;
+	@Autowired
+	private SiteManager siteManager;
 
 	@RequestMapping(value = "/site/processChooseDepartementAddLongueur", method = RequestMethod.GET)
 	public String chooseDepartementLongueur(Model model,
@@ -97,7 +101,7 @@ public class AddLongueurController {
 			return "redirect:/";
 		} else {
 			int secteurId = webContentManager.getSecteurIdByVoieId(longueur.getVoie_id());
-			int siteId = webContentManager.getSiteIdBySecteurId(secteurId);
+			int siteId = siteManager.getSiteIdBySecteurId(secteurId);
 			int departementId = webContentManager.getDepartementIdBySiteId(siteId);
 			if (result.hasErrors()) {
 				model.addAllAttributes(addWebContentFormUtil.getAddLongueurAttributesWhenValidationErrors(longueur,

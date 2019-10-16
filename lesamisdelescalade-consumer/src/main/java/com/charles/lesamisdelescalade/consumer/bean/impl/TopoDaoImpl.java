@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -7,7 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.charles.lesamisdelescalade.consumer.model.TopoDao;
+
+import com.charles.lesamisdelescalade.consumer.bean.TopoDao;
 import com.charles.lesamisdelescalade.model.beans.Topo;
 import com.charles.lesamisdelescalade.model.dto.ListTopoPageData;
 

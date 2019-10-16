@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model;
+package com.charles.lesamisdelescalade.consumer.bean;
 
 import com.charles.lesamisdelescalade.model.beans.ReservationTopo;
 

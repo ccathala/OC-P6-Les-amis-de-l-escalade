@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
+import com.charles.lesamisdelescalade.consumer.bean.CommentaireDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 
 @Repository

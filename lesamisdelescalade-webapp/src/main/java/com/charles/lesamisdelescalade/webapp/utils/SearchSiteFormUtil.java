@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
@@ -15,6 +17,8 @@ public class SearchSiteFormUtil {
 	
 	@Autowired
 	private WebContentManager webContentManager;
+	@Autowired
+	private SiteManager siteManager;
 	
 	public HashMap<String, Object> getSearchSiteAttributes(Utilisateur sessionUtilisateur, SearchSiteData searchSiteData, List<Site> sites ){
 		HashMap<String, Object> attributes = new HashMap<String, Object>();
@@ -22,13 +26,13 @@ public class SearchSiteFormUtil {
 		attributes.put("departementId", searchSiteData.getDepartementId());
 		attributes.put("cotations", webContentManager.findAllCotation());
 		attributes.put("cotationId", searchSiteData.getCotationId());
-		attributes.put("secteurCountList", webContentManager.getSecteurCountBySite());
+		attributes.put("secteurCountList", siteManager.getSecteurCountBySite());
 		attributes.put("secteurCount", searchSiteData.getSecteurCount());
 		attributes.put("sessionUtilisateur", sessionUtilisateur);
 		attributes.put("nom", searchSiteData.getNom());
 		if(searchSiteData.getNom()==null && searchSiteData.getDepartementId()==0 && searchSiteData.getCotationId()==0 && searchSiteData.getSecteurCount()==0) {
 			attributes.put("searchSiteData", new SearchSiteData());
-			attributes.put("sites", webContentManager.findAllSite());
+			attributes.put("sites", siteManager.findAllSite());
 		}else {
 			attributes.put("searchSiteData", searchSiteData);
 			attributes.put("sites", sites);

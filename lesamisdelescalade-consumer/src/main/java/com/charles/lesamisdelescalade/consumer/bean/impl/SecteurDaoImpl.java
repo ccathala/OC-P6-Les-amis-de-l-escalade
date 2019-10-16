@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
+
+import com.charles.lesamisdelescalade.consumer.bean.SecteurDao;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 
 @Repository

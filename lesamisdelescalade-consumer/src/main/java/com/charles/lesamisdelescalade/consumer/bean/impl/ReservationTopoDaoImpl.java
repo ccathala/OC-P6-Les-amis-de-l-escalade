@@ -1,10 +1,11 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.charles.lesamisdelescalade.consumer.model.ReservationTopoDao;
+
+import com.charles.lesamisdelescalade.consumer.bean.ReservationTopoDao;
 import com.charles.lesamisdelescalade.model.beans.ReservationTopo;
 
 @Repository

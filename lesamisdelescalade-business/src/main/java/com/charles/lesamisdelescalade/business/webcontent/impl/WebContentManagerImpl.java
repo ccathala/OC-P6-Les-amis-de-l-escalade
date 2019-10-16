@@ -13,19 +13,19 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
+import com.charles.lesamisdelescalade.consumer.bean.CommentaireDao;
+import com.charles.lesamisdelescalade.consumer.bean.DepartementDao;
+import com.charles.lesamisdelescalade.consumer.bean.LongueurDao;
+import com.charles.lesamisdelescalade.consumer.bean.PossesseurTopoDao;
+import com.charles.lesamisdelescalade.consumer.bean.ReservationTopoDao;
+import com.charles.lesamisdelescalade.consumer.bean.SecteurDao;
+import com.charles.lesamisdelescalade.consumer.bean.SiteDao;
+import com.charles.lesamisdelescalade.consumer.bean.TopoDao;
+import com.charles.lesamisdelescalade.consumer.bean.UtilisateurDao;
+import com.charles.lesamisdelescalade.consumer.bean.VoieDao;
 import com.charles.lesamisdelescalade.consumer.dto.AccountPageDataDao;
 import com.charles.lesamisdelescalade.consumer.dto.MyTopoDao;
 import com.charles.lesamisdelescalade.consumer.dto.ReservationRequestDao;
-import com.charles.lesamisdelescalade.consumer.model.CommentaireDao;
-import com.charles.lesamisdelescalade.consumer.model.DepartementDao;
-import com.charles.lesamisdelescalade.consumer.model.LongueurDao;
-import com.charles.lesamisdelescalade.consumer.model.PossesseurTopoDao;
-import com.charles.lesamisdelescalade.consumer.model.ReservationTopoDao;
-import com.charles.lesamisdelescalade.consumer.model.SecteurDao;
-import com.charles.lesamisdelescalade.consumer.model.SiteDao;
-import com.charles.lesamisdelescalade.consumer.model.TopoDao;
-import com.charles.lesamisdelescalade.consumer.model.UtilisateurDao;
-import com.charles.lesamisdelescalade.consumer.model.VoieDao;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
 import com.charles.lesamisdelescalade.model.beans.Cotation;
 import com.charles.lesamisdelescalade.model.beans.Departement;
@@ -124,56 +124,48 @@ public class WebContentManagerImpl implements WebContentManager {
 	//                                             Bean Model Site Methods
 	// ==================================================================================================================
 
-	/**
-	 * Find site by id input
-	 * 
-	 * @param siteId
-	 * @return Site
-	 */
-	private Site findSiteById(int siteId) {
-		return siteDao.findSite(siteId);
-	}
+	
 	
 
-	@Override
-	public List<Site> findAllSiteByDepartement(int departementId) {
-		return siteDao.findAllSiteByDepartement(departementId);
-	}
-
-	@Override
-	public int getSiteIdBySecteurId(int secteurId) {
-		return siteDao.getSiteIdBySecteurId(secteurId);
-	}
-
-	@Override
-	public void addOfficialTagOnSite(int siteId) {
-		siteDao.addOfficialTagOnSite(siteId);
-	}
-
-	@Override
-	public void deleteOfficialTagOnSite(int siteId) {
-		siteDao.deleteOfficialTagOnSite(siteId);
-	}
-
-	@Override
-	public List<Site> findAllSite() {
-		return siteDao.findAllSite();
-	}
-
-	@Override
-	public List<Site> findAllSiteByCotation(int cotationId) {
-		return siteDao.findAllSiteByCotation(cotationId);
-	}
-
-	@Override
-	public List<Site> findAllSiteBySecteurCount(int secteurCount) {
-		return siteDao.findAllSiteBySecteurCount(secteurCount);
-	}
-
-	@Override
-	public List<Integer> getSecteurCountBySite() {
-		return siteDao.getSecteurCountBySite();
-	}
+//	@Override
+//	public List<Site> findAllSiteByDepartement(int departementId) {
+//		return siteDao.findAllSiteByDepartement(departementId);
+//	}
+//
+//	@Override
+//	public int getSiteIdBySecteurId(int secteurId) {
+//		return siteDao.getSiteIdBySecteurId(secteurId);
+//	}
+//
+//	@Override
+//	public void addOfficialTagOnSite(int siteId) {
+//		siteDao.addOfficialTagOnSite(siteId);
+//	}
+//
+//	@Override
+//	public void deleteOfficialTagOnSite(int siteId) {
+//		siteDao.deleteOfficialTagOnSite(siteId);
+//	}
+//
+//	@Override
+//	public List<Site> findAllSite() {
+//		return siteDao.findAllSite();
+//	}
+//
+//	@Override
+//	public List<Site> findAllSiteByCotation(int cotationId) {
+//		return siteDao.findAllSiteByCotation(cotationId);
+//	}
+//
+//	@Override
+//	public List<Site> findAllSiteBySecteurCount(int secteurCount) {
+//		return siteDao.findAllSiteBySecteurCount(secteurCount);
+//	}
+//
+//	@Override
+//	public List<Integer> getSecteurCountBySite() {
+//		return siteDao.getSecteurCountBySite();
+//	}
 
 	@Override
 	public List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom) {
@@ -606,7 +598,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public SitePageData setSitePageData(int siteId) {
 		SitePageData sitePageData = new SitePageData();
-		sitePageData.setSite(findSiteById(siteId));
+		sitePageData.setSite(siteDao.findSiteById(siteId));
 		sitePageData.setSecteurs(getAllSecteurBySite(siteId));
 		sitePageData.setVoies(findVoiesBySite(siteId));
 		sitePageData.setLongueurs(findLongueursBySite(siteId));

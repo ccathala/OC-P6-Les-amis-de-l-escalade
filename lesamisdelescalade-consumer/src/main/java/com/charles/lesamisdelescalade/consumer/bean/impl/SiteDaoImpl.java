@@ -1,4 +1,4 @@
-package com.charles.lesamisdelescalade.consumer.model.impl;
+package com.charles.lesamisdelescalade.consumer.bean.impl;
 
 import java.util.List;
 
@@ -8,7 +8,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.charles.lesamisdelescalade.consumer.model.SiteDao;
+
+import com.charles.lesamisdelescalade.consumer.bean.SiteDao;
 import com.charles.lesamisdelescalade.model.beans.Site;
 
 @Repository
@@ -26,7 +27,7 @@ public class SiteDaoImpl implements SiteDao {
 	}
 
 	@Override
-	public Site findSite(int siteId) {
+	public Site findSiteById(int siteId) {
 		Site site = (Site) jdbcTemplate.queryForObject("SELECT * FROM site where id = ?", new Object[] { siteId },
 				new BeanPropertyRowMapper<Site>(Site.class));
 		return site;

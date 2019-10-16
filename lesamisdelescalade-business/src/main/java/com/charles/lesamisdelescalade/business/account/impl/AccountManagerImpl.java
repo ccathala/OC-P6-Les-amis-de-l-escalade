@@ -8,29 +8,31 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.charles.lesamisdelescalade.business.account.AccountManager;
-import com.charles.lesamisdelescalade.consumer.model.UtilisateurDao;
+import com.charles.lesamisdelescalade.consumer.bean.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;
 
 @Service
 public class AccountManagerImpl implements AccountManager {
 	
-	/* Logger for LoginImpl class */
+	// Logger for LoginImpl class 
 	private static final Logger logger = LoggerFactory.getLogger(AccountManagerImpl.class);
 
-	/* Dependency injection Interface Utilisateur */
+	// Dependency injection Interface Utilisateur 
 	@Autowired
 	private UtilisateurDao utilisateurDao;
 
 	@Override
 	public String registerNewUser(UtilisateurDTO utilisateurRegister) {
+		
+		// TODO méthode trop longue à simplifier
 
-		/* Property declaration */
+		//Property declaration
 		boolean nameIsAlreadyUsed;
 		boolean emailIsAlreadyUsed;
 		boolean passwordIsWellConfirmed;
 		String messageError = "";
 
-		/* Test username, if exception is catch, input username is not already used */
+		// Test username, if exception is catch, input username is not already used 
 		try {
 			utilisateurDao.findByUsername(utilisateurRegister.getNom());
 			nameIsAlreadyUsed = true;
@@ -40,7 +42,7 @@ public class AccountManagerImpl implements AccountManager {
 			nameIsAlreadyUsed = false;
 		}
 
-		/* Test email, if exception is catch, input email is not already used */
+		// Test email, if exception is catch, input email is not already used 
 		try {
 			utilisateurDao.findByEmail(utilisateurRegister.getEmail());
 			emailIsAlreadyUsed = true;
@@ -50,31 +52,33 @@ public class AccountManagerImpl implements AccountManager {
 			emailIsAlreadyUsed = false;
 		}
 
-		/* Check correspondence between password and passwordConfirmation */
+		// Check correspondence between password and passwordConfirmation 
 		if (utilisateurRegister.getPassword().equals(utilisateurRegister.getConfirmPassword())) {
 
-			/* inputs match */
+			// inputs match 
 			passwordIsWellConfirmed = true;
 		} else {
 
-			/* inputs don't match */
+			// inputs don't match 
 			passwordIsWellConfirmed = false;
 			messageError = "Echec de l'inscription - Les mots de passe saisis ne sont pas identiques";
 			logger.info("Registration attempt failed - Password and confirm password don't match");
 		}
 
-		/* Check that all conditions for creating a new user are reached */
+		// Check that all conditions for creating a new user are reached 
 		if (!nameIsAlreadyUsed && !emailIsAlreadyUsed && passwordIsWellConfirmed) {
 
-			/* Conditions are reached */
+			// Conditions are reached 
 			utilisateurRegister.setPassword(BCrypt.hashpw(utilisateurRegister.getPassword(), BCrypt.gensalt()));
 			utilisateurDao.addUtilisateur(utilisateurRegister);
 			logger.info("Registration successful");
 
 		}
-		/* Return error message, can be empty */
+		// Return error message, can be empty 
 		return messageError;
 
 	}
+	
+	
 	
 }
