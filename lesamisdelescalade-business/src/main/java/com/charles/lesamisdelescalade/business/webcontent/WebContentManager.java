@@ -49,7 +49,7 @@ public interface WebContentManager {
 
 	List<Cotation> findAllCotation();
 
-	List<Longueur> findAllLongueurByVoie(int voieId);
+//	List<Longueur> findAllLongueurByVoie(int voieId);
 
 //	void addOfficialTagOnSite(int siteId);
 //

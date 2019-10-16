@@ -7,7 +7,7 @@ import com.charles.lesamisdelescalade.model.beans.Longueur;
 
 public interface LongueurDao {
 
-	List<Longueur> findLongueurBySite(int siteId);
+	List<Longueur> findAllLongueurBySite(int siteId);
 
 	Longueur findLongueurByNumeroAndVoie(int numero, int voieId);
 

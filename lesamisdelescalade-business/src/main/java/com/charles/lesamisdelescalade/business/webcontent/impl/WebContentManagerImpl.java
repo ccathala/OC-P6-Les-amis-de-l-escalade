@@ -185,8 +185,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	//                                             Bean Model Voie Methods
 	// ==================================================================================================================
 
-
-	
 	/**
 	 * Add new voie to database
 	 * 
@@ -222,15 +220,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	// ==================================================================================================================
 	//                                             Bean Model Longueur Methods
 	// ==================================================================================================================
-
-	public List<Longueur> findLongueursBySite(int siteId) {
-		return longueurDao.findLongueurBySite(siteId);
-	}
-
-	@Override
-	public List<Longueur> findAllLongueurByVoie(int voieId) {
-		return longueurDao.findAllLongueurByVoie(voieId);
-	}
 	
 	/**
 	 * Add new longueur to database
@@ -525,12 +514,12 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public SitePageData setSitePageData(int siteId) {
+		// TODO amélioration
 		SitePageData sitePageData = new SitePageData();
 		sitePageData.setSite(siteDao.findSiteById(siteId));
 		sitePageData.setSecteurs(secteurManager.getAllSecteurBySite(siteId));
 		sitePageData.setVoies(voieDao.findAllVoieBySite(siteId));
-		sitePageData.setLongueurs(findLongueursBySite(siteId));
-
+		sitePageData.setLongueurs(longueurDao.findAllLongueurBySite(siteId));
 		for (Secteur secteur : sitePageData.getSecteurs()) {
 			secteur.setVoiesCount(voieDao.getVoieCountBySecteur(secteur.getId()));
 			try {

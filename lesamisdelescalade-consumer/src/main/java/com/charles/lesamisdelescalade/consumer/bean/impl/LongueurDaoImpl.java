@@ -18,7 +18,7 @@ public class LongueurDaoImpl implements LongueurDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<Longueur> findLongueurBySite(int siteId) {
+	public List<Longueur> findAllLongueurBySite(int siteId) {
 		return jdbcTemplate.query(
 				"select longueur.id, longueur.numero, longueur.cotation_id, longueur.voie_id, cotation from cotation inner join longueur on cotation.id = longueur.cotation_id inner join voie on voie.id = longueur.voie_id inner join secteur on secteur.id = voie.secteur_id where secteur.site_id=?",
 				new Object[] { siteId }, new BeanPropertyRowMapper<Longueur>(Longueur.class));

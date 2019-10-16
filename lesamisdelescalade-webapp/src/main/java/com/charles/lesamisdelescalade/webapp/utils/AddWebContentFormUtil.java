@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
+import com.charles.lesamisdelescalade.business.utils.bean.LongueurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SecteurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.utils.bean.VoieManager;
@@ -26,6 +27,8 @@ public class AddWebContentFormUtil {
 	private SecteurManager secteurManager;
 	@Autowired
 	private VoieManager voieManager;
+	@Autowired
+	private LongueurManager longueurManager;
 
 	public HashMap<String, Object> getAddWebContentAttributes(Utilisateur sessionUtilisateur) {
 		HashMap<String, Object> attributes = new HashMap<String, Object>();
@@ -343,7 +346,7 @@ public class AddWebContentFormUtil {
 			attributes.put("secteurs", secteurManager.getAllSecteurBySite(siteId));
 			attributes.put("secteurIdLongueur", secteurId);
 			attributes.put("voies", voieManager.findAllVoieBySecteur(secteurId));
-			attributes.put("longueurs", webContentManager.findAllLongueurByVoie(voieId));
+			attributes.put("longueurs", longueurManager.findAllLongueurByVoie(voieId));
 			attributes.put("voieIdLongueur", voieId);
 		}
 
