@@ -23,96 +23,63 @@ import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 public interface WebContentManager {
 	
-	public SitePageData setSitePageData(int siteId);
-	
-	public Boolean addSite(Site site);
-	
-//	public List<Site> findAllSiteByDepartement(int departementId);
-	
-	public Boolean addSecteur(Secteur secteur);
-	
-//	public List<Secteur> getAllSecteurBySite(int siteId);
-	
-	public String addVoie (Voie voie);
-	
-//	public int getDepartementIdBySiteId(int siteId);
-	
-//	public List<Departement> findAllDepartement();
-
-//	int getSiteIdBySecteurId(int secteurId);
-
-//	List<Voie> findAllVoieBySecteur(int secteurId);
-
-	Boolean addLongueur(Longueur longueur);
-
-//	int getSecteurIdByVoieId(int voieId);
-
-//	List<Cotation> findAllCotation();
-
-//	List<Longueur> findAllLongueurByVoie(int voieId);
-
-//	void addOfficialTagOnSite(int siteId);
-//
-//	void deleteOfficialTagOnSite(int siteId);
-
-//	List<Site> findAllSite();
-//
-//	List<Site> findAllSiteByCotation(int cotationId);
-//
-//	List<Site> findAllSiteBySecteurCount(int secteurCount);
-//
-//	List<Integer> getSecteurCountBySite();
-
+	// Site methods
+	Boolean addSite(Site site);
 	List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom);
-
-//	List<Commentaire> findAllCommentaireBySite(int siteId);
-
-	HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName();
-
-//	void addCommentaire(Commentaire commentaire);
-
-	void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur);
-
-//	void updateCommentaireStatus(int commentaireId);
-
-	Boolean addTopo(Topo topo);
-
-	List<ListTopoPageData> findAllTopoAndExtendedData();
-
-	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
 	
-	List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList);
-
-	Boolean addReservation(ReservationTopo reservationTopo);
-
-	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
-
+	// Secteur methods
+	Boolean addSecteur(Secteur secteur);
+	
+	// Voie methods
+	String addVoie (Voie voie);
+	
+	// Longueur methods
+	Boolean addLongueur(Longueur longueur);
+	
+	// Commentaire methods
+	void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur);
+	
+	// PossesseurTopo
 	Boolean addPossesseurTopo(PossesseurTopo possesseurTopo);
-
+	
+	// ReservationTopo methods
+	Boolean addReservation(ReservationTopo reservationTopo);
+	
+	// Topo methods 
+	Boolean addTopo(Topo topo);
+	List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId);
+	List<ListTopoPageData> findAllTopoAndExtendedData();
+	
+	// DTO SitePageData methods
+	SitePageData setSitePageData(int siteId);
+	
+	// DTO AccountPageData
+	List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId);
+	
+	// DTO MyTopo
 	List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId);
-
-//	void setTopoAvailability(PossesseurTopo possesseurTopo);
-//
-//	void deleteOwnedTopo(int topoId, int utilisateurId);
-
+	
+	// DTO ReservationRequest
 	List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId);
-
-//	void updateReservationRequestStatusToAccepted(int reservationRequestId);
-//
-//	void updateReservationRequestStatusToRefused(int reservationRequestId);
-//
-//	void updateReservationRequestStatusToEnded(int reservationRequestId);
-//
-//	void updateReservationRequestStatusToCancelled(int reservationRequestId);
-
-//	void setReservationVisibilityForOwnerToFalse(int reservationRequestId);
-//
-//	void setReservationVisibilityForRequesterToFalse(int reservationRequestId);
-
 	List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId);
 
+	
+	// WebContent methods	
+	HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName();
+	List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList);
 	void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo);
-
 	void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo);
+		
+
+	
+
+	
+
+	
+
+	
+
+	
+	
 
 }

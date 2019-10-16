@@ -89,27 +89,89 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	
 	// ==================================================================================================================
-	//                                               Account Page Data
+	//                                               WebContent Methods
 	// ==================================================================================================================
 		
-		@Override
-		public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
-			possesseurTopo.setDisponible(false);
-			possesseurTopo.setShared(true);
-			reservationTopoDao.updateReservationRequestStatusToAccepted(reservationId);
-			possesseurTopoDao.setTopoAvailability(possesseurTopo);
-			possesseurTopoDao.setTopoSharedState(possesseurTopo);
-			
-		}
+	@Override
+	public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
+		possesseurTopo.setDisponible(false);
+		possesseurTopo.setShared(true);
+		reservationTopoDao.updateReservationRequestStatusToAccepted(reservationId);
+		possesseurTopoDao.setTopoAvailability(possesseurTopo);
+		possesseurTopoDao.setTopoSharedState(possesseurTopo);
 		
-		@Override
-		public void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
-			possesseurTopo.setDisponible(true);
-			possesseurTopo.setShared(false);
-			reservationTopoDao.updateReservationRequestStatusToEnded(reservationId);
-			possesseurTopoDao.setTopoAvailability(possesseurTopo);
-			possesseurTopoDao.setTopoSharedState(possesseurTopo);
+	}
+	
+	@Override
+	public void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
+		possesseurTopo.setDisponible(true);
+		possesseurTopo.setShared(false);
+		reservationTopoDao.updateReservationRequestStatusToEnded(reservationId);
+		possesseurTopoDao.setTopoAvailability(possesseurTopo);
+		possesseurTopoDao.setTopoSharedState(possesseurTopo);
+	}
+	
+	/**
+	 * 
+	 * @param departementId
+	 * @param cotationId
+	 * @param secteurCount
+	 * @return
+	 */
+	private CriteresSql createSqlRequestToFindAllSiteByMultiCritere(int departementId, int cotationId,
+			int secteurCount) {
+		String sql = "";
+		ArrayList<Integer> criteres = new ArrayList<Integer>();
+		if (departementId > 0) {
+			sql = "select * from site where departement_id=? ";
+			criteres.add(departementId);
 		}
+		if (cotationId > 0) {
+			if (!sql.isEmpty()) {
+				sql = sql + "intersect ";
+			}
+			sql = sql
+					+ "select distinct site.* from site inner join secteur on site.id = secteur.site_id inner join voie on secteur.id=voie.secteur_id inner join longueur on voie.id = longueur.voie_id where longueur.cotation_id = ? ";
+			criteres.add(cotationId);
+		}
+		if (secteurCount > 0) {
+			if (!sql.isEmpty()) {
+				sql = sql + "intersect ";
+			}
+			sql = sql
+					+ "select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?";
+			criteres.add(secteurCount);
+		}
+		Object[] criteresSql = criteres.toArray();
+		return new CriteresSql(sql, criteresSql);
+
+	}
+	
+	/**
+	 * 
+	 * @param utilisateurs
+	 * @return
+	 */
+	private HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs){
+		HashMap<Integer, String> map= new HashMap<Integer, String>();
+		for (Utilisateur u: utilisateurs) map.put(u.getId(), u.getNom());
+		return map;
+		
+	}
+	
+	
+	@Override
+	public List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList){
+		List<Integer> avalaibleTopoIdList = new ArrayList<Integer>();
+		for(ListTopoPageData avalaibleTopo : avalaibleTopoAndExtendedDataList) avalaibleTopoIdList.add(avalaibleTopo.getTopo_id());
+		return avalaibleTopoIdList;
+		
+	}
+	
+	private String convertDateToString(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		return simpleDateFormat.format(date);		
+	}
 
 	
 	// ==================================================================================================================
@@ -257,12 +319,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	}
 
 	// ==================================================================================================================
-	//                                             Bean Model Departement Methods
-	// ==================================================================================================================
-	
-
-	
-	// ==================================================================================================================
 	//                                             Bean Model Commentaire Methods
 	// ==================================================================================================================
 
@@ -275,8 +331,6 @@ public class WebContentManagerImpl implements WebContentManager {
 		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
 		commentaireDao.updateCommentaire(commentaire, utilisateur.getId());
 	}
-	
-
 	
 	// ==================================================================================================================
 	//                                             Bean Model Utilisateur Methods
@@ -340,7 +394,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	public Boolean addReservation(ReservationTopo reservationTopo ) {
 		Boolean reservationAlreadyAsked;
 		try {
-			reservationTopoDao.findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
+			reservationTopoDao.findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(
+					reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
 			reservationAlreadyAsked = true;
 		} catch (EmptyResultDataAccessException e) {
 			reservationAlreadyAsked = false;
@@ -351,7 +406,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	
 	// ==================================================================================================================
-	//                                             Bean Model PossesseurTopo Methods
+	//                                             Bean PossesseurTopo Methods
 	// ==================================================================================================================
 	
 	@Override
@@ -368,12 +423,10 @@ public class WebContentManagerImpl implements WebContentManager {
 		
 		
 	}
-	
-	
-	
-	/* ========================================================================== */
-	/* AccountPageData DTO methods */
-	/* ========================================================================== */
+		
+	// ==================================================================================================================
+	//                                             DTO AccountPageData Methods
+	// ==================================================================================================================
 	
 	@Override
 	public List<AccountPageData> getDataForAccountPageDataBySiteId(int departementId){
@@ -384,9 +437,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return accountPageDataList;
 	}
 	
-	/* ========================================================================== */
-	/* MyTopo DTO methods */
-	/* ========================================================================== */
+	// ==================================================================================================================
+	//                                             DTO MyTopo Methods
+	// ==================================================================================================================
 	
 	@Override
 	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId){
@@ -397,10 +450,10 @@ public class WebContentManagerImpl implements WebContentManager {
 		return myTopoList;
 	}
 	
-	/* ========================================================================== */
-	/* ReservationRequest DTO methods */
-	/* ========================================================================== */
-	
+	// ==================================================================================================================
+	//                                             DTO ReservationRequest Methods
+	// ==================================================================================================================
+		
 	@Override
 	public List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId){
 		List<ReservationRequest> reservationRequestList = reservationRequestDao.findAllReceivedReservationRequestByUtilisateurId(utilisateurId);
@@ -421,13 +474,10 @@ public class WebContentManagerImpl implements WebContentManager {
 	
 	
 	
-	
-	
-	/* ========================================================================== */
-	/* Utils methods */
-	/* ========================================================================== */
-
-	
+	// ==================================================================================================================
+	//                                             DTO SitePageData Methods
+	// ==================================================================================================================
+		
 	/**
 	 * Set bean SitePageData with site, secteur, voie and longueur data according to
 	 * the choosen site
@@ -457,67 +507,9 @@ public class WebContentManagerImpl implements WebContentManager {
 		return sitePageData;
 	}
 	
-	/**
-	 * 
-	 * @param departementId
-	 * @param cotationId
-	 * @param secteurCount
-	 * @return
-	 */
-	private CriteresSql createSqlRequestToFindAllSiteByMultiCritere(int departementId, int cotationId,
-			int secteurCount) {
-		String sql = "";
-		ArrayList<Integer> criteres = new ArrayList<Integer>();
-		if (departementId > 0) {
-			sql = "select * from site where departement_id=? ";
-			criteres.add(departementId);
-		}
-		if (cotationId > 0) {
-			if (!sql.isEmpty()) {
-				sql = sql + "intersect ";
-			}
-			sql = sql
-					+ "select distinct site.* from site inner join secteur on site.id = secteur.site_id inner join voie on secteur.id=voie.secteur_id inner join longueur on voie.id = longueur.voie_id where longueur.cotation_id = ? ";
-			criteres.add(cotationId);
-		}
-		if (secteurCount > 0) {
-			if (!sql.isEmpty()) {
-				sql = sql + "intersect ";
-			}
-			sql = sql
-					+ "select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?";
-			criteres.add(secteurCount);
-		}
-		Object[] criteresSql = criteres.toArray();
-		return new CriteresSql(sql, criteresSql);
-
-	}
-	
-	/**
-	 * 
-	 * @param utilisateurs
-	 * @return
-	 */
-	private HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs){
-		HashMap<Integer, String> map= new HashMap<Integer, String>();
-		for (Utilisateur u: utilisateurs) map.put(u.getId(), u.getNom());
-		return map;
-		
-	}
 	
 	
-	@Override
-	public List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList){
-		List<Integer> avalaibleTopoIdList = new ArrayList<Integer>();
-		for(ListTopoPageData avalaibleTopo : avalaibleTopoAndExtendedDataList) avalaibleTopoIdList.add(avalaibleTopo.getTopo_id());
-		return avalaibleTopoIdList;
-		
-	}
 	
-	private String convertDateToString(Date date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		return simpleDateFormat.format(date);		
-	}
 	
 	
 
