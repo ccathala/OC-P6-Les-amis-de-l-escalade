@@ -65,15 +65,15 @@ public interface WebContentManager {
 
 	List<Site> findAllSiteByMultiCritere(int departementId, int cotationId, int secteurCount, String nom);
 
-	List<Commentaire> findAllCommentaireBySite(int siteId);
+//	List<Commentaire> findAllCommentaireBySite(int siteId);
 
 	HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName();
 
-	void addCommentaire(Commentaire commentaire);
+//	void addCommentaire(Commentaire commentaire);
 
 	void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur);
 
-	void updateCommentaireStatus(int commentaireId);
+//	void updateCommentaireStatus(int commentaireId);
 
 	Boolean addTopo(Topo topo);
 

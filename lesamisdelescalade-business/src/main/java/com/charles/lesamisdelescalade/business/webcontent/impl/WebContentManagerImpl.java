@@ -266,10 +266,7 @@ public class WebContentManagerImpl implements WebContentManager {
 	//                                             Bean Model Commentaire Methods
 	// ==================================================================================================================
 	
-	@Override
-	public List<Commentaire> findAllCommentaireBySite(int siteId){
-		return commentaireDao.findAllCommentaireBySite(siteId);
-	}
+	
 	
 	@Override 
 	public void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur) {
@@ -282,15 +279,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		
 	}
 	
-	@Override
-	public void updateCommentaireStatus(int commentaireId) {
-		commentaireDao.updateCommentaireStatus(commentaireId);
-	}
-	
-	@Override
-	public void addCommentaire(Commentaire commentaire) {
-		commentaireDao.addCommentaire(commentaire);
-	}
+
 	
 	// ==================================================================================================================
 	//                                             Bean Model Utilisateur Methods

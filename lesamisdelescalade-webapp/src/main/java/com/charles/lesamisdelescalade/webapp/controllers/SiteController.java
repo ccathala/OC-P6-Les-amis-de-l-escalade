@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.charles.lesamisdelescalade.business.utils.bean.CommentaireManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
@@ -26,6 +27,8 @@ public class SiteController {
 	private WebContentManager webContentManager;
 	@Autowired
 	private SiteManager siteManager;
+	@Autowired
+	private CommentaireManager commentaireManager;
 
 	
 
@@ -48,7 +51,7 @@ public class SiteController {
 		model.addAttribute("voies", sitePageData.getVoies());
 		model.addAttribute("longueurs", sitePageData.getLongueurs());
 		model.addAttribute("sessionUtilisateur", sessionUtilisateur);
-		model.addAttribute("commentaires", webContentManager.findAllCommentaireBySite(siteId));
+		model.addAttribute("commentaires", commentaireManager.findAllCommentaireBySite(siteId));
 		model.addAttribute("commentaire", new Commentaire());
 		model.addAttribute("utilisateurs", webContentManager.getHashMapAllUtilisateurOnlyIdAndName());
 		return "site";
@@ -77,7 +80,7 @@ public class SiteController {
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@ModelAttribute(value = "commentaire") Commentaire commentaire) {
 
-		webContentManager.addCommentaire(commentaire);
+		commentaireManager.addCommentaire(commentaire);
 		return "redirect:/site/" + commentaire.getSite_id();
 	}
 	
@@ -98,7 +101,7 @@ public class SiteController {
 			@PathVariable(value="commentaireId") int commentaireId
 			){
 
-		webContentManager.updateCommentaireStatus(commentaireId);
+		commentaireManager.updateCommentaireStatus(commentaireId);
 		return "redirect:/site/" + siteId;
 	}
 
