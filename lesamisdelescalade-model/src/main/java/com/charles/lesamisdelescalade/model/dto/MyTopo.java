@@ -2,6 +2,12 @@ package com.charles.lesamisdelescalade.model.dto;
 
 import java.util.Date;
 
+/**
+ * DTO MyTopo, contains all data needed to display all owned topo in my account page
+ * 
+ * @author Charles
+ *
+ */
 public class MyTopo {
 	
 	private int topo_id;

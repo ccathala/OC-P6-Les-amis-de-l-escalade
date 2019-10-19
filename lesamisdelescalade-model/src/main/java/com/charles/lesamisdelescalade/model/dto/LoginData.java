@@ -2,6 +2,12 @@ package com.charles.lesamisdelescalade.model.dto;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
+/**
+ * DTO LoginData, used to return the result of a login attempt
+ * 
+ * @author Charles
+ *
+ */
 public class LoginData {
 	
 	private Utilisateur utilisateur;

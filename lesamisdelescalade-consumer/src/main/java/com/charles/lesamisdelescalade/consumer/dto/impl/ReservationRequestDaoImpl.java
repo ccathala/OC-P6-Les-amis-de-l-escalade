@@ -38,8 +38,9 @@ public class ReservationRequestDaoImpl implements ReservationRequestDao {
 				+ "inner join status_demande_reservation on reservation_topo.status_id = status_demande_reservation.id "
 				+ "inner join possesseur_topo on reservation_topo.reservation_topo_id = possesseur_topo.topo_id "
 				+ "where reservation_topo.possesseur_id = ? "
-				+ "and visible_for_owner = ?", 
-				new Object[] {utilisateurId, true}, 
+				+ "and visible_for_owner = ?"
+				+ "and possesseur_topo.utilisateur_id != ?", 
+				new Object[] {utilisateurId, true, utilisateurId }, 
 				new BeanPropertyRowMapper<ReservationRequest>(ReservationRequest.class));
 	}
 	

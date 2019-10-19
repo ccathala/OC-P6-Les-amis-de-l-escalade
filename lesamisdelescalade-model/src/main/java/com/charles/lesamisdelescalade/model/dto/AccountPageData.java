@@ -7,6 +7,12 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * DTO AccountPageData, contains all data needed to display account page
+ * 
+ * @author Charles
+ *
+ */
 public class AccountPageData {
 	
 	private int topo_id;

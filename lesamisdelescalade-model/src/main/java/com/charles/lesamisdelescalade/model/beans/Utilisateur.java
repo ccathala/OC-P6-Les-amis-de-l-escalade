@@ -4,6 +4,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+/**
+ * Bean Utilisateur
+ * 
+ * @author Charles
+ *
+ */
 public class Utilisateur {
 	
 	private int id;

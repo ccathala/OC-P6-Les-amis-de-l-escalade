@@ -331,7 +331,7 @@ public class AddWebContentFormUtil {
 		attributes.put("cotations", longueurManager.findAllLongueurCotation());
 		attributes.put("collapseClassLongueur", "show");
 		attributes.put("collapseAriaLongueur", true);
-		attributes.put("sessionUtilisateur", sessionUtilisateur);
+		//attributes.put("sessionUtilisateur", sessionUtilisateur);
 		return attributes;
 	}
 

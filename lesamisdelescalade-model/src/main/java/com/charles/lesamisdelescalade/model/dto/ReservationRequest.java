@@ -2,6 +2,12 @@ package com.charles.lesamisdelescalade.model.dto;
 
 import java.util.Date;
 
+/**
+ * DTO ReservationRequest, contains all data needed to display received or sent reservation request
+ * 
+ * @author Charles
+ *
+ */
 public class ReservationRequest {
 	
 	private int reservation_id;

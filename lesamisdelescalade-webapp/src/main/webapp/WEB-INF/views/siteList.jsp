@@ -15,16 +15,20 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
+
 
 	<div class="container">
+
+		<jsp:include page="header.jsp"></jsp:include>
+
 		<h1>Rechercher un site</h1>
-		<form:form action="searchSite" method="POST" modelAttribute="searchSiteData">
+		<form:form action="searchSite" method="POST"
+			modelAttribute="searchSiteData">
 
 			<div class="form-group">
 				<h3>Rechercher par nom:</h3>
 				<form:input path="nom" cssClass="form-control"
-			placeholder="Entrer le nom du site" />
+					placeholder="Entrer le nom du site" />
 			</div>
 
 
@@ -33,9 +37,12 @@
 			<div class="form-group">
 				<label>Rechercher par département:</label>
 				<form:select path="departementId">
-					<option value="0" <c:if test="${empty departementId }">selected</c:if> >Sélectionner le département</option>
+					<option value="0"
+						<c:if test="${empty departementId }">selected</c:if>>Sélectionner
+						le département</option>
 					<c:forEach items="${departements }" var="departement">
-						<option value="${departement.id }" <c:if test="${departementId == departement.id  }">selected</c:if> >${departement.code }-
+						<option value="${departement.id }"
+							<c:if test="${departementId == departement.id  }">selected</c:if>>${departement.code }-
 							${departement.nom }</option>
 					</c:forEach>
 				</form:select>
@@ -44,24 +51,28 @@
 			<div class="form-group">
 				<label>Rechercher par cotation:</label>
 				<form:select path="cotationId">
-					<option value="0" <c:if test="${empty cotationId }">selected</c:if>>Sélectionner la cotation</option>
+					<option value="0" <c:if test="${empty cotationId }">selected</c:if>>Sélectionner
+						la cotation</option>
 					<c:forEach items="${cotations }" var="cotation">
-						<option value=${cotation.id } <c:if test="${cotationId == cotation.id  }">selected</c:if>>${cotation.cotation }</option>
+						<option value=${cotation.id }
+							<c:if test="${cotationId == cotation.id  }">selected</c:if>>${cotation.cotation }</option>
 					</c:forEach>
 				</form:select>
 			</div>
 
 			<div class="form-group">
-			<label>Rechercher par nombre de secteurs:</label>
-			<form:select path="secteurCount">
-				<option value="0" <c:if test="${empty secteurCount }">selected</c:if>>Sélectionner le nombre de
-					secteurs</option>
-				<c:forEach items="${secteurCountList }" var="count">
-					<option value="${count}" <c:if test="${secteurCount == count  }">selected</c:if>>${count}</option>
-				</c:forEach>
-			</form:select>
+				<label>Rechercher par nombre de secteurs:</label>
+				<form:select path="secteurCount">
+					<option value="0"
+						<c:if test="${empty secteurCount }">selected</c:if>>Sélectionner
+						le nombre de secteurs</option>
+					<c:forEach items="${secteurCountList }" var="count">
+						<option value="${count}"
+							<c:if test="${secteurCount == count  }">selected</c:if>>${count}</option>
+					</c:forEach>
+				</form:select>
 			</div>
-			
+
 			<hr>
 			<!-- Search Site button -->
 			<div class="form-group">
@@ -71,9 +82,9 @@
 				</div>
 			</div>
 		</form:form>
-		
+
 		<c:if test="${empty sites  }">
-		<h2>Aucun site ne correspond aux critères saisis.</h2>
+			<h2>Aucun site ne correspond aux critères saisis.</h2>
 		</c:if>
 
 		<c:forEach items="${sites }" var="site">
@@ -101,7 +112,22 @@
 			</div>
 		</c:forEach>
 
+		<jsp:include page="footer.jsp"></jsp:include>
 
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/60efee8a0b.js"
+		crossorigin="anonymous"></script>
 </body>
 </html>

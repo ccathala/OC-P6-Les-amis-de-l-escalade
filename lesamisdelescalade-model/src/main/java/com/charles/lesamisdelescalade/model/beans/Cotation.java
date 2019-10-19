@@ -1,5 +1,11 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+/**
+ * Bean Cotation
+ * 
+ * @author Charles
+ *
+ */
 public class Cotation {
 	
 	int id;

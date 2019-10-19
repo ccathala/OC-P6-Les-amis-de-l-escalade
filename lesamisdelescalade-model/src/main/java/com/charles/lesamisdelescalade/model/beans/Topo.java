@@ -10,6 +10,12 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * Bean Topo
+ * 
+ * @author Charles
+ *
+ */
 public class Topo {
 
 	private int id;

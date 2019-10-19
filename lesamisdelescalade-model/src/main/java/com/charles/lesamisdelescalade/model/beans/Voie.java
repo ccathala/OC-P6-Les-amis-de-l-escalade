@@ -5,6 +5,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+/**
+ * Bean Voie
+ * 
+ * @author Charles
+ *
+ */
 public class Voie {
 	
 	private int id;

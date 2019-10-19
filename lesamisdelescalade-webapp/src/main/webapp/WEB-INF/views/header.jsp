@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <header>
-	<div class="container">
+<!-- 	<div class="container"> -->
 		<div class="row" id="banniere">
 			<img
 				src="${pageContext.request.contextPath}/resources/pictures/banniere_1110.jpg"
@@ -20,19 +20,26 @@
 								href="<c:url value="/site/ajouter"/>">Ajouter Spot</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="<c:url value="/addTopo"/>">Ajouter un Topo</a></li>
-							<li class="nav-item"><a class="nav-link" href="<c:url value="/topoList"/>">Liste
-								des topos</a></li>
-							
+							<li class="nav-item"><a class="nav-link"
+								href="<c:url value="/topoList"/>">Liste des topos</a></li>
 
-							</ul>
+
+						</ul>
 						<c:choose>
-							<c:when test="${empty sessionUtilisateur.email }">
+							<c:when test="${empty sessionUtilisateur.nom  }">
 								<a class="btn btn-info" href="<c:url value="/login"/>"
 									role="button">Se connecter</a>
 								<a class="btn btn-info" href="<c:url value="/registration"/>"
 									role="button">S'inscrire</a>
 							</c:when>
-							<c:when test="${!empty sessionUtilisateur.email }">
+							<c:when test="${!empty sessionUtilisateur.nom }">
+								<div class=col-auto>
+									<p class="text-white mb-0">
+										Bienvenue
+										<c:out value="${sessionUtilisateur.nom }"></c:out>
+									</p>
+								</div>
+
 								<a class="btn btn-info"
 									href="<c:url value="/goToAccountPage"></c:url>" role="button">Mon
 									Compte</a>
@@ -44,5 +51,5 @@
 				</nav>
 			</div>
 		</div>
-	</div>
+<!-- 	</div> -->
 </header>

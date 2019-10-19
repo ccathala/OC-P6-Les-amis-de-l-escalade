@@ -96,7 +96,7 @@
 						</h2>
 					</div>
 					<div class="col">
-						<c:if test="${sessionUtilisateur.role_id == 2 }">
+						<c:if test="${sessionUtilisateur.role_id == 1 }">
 							<c:if test="${site.tag_id == 1 }">
 								<a class="btn btn-success"
 									href="<c:url value="/addTag/${site.id }"></c:url>">Taguer
@@ -217,7 +217,7 @@
 							</p>
 						</div>
 					</div>
-					<c:if test="${sessionUtilisateur.role_id == 2 }">
+					<c:if test="${sessionUtilisateur.role_id == 1 }">
 						<div class="row justify-content-end mb-1">
 							<c:if test="${commentaire.status_id != 3 }">
 							<div class="col-auto p-0 ">
@@ -290,7 +290,7 @@
 										1);
 								$("#updateCommentaireForm").attr(
 										"action",
-										"processUpdateCommentaire_"
+										"processUpdateCommentaire/"
 												+ comment_id);
 							});
 					$(".boutonSupprimer").click(

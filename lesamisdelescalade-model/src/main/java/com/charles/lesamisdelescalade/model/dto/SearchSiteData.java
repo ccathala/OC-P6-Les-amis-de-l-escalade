@@ -1,5 +1,11 @@
 package com.charles.lesamisdelescalade.model.dto;
 
+/**
+ * DTO SearchSiteData, contains all data needed to display search site page
+ * 
+ * @author Charles
+ *
+ */
 public class SearchSiteData {
 
 	private String nom;

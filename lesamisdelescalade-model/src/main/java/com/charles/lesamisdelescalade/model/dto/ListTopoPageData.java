@@ -2,6 +2,12 @@ package com.charles.lesamisdelescalade.model.dto;
 
 import java.util.Date;
 
+/**
+ * DTO ListTopoPage, contains all data needed to display topo list on topo list page
+ * 
+ * @author Charles
+ *
+ */
 public class ListTopoPageData {
 
 	private int code_postal;

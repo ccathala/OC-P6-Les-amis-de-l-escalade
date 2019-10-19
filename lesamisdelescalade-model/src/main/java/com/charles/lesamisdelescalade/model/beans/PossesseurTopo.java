@@ -1,5 +1,11 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+/**
+ * Bean PossesseurTopo
+ * 
+ * @author Charles
+ *
+ */
 public class PossesseurTopo {
 	
 	private int topo_id;

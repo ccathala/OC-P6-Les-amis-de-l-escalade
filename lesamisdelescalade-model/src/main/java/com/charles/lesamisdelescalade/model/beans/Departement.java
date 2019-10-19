@@ -1,5 +1,11 @@
 package com.charles.lesamisdelescalade.model.beans;
 
+/**
+ * Bean Departement
+ * 
+ * @author Charles
+ *
+ */
 public class Departement {
 	
 	private int id;

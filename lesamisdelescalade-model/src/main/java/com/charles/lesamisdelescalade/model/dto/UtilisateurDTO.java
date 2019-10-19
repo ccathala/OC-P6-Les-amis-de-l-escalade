@@ -5,11 +5,15 @@ import javax.validation.constraints.Size;
 
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 
+/**
+ * DTO UtilisateurDTO
+ * 
+ * @author Charles
+ *
+ */
 public class UtilisateurDTO extends Utilisateur{
 	
-	
 	private String authStatus;
-	
 	@NotEmpty
 	@Size(min=6, message="doit contenir au minimun 6 caractères")
 	private String confirmPassword;

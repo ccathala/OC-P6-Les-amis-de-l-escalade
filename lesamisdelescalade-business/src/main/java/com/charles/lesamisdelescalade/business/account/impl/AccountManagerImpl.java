@@ -11,16 +11,28 @@ import com.charles.lesamisdelescalade.business.account.AccountManager;
 import com.charles.lesamisdelescalade.consumer.bean.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;
 
+/**
+ * Implementation methods in relation with registration functions
+ * 
+ * @author Charles
+ *
+ */
 @Service
 public class AccountManagerImpl implements AccountManager {
 	
-	// Logger for LoginImpl class 
+	// Set logger 
 	private static final Logger logger = LoggerFactory.getLogger(AccountManagerImpl.class);
 
-	// Dependency injection Interface Utilisateur 
+	// Dependency injection  
 	@Autowired
 	private UtilisateurDao utilisateurDao;
 
+	/**
+	 * Check if email and username are already used before to add new user in database
+	 * 
+	 * @param utilisateurRegister
+	 * @return
+	 */
 	@Override
 	public String registerNewUser(UtilisateurDTO utilisateurRegister) {
 		
@@ -31,13 +43,15 @@ public class AccountManagerImpl implements AccountManager {
 		boolean emailIsAlreadyUsed;
 		boolean passwordIsWellConfirmed;
 		String messageError = "";
+		
+		logger.info("Tentative d'inscription");
 
 		// Test username, if exception is catch, input username is not already used 
 		try {
 			utilisateurDao.findByUsername(utilisateurRegister.getNom());
 			nameIsAlreadyUsed = true;
 			messageError = "Echec de l'inscription - Le nom saisi est déja utilisé";
-			logger.info("Registration attempt failed - Username already exist");
+			logger.debug("Echec de l'inscription - Le nom saisi est déja utilisé");
 		} catch (EmptyResultDataAccessException e) {
 			nameIsAlreadyUsed = false;
 		}
@@ -47,7 +61,7 @@ public class AccountManagerImpl implements AccountManager {
 			utilisateurDao.findByEmail(utilisateurRegister.getEmail());
 			emailIsAlreadyUsed = true;
 			messageError = "Echec de l'inscription - L'adresse email saisie est déja utilisée";
-			logger.info("Registration attempt failed - Email address already exist");
+			logger.debug("Echec de l'inscription - L'adresse email saisie est déja utilisée");
 		} catch (EmptyResultDataAccessException e) {
 			emailIsAlreadyUsed = false;
 		}
@@ -62,7 +76,7 @@ public class AccountManagerImpl implements AccountManager {
 			// inputs don't match 
 			passwordIsWellConfirmed = false;
 			messageError = "Echec de l'inscription - Les mots de passe saisis ne sont pas identiques";
-			logger.info("Registration attempt failed - Password and confirm password don't match");
+			logger.debug("Echec de l'inscription - Les mots de passe saisis ne sont pas identiques");
 		}
 
 		// Check that all conditions for creating a new user are reached 
@@ -71,7 +85,7 @@ public class AccountManagerImpl implements AccountManager {
 			// Conditions are reached 
 			utilisateurRegister.setPassword(BCrypt.hashpw(utilisateurRegister.getPassword(), BCrypt.gensalt()));
 			utilisateurDao.addUtilisateur(utilisateurRegister);
-			logger.info("Registration successful");
+			logger.debug("Succès de l'inscription");
 
 		}
 		// Return error message, can be empty 

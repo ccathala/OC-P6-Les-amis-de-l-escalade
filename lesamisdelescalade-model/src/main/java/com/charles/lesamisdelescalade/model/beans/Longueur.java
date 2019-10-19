@@ -3,6 +3,12 @@ package com.charles.lesamisdelescalade.model.beans;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+/**
+ * Bean Longueur
+ * 
+ * @author Charles
+ *
+ */
 public class Longueur {
 	
 	private int id;

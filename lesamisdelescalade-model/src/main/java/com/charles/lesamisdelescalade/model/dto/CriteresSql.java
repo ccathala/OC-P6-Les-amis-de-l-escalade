@@ -2,6 +2,12 @@ package com.charles.lesamisdelescalade.model.dto;
 
 import java.util.Arrays;
 
+/**
+ * DTO CriteresSql, contains data used as preparedStatement for multi-criteria site search 
+ * 
+ * @author Charles
+ *
+ */
 public class CriteresSql {
 
 	private String sql;

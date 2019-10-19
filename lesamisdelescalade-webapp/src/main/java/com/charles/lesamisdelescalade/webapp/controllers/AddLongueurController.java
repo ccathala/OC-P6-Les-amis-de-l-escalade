@@ -1,6 +1,9 @@
 package com.charles.lesamisdelescalade.webapp.controllers;
 
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SecteurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
@@ -20,6 +22,12 @@ import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.webapp.utils.AddWebContentFormUtil;
 
+/**
+ * Handle add Longueur content request
+ * 
+ * @author Charles
+ *
+ */
 @Controller
 public class AddLongueurController {
 
@@ -33,16 +41,30 @@ public class AddLongueurController {
 	private SecteurManager secteurManager;
 	@Autowired
 	private DepartementManager departementManager;
-
+	
+	// Set logger
+	private static final Logger logger = LoggerFactory.getLogger(AddLongueurController.class);
+	
+	/**
+	 * Record departement and return addWebContent page
+	 * 
+	 * @param model
+	 * @param departementId
+	 * @param utilisateurSession
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = "/site/processChooseDepartementAddLongueur", method = RequestMethod.GET)
 	public String chooseDepartementLongueur(Model model,
 			@RequestParam(value = "departementIdLongueur") int departementId,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
 			RedirectAttributes redirectAttributes) {
-
+		
+		logger.info("Requête d'accès à l'url /site/processChooseDepartementAddLongueur");
 		if (utilisateurSession == null) {
 			redirectAttributes.addFlashAttribute("messageError",
 					"Vous devez être connecté pour acceder à la page demandée.");
+			logger.warn("Utilisateur non connecté - Accès refusé");
 			return "redirect:/";
 		} else {
 			model.addAllAttributes(addWebContentFormUtil.getAddLongueurAttributesWhenDepartementIsSet(departementId, utilisateurSession));
@@ -50,11 +72,21 @@ public class AddLongueurController {
 		}
 	}
 
+	/**
+	 * Record site and return addWebContent page
+	 * 
+	 * @param model
+	 * @param siteId
+	 * @param utilisateurSession
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = "/site/processChooseSiteAddLongueur", method = RequestMethod.GET)
 	public String chooseSiteLongueur(Model model, @RequestParam(value = "siteIdLongueur") int siteId,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
 			RedirectAttributes redirectAttributes) {
-
+		
+		logger.info("Requête d'accès à l'url /site/processChooseSiteAddLongueur");
 		if (utilisateurSession == null) {
 			redirectAttributes.addFlashAttribute("messageError",
 					"Vous devez être connecté pour acceder à la page demandée.");
@@ -65,11 +97,21 @@ public class AddLongueurController {
 		}
 	}
 
+	/**
+	 * Record secteur and return addWebContent page
+	 * 
+	 * @param model
+	 * @param secteurId
+	 * @param utilisateurSession
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = "/site/processChooseSecteurAddLongueur", method = RequestMethod.GET)
 	public String chooseSecteurLongueur(Model model, @RequestParam(value = "secteurIdLongueur") int secteurId,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
 			RedirectAttributes redirectAttributes) {
 
+		logger.info("Requête d'accès à l'url /site/processChooseSecteurAddLongueur");
 		if (utilisateurSession == null) {
 			redirectAttributes.addFlashAttribute("messageError",
 					"Vous devez être connecté pour acceder à la page demandée.");
@@ -80,11 +122,21 @@ public class AddLongueurController {
 		}
 	}
 
+	/**
+	 * Record voie and return addWebContent page
+	 * 
+	 * @param model
+	 * @param voieId
+	 * @param utilisateurSession
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = "/site/processChooseVoieAddLongueur", method = RequestMethod.GET)
 	public String chooseVoieLongueur(Model model, @RequestParam(value = "voieIdLongueur") int voieId,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
 			RedirectAttributes redirectAttributes) {
 
+		logger.info("Requête d'accès à l'url /site/processChooseVoieAddLongueur");
 		if (utilisateurSession == null) {
 			redirectAttributes.addFlashAttribute("messageError",
 					"Vous devez être connecté pour acceder à la page demandée.");
@@ -95,12 +147,23 @@ public class AddLongueurController {
 		}
 	}
 
+	/**
+	 * Handle add longueur request
+	 * 
+	 * @param model
+	 * @param longueur
+	 * @param result
+	 * @param utilisateurSession
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = "/site/processAddLongueur", method = RequestMethod.POST)
 	public String addLongueur(Model model, @Valid @ModelAttribute(value = "longueur") Longueur longueur,
 			BindingResult result,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur utilisateurSession,
 			RedirectAttributes redirectAttributes) {
 
+		logger.info("Requête d'accès à l'url /site/processAddLongueur");
 		if (utilisateurSession == null) {
 			redirectAttributes.addFlashAttribute("messageError",
 					"Vous devez être connecté pour acceder à la page demandée.");

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,12 @@ import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.SearchSiteData;
 import com.charles.lesamisdelescalade.webapp.utils.SearchSiteFormUtil;
 
+/**
+ * Controller class in relation with siteList jsp
+ * 
+ * @author Charles
+ *
+ */
 @Controller
 public class SiteListController {
 
@@ -30,27 +38,51 @@ public class SiteListController {
 	@Autowired
 	private SearchSiteFormUtil searchSiteFormUtil;
 	
+	// Set logger
+	private static final Logger logger = LoggerFactory.getLogger(SiteListController.class);
+	
 	@ModelAttribute("sites")
 	public List<Site> setSites() {
 		return new ArrayList<Site>();
 	}
 
+	/**
+	 * Display siteList page
+	 * 
+	 * @param model
+	 * @param sessionUtilisateur
+	 * @param searchSiteData
+	 * @param sites
+	 * @return
+	 */
 	@RequestMapping(value = "/siteList", method = RequestMethod.GET)
 	public String siteList(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@ModelAttribute(value = "searchSiteData") SearchSiteData searchSiteData,
 			@ModelAttribute(value="sites") List<Site> sites) {
-
+		
+		logger.info("Requête d'accès à l'url /siteList");
 		model.addAllAttributes(searchSiteFormUtil.getSearchSiteAttributes(sessionUtilisateur, searchSiteData, sites));
 		return "siteList";
 	}
 
+	/**
+	 * Process site search by name or by multi criteria and display site list page
+	 * 
+	 * @param model
+	 * @param sessionUtilisateur
+	 * @param searchSiteData
+	 * @param redirectAttributes
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/searchSite", method = RequestMethod.POST)
 	public String searchSite(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@Valid @ModelAttribute(value = "searchSiteData") SearchSiteData searchSiteData,
 			RedirectAttributes redirectAttributes, BindingResult result) {
-
+		
+		logger.info("Requête d'accès à l'url /searchSite");
 		if (result.hasErrors()) {
 			return "redirect:/siteList";
 		} else {

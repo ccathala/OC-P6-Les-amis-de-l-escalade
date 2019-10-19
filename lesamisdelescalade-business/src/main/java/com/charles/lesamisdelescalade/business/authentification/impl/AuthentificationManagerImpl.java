@@ -11,37 +11,52 @@ import com.charles.lesamisdelescalade.consumer.bean.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.LoginData;
 
+/**
+ * Implementation methods in relation with login functions
+ * 
+ * @author Charles
+ *
+ */
 @Service
 public class AuthentificationManagerImpl implements AuthentificationManager {
 
 	@Autowired
 	private UtilisateurDao utilisateurDao;
 
-	// Logger for LoginManagerImpl class 
+	// Set logger 
 	private static final Logger logger = LoggerFactory.getLogger(AuthentificationManagerImpl.class);
 	
-	// TODO javadocs
-
-	public void addUtilisateur(Utilisateur utilisateur) {
-		utilisateurDao.addUtilisateur(utilisateur);
-	}
-
+	
+	/**
+	 * Login method, look for input email in database, check password correspondence is email is found
+	 * 
+	 * @param utilisateur
+	 * @return
+	 */
+	@Override
 	public LoginData login(Utilisateur utilisateur) {
+		
+		logger.info("Tentative de connexion");
 
 		LoginData loginData = new LoginData();
 		// Search email corresponding user 
 		try {
 			Utilisateur utilisateurFromDatabase = utilisateurDao.findByEmail(utilisateur.getEmail());
 			if (passwordIsCorresponding(utilisateur, utilisateurFromDatabase)) {
-				// Password match 
+				// Password match
 				loginData.setUtilisateur(utilisateurFromDatabase);
 				loginData.setLoginResult("success");
+				logger.debug("Connexion avec succès de l'utilisateur ID: " + loginData.getUtilisateur().getId() + ".");
+				
 			} else {
 				// Password doesn't match 
+				logger.debug("Echec de connexion - Mot de passe incorrect");
 				loginData.setUtilisateur(null);
 				loginData.setLoginResult("wrong password");
 			}
 		} catch (EmptyResultDataAccessException e) {
+			// no email correspondence
+			logger.debug("Echec de connexion - L'adresse saisie n'existe pas");
 			loginData.setUtilisateur(null);
 			loginData.setLoginResult("wrong email");
 		}
@@ -49,21 +64,18 @@ public class AuthentificationManagerImpl implements AuthentificationManager {
 	}
 
 	//Verify password correspondence
-	public boolean passwordIsCorresponding(Utilisateur utilisateurSession, Utilisateur utilisateurFromDatabase) {
+	/**
+	 * Check password correspondence between input bean utilisateur and from database bean utilisateur 
+	 * 
+	 * @param utilisateurSession
+	 * @param utilisateurFromDatabase
+	 * @return
+	 */
+	private boolean passwordIsCorresponding(Utilisateur utilisateurSession, Utilisateur utilisateurFromDatabase) {
 
 		if (BCrypt.checkpw(utilisateurSession.getPassword(), utilisateurFromDatabase.getPassword())) {
-			// Password is correct 
-
-			// Display connection success log 
-			logger.debug("Connexion de l'utilisateur ID: " + utilisateurSession.getId() + ".");
-
 			return true;
 		} else {
-			// Password is not correct 
-
-			// Display connection failed log 
-			logger.debug("Echec de connexion - Mot de passe incorrect");
-
 			return false;
 		}
 

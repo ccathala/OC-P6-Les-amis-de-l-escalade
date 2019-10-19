@@ -4,6 +4,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Bean Secteur
+ * 
+ * @author Charles
+ *
+ */
 public class Secteur {
 	
 	private int id;

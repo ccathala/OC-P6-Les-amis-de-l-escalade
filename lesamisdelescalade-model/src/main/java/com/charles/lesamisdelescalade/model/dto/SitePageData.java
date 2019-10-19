@@ -7,6 +7,12 @@ import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 
+/**
+ * DTO SitePageData, contains all data needed to display site page
+ * 
+ * @author Charles
+ *
+ */
 public class SitePageData {
 	
 	private List<Secteur> secteurs;

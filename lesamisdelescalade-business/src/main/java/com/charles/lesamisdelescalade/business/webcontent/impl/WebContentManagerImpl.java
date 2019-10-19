@@ -48,12 +48,13 @@ import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
 /**
  * Implement methods used to add, update and display web content
+ * 
  * @author Charles
  *
  */
 @Service
 public class WebContentManagerImpl implements WebContentManager {
-	
+
 	@Autowired
 	private SiteDao siteDao;
 	@Autowired
@@ -80,61 +81,68 @@ public class WebContentManagerImpl implements WebContentManager {
 	private ReservationRequestDao reservationRequestDao;
 	@Autowired
 	private SecteurManager secteurManager;
-	
-	
-	/* Logger for LoginManagerImpl class */
+
+	// Set logger
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
-	
-	
+
 	// ==================================================================================================================
-	//                                               WebContent Methods
+	// WebContent Methods
 	// ==================================================================================================================
-	
+
 	/**
-	 * Set reservation status to accepted,
-	 * set topo not available,
-	 * set topo state to shared
+	 * Set reservation status to accepted, set topo not available, set topo state to
+	 * shared
 	 * 
-	 * @param int 
-	 * @param PossesseurTopo 
+	 * @param int
+	 * @param PossesseurTopo
 	 */
 	@Override
-	public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
-		
+	public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo) {
+
+		logger.info("Réservation: changement de status --> accepté  | reservation id: " + reservationId);
 		// Set attributes
 		possesseurTopo.setDisponible(false);
 		possesseurTopo.setShared(true);
 		// Update reservation status to accepted
 		reservationTopoDao.updateReservationRequestStatusToAccepted(reservationId);
+		logger.debug("Mise à jour du status de la réservation --> Accepté");
 		// Set topo not available
 		possesseurTopoDao.setTopoAvailability(possesseurTopo);
+		logger.debug("Mise à jour de la disponibilité du topo --> Non disponible ");
 		// Set topo state to shared
 		possesseurTopoDao.setTopoSharedState(possesseurTopo);
-		
+		logger.debug("Mise à jour du status du topo --> En cours de prêt ");
+		logger.info("Terminé - Status: en attente --> accepté");
+
 	}
-	
+
 	/**
-	 * Set reservation status to over,
-	 * set topo  available,
-	 * set topo state to not shared
+	 * Set reservation status to over, set topo available, set topo state to not
+	 * shared
 	 * 
-	 * @param int 
-	 * @param PossesseurTopo 
+	 * @param int
+	 * @param PossesseurTopo
 	 */
 	@Override
-	public void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo ) {
-		
+	public void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo) {
+
+		logger.info("Réservation: changement de status --> terminé | reservation id: " + reservationId);
 		// Set attributes
 		possesseurTopo.setDisponible(true);
 		possesseurTopo.setShared(false);
 		// Update reservation status to over
 		reservationTopoDao.updateReservationRequestStatusToEnded(reservationId);
-		// Set topo  available
+		logger.debug("Mise à jour du status de la réservation --> Terminée");
+		// Set topo available
 		possesseurTopoDao.setTopoAvailability(possesseurTopo);
+		logger.debug("Mise à jour de la disponibilité du topo --> Disponible ");
 		// Set topo state to not shared
 		possesseurTopoDao.setTopoSharedState(possesseurTopo);
+		logger.debug("Mise à jour du status du topo --> Pas en prêt ");
+		logger.info("Terminé - Status: accepté --> Terminé");
+
 	}
-	
+
 	/**
 	 * Create SQL request according to criteria inputs
 	 * 
@@ -145,15 +153,17 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	private CriteresSql createSqlRequestToFindAllSiteByMultiCritere(int departementId, int cotationId,
 			int secteurCount) {
-		
+
+		logger.info("Recherche mutli critères: génération de la requête");
 		// Set attributes
 		String sql = "";
 		ArrayList<Integer> criteres = new ArrayList<Integer>();
-		
+
 		// Add this sql request if there is a departement input
 		if (departementId > 0) {
 			sql = "select * from site where departement_id=? ";
 			criteres.add(departementId);
+			logger.debug("Ajout du segment recherche par département");
 		}
 		// Add this sql request if there is a cotation input
 		if (cotationId > 0) {
@@ -163,6 +173,7 @@ public class WebContentManagerImpl implements WebContentManager {
 			sql = sql
 					+ "select distinct site.* from site inner join secteur on site.id = secteur.site_id inner join voie on secteur.id=voie.secteur_id inner join longueur on voie.id = longueur.voie_id where longueur.cotation_id = ? ";
 			criteres.add(cotationId);
+			logger.debug("Ajout du segment recherche par cotation");
 		}
 		// Add this sql request if there is a secteur count input
 		if (secteurCount > 0) {
@@ -172,64 +183,68 @@ public class WebContentManagerImpl implements WebContentManager {
 			sql = sql
 					+ "select site.* from site inner join secteur on site.id = secteur.site_id group by site.id having count(secteur.id)=?";
 			criteres.add(secteurCount);
+			logger.debug("Ajout du segment recherche par nombre de secteur");
+			logger.info("Terminé");
 		}
 		// Concat List into one column array
 		Object[] criteresSql = criteres.toArray();
-		
+
 		return new CriteresSql(sql, criteresSql);
 
 	}
-	
+
 	/**
 	 * Convert list of user into HashMap
 	 * 
-	 * @param List<Utilisateur> 
+	 * @param List<Utilisateur>
 	 * @return HashMap<Integer, String>
 	 */
-	private HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs){
-		HashMap<Integer, String> map= new HashMap<Integer, String>();
-		for (Utilisateur u: utilisateurs) map.put(u.getId(), u.getNom());
+	private HashMap<Integer, String> convertUtilisateurListToHashMap(List<Utilisateur> utilisateurs) {
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		for (Utilisateur u : utilisateurs)
+			map.put(u.getId(), u.getNom());
 		return map;
-		
+
 	}
-	
+
 	/**
 	 * Extract list of available topo id from available topo list
 	 * 
-	 * @param List<ListTopoPageData> 
-	 * @return List<Integer> 
+	 * @param List<ListTopoPageData>
+	 * @return List<Integer>
 	 */
 	@Override
-	public List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList){
+	public List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList) {
 		List<Integer> avalaibleTopoIdList = new ArrayList<Integer>();
-		for(ListTopoPageData avalaibleTopo : avalaibleTopoAndExtendedDataList) avalaibleTopoIdList.add(avalaibleTopo.getTopo_id());
+		for (ListTopoPageData avalaibleTopo : avalaibleTopoAndExtendedDataList)
+			avalaibleTopoIdList.add(avalaibleTopo.getTopo_id());
 		return avalaibleTopoIdList;
-		
+
 	}
-	
+
 	/**
 	 * Convert Date to String
 	 * 
-	 * @param Date 
-	 * @return String 
+	 * @param Date
+	 * @return String
 	 */
 	private String convertDateToString(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		return simpleDateFormat.format(date);		
+		return simpleDateFormat.format(date);
 	}
 
-	
 	// ==================================================================================================================
-	//                                             Bean Model Site Methods
+	// Bean Model Site Methods
 	// ==================================================================================================================
 
 	/**
-	 * Find all site according to multi criteria inputs or by name, search by name has priority
+	 * Find all site according to multi criteria inputs or by name, search by name
+	 * has priority
 	 * 
-	 * @param int 
-	 * @param int 
-	 * @param int 
-	 * @param String 
+	 * @param int
+	 * @param int
+	 * @param int
+	 * @param String
 	 * 
 	 */
 	@Override
@@ -237,22 +252,26 @@ public class WebContentManagerImpl implements WebContentManager {
 
 		// Check inputs presence
 		if (departementId > 0 || cotationId > 0 || secteurCount > 0 || !nom.isEmpty()) {
-			
+
 			if (!nom.isEmpty()) {
 				// Prior if name input do search by name
-				return siteDao.findAllSiteByName("%"+nom+"%");
+				logger.info("Recherche de site par nom: saisie = " + nom);
+				return siteDao.findAllSiteByName("%" + nom + "%");
 			} else {
 				// Do research by multi criteria
+				logger.info("Recherche de site par multi critère | departementId = " + departementId + ", cotationId = "
+						+ cotationId + ", nombre de secteur = " + secteurCount);
 				CriteresSql criteresSql = createSqlRequestToFindAllSiteByMultiCritere(departementId, cotationId,
 						secteurCount);
 				return siteDao.findAllSiteByMultiCritere(criteresSql.getCriteresSql(), criteresSql.getSql());
 			}
 		} else {
 			// No input return all sites
+			logger.info("Recherche de site | champs vides");
 			return siteDao.findAllSite();
 		}
 	}
-	
+
 	/**
 	 * Add new site to database
 	 * 
@@ -261,29 +280,29 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public Boolean addSite(Site site) {
-		
-		logger.info("Add site attempt");
-		
+
+		logger.info("Ajout d'un site | nom: " + site.getNom() + " departement id: " + site.getDepartement_id());
+
 		// Set attributes
 		Boolean siteAddedWithSuccess;
-				
+
 		try {
 			siteDao.addSite(site);
 			// if input site name doesn't exist
 			siteAddedWithSuccess = true;
-			logger.debug("Site added with success - site id: " + site.getId() + " - site name: " + site.getNom());
-		}catch (DuplicateKeyException e) { 
+		} catch (DuplicateKeyException e) {
 			// if input site name already exist
 			siteAddedWithSuccess = false;
-			logger.warn("Site add failed - Cause: site name already exist");
+			logger.warn("Echec de l'ajout du site - Cause: Le nom du site est déjà utilisé");
+
 		}
 		return siteAddedWithSuccess;
 	}
 
 	// ==================================================================================================================
-	//                                             Bean Model Secteur Methods
+	// Bean Model Secteur Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Add new secteur
 	 * 
@@ -292,26 +311,25 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public Boolean addSecteur(Secteur secteur) {
-		
-		logger.info("Add secteur attempt");
-		
+
+		logger.info("Ajout d'un secteur | nom: " + secteur.getNom() + " site id: " + secteur.getSite_id());
+
 		// Set Attributes
 		Boolean secteurAddedWithSuccess;
-		
+
 		try {
 			secteurDao.addSecteur(secteur);
 			// if input secteur name doesn't exist
 			secteurAddedWithSuccess = true;
-			logger.debug("Secteur added with success - secteur id: " + secteur.getId() + " - secteur name: "
-					+ secteur.getNom());
 		} catch (DuplicateKeyException e) {
 			// if input secteur name already exist
 			secteurAddedWithSuccess = false;
-			logger.warn("Secteur add failed - Cause: secteur name already exist");
+			logger.warn("Echec de l'ajout du secteur - Cause: Le nom du secteur est déjà utilisé");
+
 		}
 		return secteurAddedWithSuccess;
 	}
-	
+
 	/**
 	 * Get secteur min cotation
 	 * 
@@ -319,22 +337,30 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @return String
 	 */
 	public String getMinCotation(int secteurId) {
-		return voieDao.getSecteurMinCotation(secteurId);
+
+		String cotationMin = voieDao.getSecteurMinCotation(secteurId);
+		logger.info("Recherche de la cotation mini - secteur id : " + secteurId);
+		return cotationMin;
+
 		// TODO refactor
 	}
 
 	/**
 	 * Get secteur max cotation
+	 * 
 	 * @param int
 	 * @return
 	 */
 	public String getMaxCotation(int secteurId) {
-		return voieDao.getSecteurMaxCotation(secteurId);
+
+		String cotationMax = voieDao.getSecteurMaxCotation(secteurId);
+		logger.info("Recherche de la cotation maxi - secteur id : " + secteurId);
+		return cotationMax;
 		// TODO refactor
 	}
 
 	// ==================================================================================================================
-	//                                             Bean Model Voie Methods
+	// Bean Model Voie Methods
 	// ==================================================================================================================
 
 	/**
@@ -345,18 +371,18 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public String addVoie(Voie voie) {
-		
-		logger.info("Add voie attempt");
-		
+
+		logger.info("Ajout d'une voie | numero : " + voie.getNumero() + " nom: " + voie.getNom() + " secteur id: "
+				+ voie.getSecteur_id());
+
 		// Set attributes
 		String causeError = "";
-		
-		
+
 		try {
 			voieDao.findVoieByNumeroAndSecteur(voie.getNumero(), voie.getSecteur_id());
 			// if input number already exist
 			causeError = "numero";
-			logger.debug("Voie add failed - Cause: voie numero already exist");
+			logger.warn("Echec de l'ajout d'une voie - Cause: Le numéro de la voie est déjà utilisé");
 		} catch (EmptyResultDataAccessException e) {
 
 		}
@@ -364,23 +390,22 @@ public class WebContentManagerImpl implements WebContentManager {
 			voieDao.findVoieByNomAndSecteur(voie.getNom(), voie.getSecteur_id());
 			// if input name already exist
 			causeError = "nom";
-			logger.debug("Voie add failed - Cause: voie name already exist");
+			logger.warn("Echec de l'ajout d'une voie - Cause: Le nom de la voie est déjà utilisé");
 		} catch (EmptyResultDataAccessException e) {
 
 		}
 		if (causeError.equals("")) {
 			// No input error
 			voieDao.addVoie(voie);
-			logger.debug("Voie added with success - voie id: " + voie.getId() + " - voie numero: " + voie.getNumero()
-					+ " - voie name: " + voie.getNom());
 		}
+
 		return causeError;
 	}
 
 	// ==================================================================================================================
-	//                                             Bean Model Longueur Methods
+	// Bean Model Longueur Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Add new longueur in database
 	 * 
@@ -389,29 +414,29 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public Boolean addLongueur(Longueur longueur) {
-		
-		logger.info("Add longueur attempt");
-		
+
+		logger.info("Ajout d'une longueur | numero: " + longueur.getNumero() + " cotation id: "
+				+ longueur.getCotation_id());
+
 		// Set attributes
 		Boolean NumeroIsAlreadyUsed;
-		
+
 		try {
 			longueurDao.findLongueurByNumeroAndVoie(longueur.getNumero(), longueur.getVoie_id());
-			// if input number already exist 
+			// if input number already exist
 			NumeroIsAlreadyUsed = true;
-			logger.debug("Longueur add failed - Cause: voie numero already exist");
-					
+			logger.warn("Echec de l'ajout d'une longueur - Cause: Le numéro de la voie est déjà utilisé");
+
 		} catch (EmptyResultDataAccessException e) {
 			// No input error
 			longueurDao.addLongeur(longueur);
 			NumeroIsAlreadyUsed = false;
-			logger.debug("Longueur added with success - longueur id: " + longueur.getId() + " - longueur numero: " + longueur.getNumero());
 		}
 		return NumeroIsAlreadyUsed;
 	}
 
 	// ==================================================================================================================
-	//                                             Bean Model Commentaire Methods
+	// Bean Model Commentaire Methods
 	// ==================================================================================================================
 
 	/**
@@ -421,34 +446,37 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @param utilisateur
 	 * @return
 	 */
-	@Override 
+	@Override
 	public void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur) {
+		logger.info("Modification de commentaire | commentaire id:" + commentaire.getId() + " - utilisateur id: "
+				+ utilisateur.getId());
 		Date dNow = new Date();
-	      SimpleDateFormat ft = 
-	      new SimpleDateFormat ("yyyy.MM.dd 'à' hh:mm:ss");
-		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + "."  ;
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'à' hh:mm:ss");
+		String enteteCommentaire = "Commentaire modifié par " + utilisateur.getNom() + " le " + ft.format(dNow) + ".";
 		commentaire.setTexte(commentaire.getTexte() + "<br/>" + enteteCommentaire);
 		commentaireDao.updateCommentaire(commentaire, utilisateur.getId());
+
 	}
-	
+
 	// ==================================================================================================================
-	//                                             Bean Model Utilisateur Methods
+	// Bean Model Utilisateur Methods
 	// ==================================================================================================================
-		
+
 	/**
-	 * Convert All user list into HashMap which only user id as key and name as content
+	 * Convert All user list into HashMap which only user id as key and name as
+	 * content
 	 * 
-	 *  @return
+	 * @return
 	 */
 	@Override
-	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName(){
+	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName() {
 		return convertUtilisateurListToHashMap(utilisateurDao.findAllUtilisateurOnlyIdAndName());
 	}
-	
+
 	// ==================================================================================================================
-	//                                             Bean Model Topo Methods
+	// Bean Model Topo Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Add new Topo in database
 	 * 
@@ -457,71 +485,75 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public Boolean addTopo(Topo topo) {
-		
+
+		logger.info("Ajout de topo | nom " + topo.getNom() + " site id: " + topo.getSite_id() + " "
+				+ topo.getDate_parution());
 		// Set attributes
 		Boolean topoAlreadyExist;
-		
+
 		try {
 			topoDao.findTopoBySiteIdAndAnneeParution(topo.getSite_id(), topo.getDate_parution());
 			// if topo already exist
 			topoAlreadyExist = true;
-		}catch (EmptyResultDataAccessException e) {
+			logger.warn("Echec de l'ajout du topo - Cause : Le topo existe déjà");
+		} catch (EmptyResultDataAccessException e) {
 			// if no input error
 			topoDao.addTopo(topo);
 			topoAlreadyExist = false;
 		}
 		return topoAlreadyExist;
 	}
-	
+
 	/**
 	 * Get all topo list with extended data needed for account page
 	 * 
 	 * @return
 	 */
 	@Override
-	public List<ListTopoPageData> findAllTopoAndExtendedData(){
-		
+	public List<ListTopoPageData> findAllTopoAndExtendedData() {
+
 		// Set attributes
 		List<ListTopoPageData> topoList = topoDao.findAllTopoAndExtendedData();
-		
-		for(ListTopoPageData listTopoPageData: topoList) {
+
+		for (ListTopoPageData listTopoPageData : topoList) {
 			// convert each date to string
 			listTopoPageData.setDateParution(convertDateToString(listTopoPageData.getDate_parution()));
 		}
 		return topoList;
 	}
-	
+
 	/**
-	 *  Get all available topo list with extended data except topo owned by user,
-	 *  needed for account page
-	 *  
-	 *  @param utilisateurId
-	 *  @return
+	 * Get all available topo list with extended data except topo owned by user,
+	 * needed for account page
+	 * 
+	 * @param utilisateurId
+	 * @return
 	 */
 	@Override
-	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId){
-		
+	public List<ListTopoPageData> findAllAvailableTopoAndExtendedData(int utilisateurId) {
+
 		// Set attributes
-		List<ListTopoPageData> availableTopoAndExtendedDataList = topoDao.findAllAvailableTopoAndExtendedData(utilisateurId);
+		List<ListTopoPageData> availableTopoAndExtendedDataList = topoDao
+				.findAllAvailableTopoAndExtendedData(utilisateurId);
 		List<PossesseurTopo> OwnedTopoList = possesseurTopoDao.findAllOwnedTopoByUtilisateurId(utilisateurId);
-		
+
 		// Remove from list owned topo by user
-		for(PossesseurTopo ownedTopo : OwnedTopoList) {
+		for (PossesseurTopo ownedTopo : OwnedTopoList) {
 			Iterator<ListTopoPageData> AvailableTopoListIterator = availableTopoAndExtendedDataList.iterator();
-			while(AvailableTopoListIterator.hasNext()) {
+			while (AvailableTopoListIterator.hasNext()) {
 				int iteratorTopoId = AvailableTopoListIterator.next().getTopo_id();
-				if(ownedTopo.getTopo_id() == iteratorTopoId) {
+				if (ownedTopo.getTopo_id() == iteratorTopoId) {
 					AvailableTopoListIterator.remove();
 				}
 			}
 		}
 		return availableTopoAndExtendedDataList;
 	}
-	
+
 	// ==================================================================================================================
-	//                                             Bean Model ReservationTopo Methods
+	// Bean Model ReservationTopo Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Add new reservation in database
 	 * 
@@ -529,16 +561,19 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @return
 	 */
 	@Override
-	public Boolean addReservation(ReservationTopo reservationTopo ) {
-		
+	public Boolean addReservation(ReservationTopo reservationTopo) {
+
+		logger.info("Ajout d'une réservation | topo id:" + reservationTopo.getReservation_topo_id() + " demandeur id: "
+				+ reservationTopo.getDemandeur_id() + " possesseur id: " + reservationTopo.getPossesseur_id());
 		// Set attributes
 		Boolean reservationAlreadyAsked;
-		
+
 		try {
 			reservationTopoDao.findReservationTopoByRequesterIdAndTopoIdAndStatusIsWaiting(
 					reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
-			//reservation for this topo is already done
+			// reservation for this topo is already done
 			reservationAlreadyAsked = true;
+			logger.warn("Echec de l'ajout de la réservation - Cause : l'utilisateur à déja fait une réservation pour ce topo");
 		} catch (EmptyResultDataAccessException e) {
 			// if reservation for this topo is not already done
 			reservationAlreadyAsked = false;
@@ -546,12 +581,11 @@ public class WebContentManagerImpl implements WebContentManager {
 		}
 		return reservationAlreadyAsked;
 	}
-	
-	
+
 	// ==================================================================================================================
-	//                                             Bean PossesseurTopo Methods
+	// Bean PossesseurTopo Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Add new topo owner in database
 	 * 
@@ -560,28 +594,30 @@ public class WebContentManagerImpl implements WebContentManager {
 	 */
 	@Override
 	public Boolean addPossesseurTopo(PossesseurTopo possesseurTopo) {
-		
+
+		logger.info("Ajout d'un topo possédé par l'utilisateur | topo id: " + possesseurTopo.getTopo_id() + " - utilisateur id: " + possesseurTopo.getUtilisateur_id());
 		// Set attributes
 		Boolean posseseurTopoAddedSuccesfully;
 		possesseurTopo.setDisponible(false);
-		
+
 		try {
 			possesseurTopoDao.addPossesseurTopo(possesseurTopo);
 			// User not already own this topo
 			posseseurTopoAddedSuccesfully = true;
+			
 		} catch (DuplicateKeyException e) {
 			// User already own this topo
 			posseseurTopoAddedSuccesfully = false;
+			logger.warn("Echec de l'ajout du topo possédé - Cause: L'utilisateur possède déjà ce topo ");
 		}
 		return posseseurTopoAddedSuccesfully;
-		
-		
+
 	}
-		
+
 	// ==================================================================================================================
-	//                                             DTO AccountPageData Methods
+	// DTO AccountPageData Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Get topo list filtered by departement for topo dropdown on account page
 	 * 
@@ -589,22 +625,23 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @return
 	 */
 	@Override
-	public List<AccountPageData> getTopoListForAccountPageFilteredByDepartementId(int departementId){
-		
+	public List<AccountPageData> getTopoListForAccountPageFilteredByDepartementId(int departementId) {
+
 		// Set attributes
-		List<AccountPageData> accountPageDataList = accountPageDataDao.getTopoListForAccountPageFilteredByDepartementId(departementId);
-		
+		List<AccountPageData> accountPageDataList = accountPageDataDao
+				.getTopoListForAccountPageFilteredByDepartementId(departementId);
+
 		// Convert Date to String for each topo parution date
-		for(AccountPageData accountPageData : accountPageDataList) {
+		for (AccountPageData accountPageData : accountPageDataList) {
 			accountPageData.setDateParution(convertDateToString(accountPageData.getDate_parution()));
 		}
 		return accountPageDataList;
 	}
-	
+
 	// ==================================================================================================================
-	//                                             DTO MyTopo Methods
+	// DTO MyTopo Methods
 	// ==================================================================================================================
-	
+
 	/**
 	 * Get list of all owned topo by user needed for account page
 	 * 
@@ -612,41 +649,43 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @result
 	 */
 	@Override
-	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId){
-		
+	public List<MyTopo> findAllMyTopoByUtilisateurId(int utilisateurId) {
+
 		// Set attributes
 		List<MyTopo> myTopoList = MyTopoDao.findAllMyTopoByUtilisateurId(utilisateurId);
-		
+
 		// Convert Date to String for each topo parution date
-		for(MyTopo myTopo : myTopoList ) {
+		for (MyTopo myTopo : myTopoList) {
 			myTopo.setDateParution(convertDateToString(myTopo.getDate_parution()));
 		}
 		return myTopoList;
 	}
-	
+
 	// ==================================================================================================================
-	//                                             DTO ReservationRequest Methods
+	// DTO ReservationRequest Methods
 	// ==================================================================================================================
-	
+
 	/**
-	 * Get list of all visible received reservation for user, needed for account page
+	 * Get list of all visible received reservation for user, needed for account
+	 * page
 	 * 
 	 * @param utilisateurId
 	 * @return
 	 */
 	@Override
-	public List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId){
-		
+	public List<ReservationRequest> findAllReceivedReservationRequestByUtilisateurId(int utilisateurId) {
+
 		// Set attributes
-		List<ReservationRequest> reservationRequestList = reservationRequestDao.findAllReceivedReservationRequestByUtilisateurId(utilisateurId);
-		
+		List<ReservationRequest> reservationRequestList = reservationRequestDao
+				.findAllReceivedReservationRequestByUtilisateurId(utilisateurId);
+
 		// Convert Date to String for each topo parution date
-		for(ReservationRequest reservationRequest : reservationRequestList) {
+		for (ReservationRequest reservationRequest : reservationRequestList) {
 			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
 		}
 		return reservationRequestList;
 	}
-	
+
 	/**
 	 * Get list of all visible sent reservation for user, needed for account page
 	 * 
@@ -654,20 +693,19 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * @return
 	 */
 	@Override
-	public List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId){
-		List<ReservationRequest> reservationRequestList = reservationRequestDao.findAllSentReservationRequestByUtilisateurId(utilisateurId);
-		for(ReservationRequest reservationRequest : reservationRequestList) {
+	public List<ReservationRequest> findAllSentReservationRequestByUtilisateurId(int utilisateurId) {
+		List<ReservationRequest> reservationRequestList = reservationRequestDao
+				.findAllSentReservationRequestByUtilisateurId(utilisateurId);
+		for (ReservationRequest reservationRequest : reservationRequestList) {
 			reservationRequest.setDateParution(convertDateToString(reservationRequest.getDate_parution()));
 		}
 		return reservationRequestList;
 	}
-	
-	
-	
+
 	// ==================================================================================================================
-	//                                             DTO SitePageData Methods
+	// DTO SitePageData Methods
 	// ==================================================================================================================
-		
+
 	/**
 	 * Set bean SitePageData with site, secteur, voie and longueur data according to
 	 * the choosen site

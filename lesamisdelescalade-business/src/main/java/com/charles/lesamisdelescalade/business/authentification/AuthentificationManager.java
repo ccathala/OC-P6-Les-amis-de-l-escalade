@@ -6,4 +6,6 @@ import com.charles.lesamisdelescalade.model.dto.LoginData;
 public interface AuthentificationManager {
 
 	public LoginData login(Utilisateur utilisateur);
+
+	
 }
