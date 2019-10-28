@@ -92,6 +92,7 @@ CREATE TABLE public.site (
                 description VARCHAR(1000) NOT NULL,
                 departement_id INTEGER NOT NULL,
                 tag_id INTEGER NOT NULL,
+                picture VARCHAR,
                 CONSTRAINT site_pk PRIMARY KEY (id)
 );
 
@@ -305,8 +306,8 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.reservation_topo ADD CONSTRAINT possesseur_topo_reservation_topo_fk
-FOREIGN KEY (reservation_topo_id, possesseur_id)
-REFERENCES public.possesseur_topo (topo_id, utilisateur_id)
-ON DELETE NO ACTION
+FOREIGN KEY (possesseur_id, reservation_topo_id)
+REFERENCES public.possesseur_topo (utilisateur_id, topo_id)
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
