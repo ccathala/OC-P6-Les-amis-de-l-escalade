@@ -8,7 +8,7 @@
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
-		<label>Département:</label> <select name="departementIdSecteur">
+		<label>Département:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="departementIdSecteur">
 			<option value="0"<c:if test="${empty departementIdSecteur}">selected</c:if>>Sélectionnez le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
@@ -37,7 +37,7 @@
 			<!-- Selectionner le site  -->
 			<div class="form-group">
 				<label>Site:</label>
-				<form:select path="site_id">
+				<form:select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" path="site_id">
 				<option <c:if test="${empty siteIdSecteur}">selected</c:if>>Sélectionner le site</option> 
 					<c:forEach items="${sites}" var="site">
 						<option value="${site.id }" <c:if test="${site.id == siteIdSecteur}">selected</c:if> >${site.nom}</option>
@@ -50,7 +50,7 @@
 			<!-- Ajout nom du secteur -->
 			<div class="form-group">
 				<label>Nom:</label>
-				<form:input path="nom" cssClass="form-control"
+				<form:input path="nom" class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control"
 					placeholder="Entrer le nom du secteur" />
 				<small><form:errors path="nom" cssClass="errors" /></small>
 			</div>
@@ -58,7 +58,7 @@
 		<!-- Ajout description du secteur -->
 			<div class="form-group">
 				<label>Description:</label>
-				<form:input path="description" cssClass="form-control"
+				<form:textarea path="description" class="col-12 form-control"
 					placeholder="Entrer une description du secteur, 30 caractères minimum" />
 				<small><form:errors path="description" cssClass="errors" /></small>
 			</div> 

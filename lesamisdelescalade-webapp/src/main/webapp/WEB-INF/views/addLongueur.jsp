@@ -9,7 +9,7 @@
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
-		<label>Département:</label> <select name="departementIdLongueur">
+		<label>Département:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="departementIdLongueur">
 			<option value="0" <c:if test="${empty departementIdLongueur}">selected</c:if>>Sélectionnez le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
@@ -38,7 +38,7 @@
 
 			<!-- Selectionner le site -->
 			<div class="form-group">
-				<label>Site:</label> <select name="siteIdLongueur">
+				<label>Site:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="siteIdLongueur">
 					<option value="0" <c:if test="${empty siteIdLongueur}">selected</c:if>>Sélectionnez le site</option>
 					<c:forEach items="${sites}" var="site">
 						<option value="${site.id }"
@@ -75,7 +75,7 @@
 
 				<!-- Selectionner le secteur -->
 				<div class="form-group">
-					<label>Secteur:</label> <select name="secteurIdLongueur">
+					<label>Secteur:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="secteurIdLongueur">
 						<option value="0" <c:if test="${empty secteurIdLongueur}">selected</c:if>>Sélectionnez le secteur</option>
 						<c:forEach items="${secteurs}" var="secteur">
 							<option value="${secteur.id }"
@@ -110,7 +110,7 @@
 				<c:if test="${!empty voies}">
 					<!-- Selectionner la voie  -->
 					<div class="form-group">
-						<label>Voie:</label> <select name="voieIdLongueur">
+						<label>Voie:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="voieIdLongueur">
 						<option value="0" <c:if test="${empty voieIdLongueur}">selected</c:if>>Sélectionnez la voie</option>
 							<c:forEach items="${voies}" var="voie">
 								<option value="${voie.id }"
@@ -121,7 +121,7 @@
 
 						<!-- Valid Site button -->
 						<div class="form-group">
-							<div class="col-md-4">
+							<div class="col-md-4 mt-3">
 								<button id="validVoieLongueur" type="submit"
 									name="validVoieLongueur" class="btn btn-info">Valider</button>
 							</div>
@@ -176,14 +176,14 @@
 					<!-- Ajout du numéro de la longueur  -->
 					<div class="form-group">
 						<label>Numéro:</label>
-						<form:input path="numero" cssClass="form-control" />
+						<form:input path="numero" class="col-3 col-sm-3 col-md-2 form-control" />
 						<small><form:errors path="numero" cssClass="errors" /></small>
 					</div>
 
 					<!-- Selectionner la cotation  -->
 					<div class="form-group">
 						<label>Cotation:</label>
-						<form:select path="cotation_id">
+						<form:select class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3 form-control" path="cotation_id">
 							<option value="0" <c:if test="${empty voieIdLongueur}">selected</c:if>>Sélectionnez la cotation</option>
 							<c:forEach items="${cotations}" var="cotation">
 								<option value="${cotation.id }" <c:if test="${cotation.id == cotationIdLongueur }">selected</c:if>>${cotation.cotation }</option>

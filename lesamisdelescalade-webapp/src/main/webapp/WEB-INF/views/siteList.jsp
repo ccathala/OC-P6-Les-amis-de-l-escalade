@@ -22,12 +22,13 @@
 		<jsp:include page="header.jsp"></jsp:include>
 
 		<h1>Rechercher un site</h1>
+		<hr>
 		<form:form action="searchSite" method="POST"
 			modelAttribute="searchSiteData">
 
 			<div class="form-group">
 				<h3>Rechercher par nom:</h3>
-				<form:input path="nom" cssClass="form-control"
+				<form:input path="nom" class="col-lg-6 form-control"
 					placeholder="Entrer le nom du site" />
 			</div>
 
@@ -36,7 +37,7 @@
 			<h3>Recherche multi-critères</h3>
 			<div class="form-group">
 				<label>Rechercher par département:</label>
-				<form:select path="departementId">
+				<form:select class="col-8 col-md-6 col-lg-4 form-control" path="departementId">
 					<option value="0"
 						<c:if test="${empty departementId }">selected</c:if>>Sélectionner
 						le département</option>
@@ -50,7 +51,7 @@
 
 			<div class="form-group">
 				<label>Rechercher par cotation:</label>
-				<form:select path="cotationId">
+				<form:select class="col-6 col-md-4 col-lg-3 form-control" path="cotationId">
 					<option value="0" <c:if test="${empty cotationId }">selected</c:if>>Sélectionner
 						la cotation</option>
 					<c:forEach items="${cotations }" var="cotation">
@@ -62,7 +63,7 @@
 
 			<div class="form-group">
 				<label>Rechercher par nombre de secteurs:</label>
-				<form:select path="secteurCount">
+				<form:select class="col-8 col-md-6 col-lg-4 form-control" path="secteurCount">
 					<option value="0"
 						<c:if test="${empty secteurCount }">selected</c:if>>Sélectionner
 						le nombre de secteurs</option>
@@ -72,8 +73,8 @@
 					</c:forEach>
 				</form:select>
 			</div>
-
 			<hr>
+			
 			<!-- Search Site button -->
 			<div class="form-group">
 				<div class="col-md-4">
@@ -82,6 +83,8 @@
 				</div>
 			</div>
 		</form:form>
+		
+		<hr>
 
 		<c:if test="${empty sites  }">
 			<h2>Aucun site ne correspond aux critères saisis.</h2>
@@ -89,18 +92,33 @@
 
 		<c:forEach items="${sites }" var="site">
 			<div class="card mb-3">
-				<div class="row no-gutters">
+				<div class="row align-items-center no-gutters">
 					<div class="col-md-4">
+					<c:choose>
+						<c:when test="${site.picture != null && !empty site.picture }">
 						<img
-							src="${pageContext.request.contextPath}/resources/pictures/climbing-icon.jpg"
-							class="card-img" alt="symbole montagne">
+							src="${site.picture }"
+							class="card-img" alt="photo du site <c:out value="${site.nom }"></c:out>">
+						</c:when>
+						<c:when test="${site.picture == null || empty site.picture }">
+						<img
+							src="${pageContext.request.contextPath}/resources/pictures/generic_mountain.jpg"
+							class="card-img" alt="image de montagne">
+						</c:when>
+					</c:choose>
+						
 					</div>
 					<div class="col-md-8">
 						<div class="card-body">
-							<h5 class="card-title">
+							<h3 class="card-title">
 								<c:out value="${site.nom }"></c:out>
-							</h5>
-							<p class="card-text">
+							</h3>
+							
+							<p class="card-text font-weight-bold">
+								<c:out value="${departements_hashmap.get(site.departement_id).getCode() } - ${departements.get(site.departement_id).getNom()}"></c:out>
+							</p>
+							
+							<p class="card-text text-justify">
 								<c:out value="${site.description }"></c:out>
 							</p>
 							<a class="btn btn-info"

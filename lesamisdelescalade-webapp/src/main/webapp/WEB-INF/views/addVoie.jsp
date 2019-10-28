@@ -9,7 +9,7 @@
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
-		<label>Département:</label> <select name="departementIdVoie">
+		<label>Département:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="departementIdVoie">
 		<option value="0" <c:if test="${empty departementIdVoie}">selected</c:if>>Sélectionner le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"
@@ -40,7 +40,7 @@
 
 			<!-- Selectionner le site -->
 			<div class="form-group">
-				<label>Site:</label> <select name="siteIdVoie">
+				<label>Site:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="siteIdVoie">
 				<option value="0" <c:if test="${empty siteIdVoie}">selected</c:if>>Sélectionner un site</option>
 					<c:forEach items="${sites}" var="site">
 						<option value="${site.id }"
@@ -79,7 +79,7 @@
 				<c:if test="${!empty secteurs}">
 					<!-- Selectionner le secteur  -->
 					<div class="form-group">
-						<label>Secteur:</label> <select name="secteurIdVoie">
+						<label>Secteur:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="secteurIdVoie">
 						<option value="0" <c:if test="${empty secteurIdVoie}">selected</c:if>>Sélectionner un secteur</option>
 							<c:forEach items="${secteurs}" var="secteur">
 								<option value="${secteur.id }"
@@ -89,7 +89,7 @@
 
 						<!-- Valid Site button -->
 						<div class="form-group">
-							<div class="col-md-4">
+							<div class="col-md-4 mt-3">
 								<button id="validSecteurVoie" type="submit"
 									name="validSecteurVoie" class="btn btn-info">Valider</button>
 							</div>
@@ -144,14 +144,14 @@
 				<!-- Ajout du numéro de la voie  -->
 				<div class="form-group">
 					<label>Numéro:</label>
-					<form:input path="numero" cssClass="form-control" />
+					<form:input path="numero" class="col-2 col-md-1  form-control" />
 					<small><form:errors path="numero" cssClass="errors" /></small>
 				</div>
 
 				<!-- Ajout du nom de la voie -->
-				<div class="form-group">
+				<div class=" form-group">
 					<label>Nom:</label>
-					<form:input path="nom" cssClass="form-control"
+					<form:input path="nom" class="col-8 col-sm-7 col-md-6 col-lg-5 col-xl-4 form-control"
 						placeholder="Entrer le nom de la voie" />
 					<small><form:errors path="nom" cssClass="errors" /></small>
 				</div>

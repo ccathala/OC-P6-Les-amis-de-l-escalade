@@ -17,11 +17,9 @@
 </head>
 <body>
 
-
-
-	<jsp:include page="header.jsp"></jsp:include>
-
 	<div class="container">
+	
+	<jsp:include page="header.jsp"></jsp:include>
 
 		<h2>Topos:</h2>
 		<hr>
@@ -281,6 +279,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		
+		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
 
 

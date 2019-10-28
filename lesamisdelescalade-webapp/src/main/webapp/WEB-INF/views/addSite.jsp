@@ -10,7 +10,7 @@
 	<!-- Ajout nom du site -->
 	<div class="form-group">
 		<label>Nom:</label>
-		<form:input path="nom" cssClass="form-control"
+		<form:input path="nom" class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control"
 			placeholder="Entrer le nom du site" />
 		<small><form:errors path="nom" cssClass="errors" /></small>
 	</div>
@@ -18,15 +18,15 @@
 	<!-- Ajout description du site -->
 	<div class="form-group">
 		<label>Description:</label>
-		<form:textarea path="description" cssClass="form-control"
-			placeholder="Entrer une descritption du site, 30 caractères minimum" />
+		<form:textarea path="description" class="col-12 form-control"
+			placeholder="Entrer une description du site, 30 caractères minimum" />
 		<small><form:errors path="description" cssClass="errors" /></small>
 	</div>
 
 	<!-- Selectionner le département du site -->
 	<div class="form-group">
 		<label>Département:</label>
-		<form:select path="departement_id">
+		<form:select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" path="departement_id">
 			<option <c:if test="${empty departementIdSite }">selected</c:if>>Sélectionner
 				le département</option>
 			<c:forEach items="${departements}" var="departement">

@@ -17,21 +17,20 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container d-flex flex-column">
 
 		<jsp:include page="header.jsp"></jsp:include>
 
-		<div class="row">
+		<div class="row justify-content-center">
 			<!-- Display error messages -->
 			<c:if test="${!empty messageError }">
-				<div class="col alert alert-danger text-center" role="alert">
-					<c:out value="${messageError}"></c:out>
+				<div class="col-10 mt-2 alert alert-danger text-center" role="alert">
+					<p class="mb-0"><c:out value="${messageError}"></c:out></p>
 				</div>
 			</c:if>
-
 		</div>
 
-		<div class="row titre">
+		<div class="row mb-auto titre">
 			<div class="col">
 				<h1>Bienvenue sur le site des amis de l'escalade!</h1>
 			</div>
@@ -40,7 +39,6 @@
 		<jsp:include page="footer.jsp"></jsp:include>
 
 	</div>
-
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import com.charles.lesamisdelescalade.business.utils.bean.CommentaireManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
@@ -59,6 +60,7 @@ public class SiteController {
 		model.addAttribute("commentaires", commentaireManager.findAllCommentaireBySite(siteId));
 		model.addAttribute("commentaire", new Commentaire());
 		model.addAttribute("utilisateurs", webContentManager.getHashMapAllUtilisateurOnlyIdAndName());
+		model.addAttribute("departements", webContentManager.getHashMapAllDepartement());
 		return "site";
 	}
 
@@ -155,6 +157,26 @@ public class SiteController {
 		logger.info("Requête d'accès à l'url /site/processDeleteCommentaire/" + siteId + "/" + commentaireId);
 		commentaireManager.updateCommentaireStatus(commentaireId);
 		return "redirect:/site/" + siteId;
+	}
+	
+	/**
+	 * Set picture on current site page, refresh site page
+	 * 
+	 * @param sessionUtilisateur
+	 * @param siteId
+	 * @param pictureUrl
+	 * @return
+	 */
+	@RequestMapping(value="/site/processEditPicture/{siteId}", method = RequestMethod.GET)
+	public String editSitePicture(
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "siteId") int siteId,
+			@RequestParam(value="pictureUrl") String pictureUrl ) {
+			
+		logger.info("Requête d'accès à l'url /site/processEditPicture/" + siteId + "/" + pictureUrl);
+		siteManager.editPicture(siteId, pictureUrl);
+		return "redirect:/site/" + siteId;
+		
 	}
 
 }

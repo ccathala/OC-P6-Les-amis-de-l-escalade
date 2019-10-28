@@ -39,6 +39,9 @@ public interface WebContentManager {
 	// Commentaire methods
 	void updateCommentaire(Commentaire commentaire, Utilisateur utilisateur);
 	
+	// Departement methods
+	HashMap<Integer, Departement> getHashMapAllDepartement();
+	
 	// PossesseurTopo
 	Boolean addPossesseurTopo(PossesseurTopo possesseurTopo);
 	
@@ -69,6 +72,7 @@ public interface WebContentManager {
 	List<Integer> extractAvalaibleTopoIdList(List<ListTopoPageData> avalaibleTopoAndExtendedDataList);
 	void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo);
 	void setOverTopoReservation(int reservationId, PossesseurTopo possesseurTopo);
+	
 		
 
 	

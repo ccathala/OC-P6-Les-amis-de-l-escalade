@@ -62,5 +62,10 @@ public class SiteManagerImpl implements SiteManager {
 	public List<Integer> getSecteurCountBySite() {
 		return siteDao.getSecteurCountBySite();
 	}
+	
+	@Override
+	public void editPicture(int siteId, String pictureUrl) {
+		siteDao.editPicture(siteId, pictureUrl);
+	}
 
 }

@@ -12,10 +12,13 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/coliff/bootstrap-rfs/bootstrap-rfs.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
+
 	<!-- Modal update commentaire form-->
 	<div class="modal fade" id="updateCommentaireModal" tabindex="-1"
 		role="dialog" aria-labelledby="updateCommentaireModalLabel"
@@ -79,60 +82,120 @@
 		</div>
 	</div>
 
-	<jsp:include page="header.jsp"></jsp:include>
-
-	<div class="container">
-		<div class="row justify-content-start my-xl-3">
-			<div class=col-2>
-				<img
-					src="${pageContext.request.contextPath}/resources/pictures/climbing-icon.jpg"
-					class="img-fluid" alt="symbole montagne">
-			</div>
-			<div class="col-10">
-				<div class="row">
-					<div class="col-auto">
-						<h2>
-							<c:out value="${site.nom }"></c:out>
-						</h2>
-					</div>
-					<div class="col">
-						<c:if test="${sessionUtilisateur.role_id == 1 }">
-							<c:if test="${site.tag_id == 1 }">
-								<a class="btn btn-success"
-									href="<c:url value="/addTag/${site.id }"></c:url>">Taguer
-									"Officiel - les amis de l'escalade" </a>
-							</c:if>
-							<c:if test="${site.tag_id == 2 }">
-								<a class="btn btn-danger"
-									href="<c:url value="/deleteTag/${site.id }"></c:url>">Retirer
-									le tag "Officiel - les amis de l'escalade"</a>
-							</c:if>
-						</c:if>
-
-					</div>
+	<!-- Modal modify picture -->
+	<div class="modal fade" id="modifyPicture" tabindex="-1" role="dialog"
+		aria-labelledby="modifyPictureLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modifyPictureLabel">Modifier la photo du site</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="processEditPicture/${site.id}" method="get">
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="textinput">Lien
+								de la photo :</label>
+							<div class="col-md-12">
+								<input id="pictureUrl" name="pictureUrl" type="text"
+									placeholder="Saisir l'url de la photo"
+									class="form-control input-md">
+							</div>
+							<div class="col-md-12 mt-2 text-right">
+								<button id="processModifyPictureButton" name="processModifyPictureButton"
+									class="btn btn-primary">Modifier la photo</button>
+							</div>
+						</div>
+					</form>
 
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<div class="container">
+
+		<jsp:include page="header.jsp"></jsp:include>
+
+		<div class="row ">
+			<div class="col-12 mt-3">
+				<h2>
+					<c:out
+						value="${site.nom } (${departements.get(site.departement_id).getCode() } - ${departements.get(site.departement_id).getNom() })"></c:out>
+				</h2>
+			</div>
+			<div class="col-12 mb-2">
 				<c:if test="${site.tag_id == 2 }">
 					<span class="badge badge-info">Officiel les amis de
 						l'escalade</span>
 				</c:if>
+			</div>
+
+			<div class="col-12">
+				<c:if test="${sessionUtilisateur.role_id == 1 }">
+					<c:if test="${site.tag_id == 1 }">
+						<a class="btn btn-success"
+							href="<c:url value="/addTag/${site.id }"></c:url>">Taguer
+							"Officiel"</a>
+					</c:if>
+					<c:if test="${site.tag_id == 2 }">
+						<a class="btn btn-danger"
+							href="<c:url value="/deleteTag/${site.id }"></c:url>">Retirer
+							le tag "Officiel"</a>
+					</c:if>
+					<button id="modifyPictureButton" type="button" class="btn btn-info"
+					data-toggle="modal" data-target="#modifyPicture">Modifier la photo</button>
+				</c:if>
+				
+			</div>
+		</div>
+		<hr>
+
+		<div class="row justify-content-start my-xl-3">
+			<div class="col">
+				<c:choose>
+						<c:when test="${site.picture != null && !empty site.picture }">
+						<img
+							src="${site.picture }"
+							class="card-img" alt="photo du site <c:out value="${site.nom }"></c:out>">
+						</c:when>
+						<c:when test="${site.picture == null || empty site.picture }">
+						<img
+							src="${pageContext.request.contextPath}/resources/pictures/generic_mountain.jpg"
+							class="card-img" alt="image de montagne">
+						</c:when>
+					</c:choose>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<h3>Description:</h3>
 				<p class="text-justify">
 					<c:out value="${site.description }"></c:out>
 				</p>
+				<hr>
 			</div>
 		</div>
 
 		<h2>Secteurs:</h2>
 
 		<c:forEach items="${secteurs }" var="secteur">
-			<div class="row my-xl-5 shadow-lg p-3 mb-5 bg-white rounded">
+			<div
+				class="row row-secteur my-xl-5 shadow-lg py-3 mb-5 bg-white rounded">
 				<div class="col">
 					<div class="row justify-content-between">
 						<div class="col">
 							<h3>${secteur.nom }</h3>
 						</div>
-						<div class="col-2 ">
+						<div class="col-4 col-lg-2 text-right">
 							<a class="btn btn-info" data-toggle="collapse"
 								href="#collapseTable${secteur.id }" role="button"
 								aria-expanded="false"
@@ -140,9 +203,12 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-3">Nombre de voies: ${secteur.voiesCount }</div>
-						<div class="col-3">Cotation min: ${secteur.cotationMin }</div>
-						<div class="col-3">Cotation max: ${secteur.cotationMax }</div>
+						<div class="col-4 col-lg-3 text-center">Total voies:
+							${secteur.voiesCount }</div>
+						<div class="col-4 col-lg-3 text-center">Cotation min:
+							${secteur.cotationMin }</div>
+						<div class="col-4 col-lg-3 text-center">Cotation max:
+							${secteur.cotationMax }</div>
 					</div>
 					<div class="collapse" id="collapseTable${secteur.id }">
 						<div class="row ">
@@ -185,12 +251,12 @@
 
 		<c:forEach items="${commentaires }" var="commentaire">
 			<div class="row border border-info align-items-center mb-3">
-				<div class="col-1">
+				<div class="col-2 col-lg-1">
 					<img
 						src="${pageContext.request.contextPath}/resources/pictures/profile_small.png"
 						class="img-fluid" alt="image profil">
 				</div>
-				<div class="col-11">
+				<div class="col-10 col-lg-11">
 
 					<div class="row justify-content-between align-items-center">
 						<div class="col-auto p-0">
@@ -220,19 +286,19 @@
 					<c:if test="${sessionUtilisateur.role_id == 1 }">
 						<div class="row justify-content-end mb-1">
 							<c:if test="${commentaire.status_id != 3 }">
-							<div class="col-auto p-0 ">
-								<!-- Button trigger modal -->
-								<button id="${commentaire.id }_buttonModifierCommentaire"
-									type="button" class="boutonModifier btn btn-info btn-sm"
-									data-toggle="modal" data-target="#updateCommentaireModal">Modifier</button>
-							</div>
-							
 								<div class="col-auto p-0 ">
-								<!-- Button trigger modal -->
-								<button id="${commentaire.id }_buttonSupprimerCommentaire"
-									type="button" class="boutonSupprimer btn btn-info btn-sm"
-									data-toggle="modal" data-target="#deleteCommentaireModal">Supprimer</button>
-							</div>
+									<!-- Button trigger modal -->
+									<button id="${commentaire.id }_buttonModifierCommentaire"
+										type="button" class="boutonModifier btn btn-info btn-sm"
+										data-toggle="modal" data-target="#updateCommentaireModal">Modifier</button>
+								</div>
+
+								<div class="col-auto p-0 ">
+									<!-- Button trigger modal -->
+									<button id="${commentaire.id }_buttonSupprimerCommentaire"
+										type="button" class="boutonSupprimer btn btn-info btn-sm"
+										data-toggle="modal" data-target="#deleteCommentaireModal">Supprimer</button>
+								</div>
 							</c:if>
 						</div>
 					</c:if>
@@ -263,8 +329,10 @@
 				</div>
 
 			</form:form>
-
 		</c:if>
+
+		<jsp:include page="footer.jsp"></jsp:include>
+
 	</div>
 
 
@@ -279,6 +347,8 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/60efee8a0b.js"
 		crossorigin="anonymous"></script>
 
 	<script>

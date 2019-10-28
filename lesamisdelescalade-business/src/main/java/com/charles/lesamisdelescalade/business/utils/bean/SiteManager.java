@@ -25,6 +25,8 @@ public interface SiteManager {
 	List<Integer> getSecteurCountBySite();
 	// TODO rename method
 
+	void editPicture(int siteId, String pictureUrl);
+
 	
 
 }

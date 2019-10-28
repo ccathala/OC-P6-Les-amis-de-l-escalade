@@ -81,6 +81,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	private ReservationRequestDao reservationRequestDao;
 	@Autowired
 	private SecteurManager secteurManager;
+	@Autowired
+	private DepartementDao departementDao;
 
 	// Set logger
 	private static final Logger logger = LoggerFactory.getLogger(WebContentManagerImpl.class);
@@ -203,6 +205,20 @@ public class WebContentManagerImpl implements WebContentManager {
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		for (Utilisateur u : utilisateurs)
 			map.put(u.getId(), u.getNom());
+		return map;
+
+	}
+	
+	/**
+	 * Convert list of departement into HashMap
+	 * 
+	 * @param List<Utilisateur>
+	 * @return HashMap<Integer, String>
+	 */
+	private HashMap<Integer, Departement> convertDepartementListToHashMap(List<Departement> departements) {
+		HashMap<Integer, Departement> map = new HashMap<Integer, Departement>();
+		for (Departement d : departements)
+			map.put(d.getId(), d);
 		return map;
 
 	}
@@ -472,6 +488,18 @@ public class WebContentManagerImpl implements WebContentManager {
 	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName() {
 		return convertUtilisateurListToHashMap(utilisateurDao.findAllUtilisateurOnlyIdAndName());
 	}
+	
+	/**
+	 * Convert All departement list into HashMap, key is departement id , content is departement object
+	 * 
+	 * @return
+	 */
+	@Override
+	public HashMap<Integer, Departement> getHashMapAllDepartement() {
+		return convertDepartementListToHashMap(departementDao.findAllDepartement());
+	}
+	
+	
 
 	// ==================================================================================================================
 	// Bean Model Topo Methods

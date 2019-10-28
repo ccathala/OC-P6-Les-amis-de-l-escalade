@@ -13,15 +13,18 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
+	
 
 	<div class="container">
+	
+		<jsp:include page="header.jsp"></jsp:include>
 
 		<h1>Ajouter un topo</h1>
+		<hr>
 
 		<form action="processSelectDepartementAtAddTopoPage" method="GET">
 			<div class="form-group">
-				<label>Département:</label> <select name="departementId">
+				<label>Département:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="departementId">
 					<option value="0"
 						<c:if test="${departementId == null }">selected</c:if>>Sélectionner
 						le département</option>
@@ -48,7 +51,7 @@
 				
 				<div class="form-group">
 					<label>Sélectionner le site</label>
-					<form:select path="site_id">
+					<form:select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" path="site_id" >
 						<option value="0" <c:if test="${empty siteId }">selected</c:if>>Sélectionner
 							le site</option>
 						<c:forEach items="${sites }" var="site">
@@ -61,19 +64,20 @@
 
 				<div class="form-group">
 					<label>Nom:</label>
-					<form:input path="nom" cssClass="form-control" />
+					<form:input path="nom" class="col-8 col-sm-7 col-md-6 col-lg-5 col-xl-4 form-control" placeholder="Entrer le nom du topo" />
 					<small><form:errors path="nom" cssClass="errors" /></small>
 				</div>
 
 				<div class="form-group">
 					<label>Description:</label>
-					<form:input path="description" cssClass="form-control"/>
+					<form:textarea path="description" class="col-12 form-control" 
+					placeholder="Entrer une description du topo, 30 caractères minimum"/>
 					<small><form:errors path="description" cssClass="errors" /></small>
 				</div>
 
 				<div class="form-group">
 					<label>Date de parution:</label>
-					<form:input path="date_parution" cssClass="form-control" placeholder="Saisir l'année au format 'aaaa'"/>
+					<form:input path="date_parution" class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 form-control" placeholder="Saisir la date de parution au format jj/mm/aaaa"/>
 					<small><form:errors path="date_parution" cssClass="errors" /></small>
 				</div>
 
@@ -108,6 +112,8 @@
 				<c:out value="${messageSuccessTopo}"></c:out>
 			</div>
 		</c:if>
+		
+		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -120,6 +126,8 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/60efee8a0b.js"
 		crossorigin="anonymous"></script>
 
 

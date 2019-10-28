@@ -21,8 +21,8 @@ public class SiteDaoImpl implements SiteDao {
 	@Override
 	@Transactional
 	public void addSite(Site site) throws DuplicateKeyException {
-		jdbcTemplate.update("INSERT INTO site (nom, description, departement_id, tag_id) VALUES(?, ?, ?, 1)",
-				site.getNom(), site.getDescription(), site.getDepartement_id());
+		jdbcTemplate.update("INSERT INTO site (nom, description, departement_id, tag_id) VALUES(?, ?, ?, ?, ?)",
+				site.getNom(), site.getDescription(), site.getDepartement_id(), 1, null);
 
 	}
 
@@ -94,6 +94,12 @@ public class SiteDaoImpl implements SiteDao {
 	public List<Site> findAllSiteByName(String nom) {
 		return jdbcTemplate.query("select * from site where upper(nom) like upper(?)", new Object[] { nom },
 				new BeanPropertyRowMapper<Site>(Site.class));
+	}
+	
+	@Override
+	@Transactional
+	public void editPicture (int siteId, String pictureUrl) {
+		jdbcTemplate.update("update site set picture = ? where id =?", pictureUrl, siteId);
 	}
 
 }

@@ -32,6 +32,8 @@ public interface SiteDao {
 
 	List<Site> findAllSiteByName(String nom);
 
+	void editPicture(int siteId, String pictureUrl);
+
 	
 	
 	

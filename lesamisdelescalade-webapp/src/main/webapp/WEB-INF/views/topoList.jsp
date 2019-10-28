@@ -52,9 +52,11 @@
 		</div>
 	</div>
 
-	<jsp:include page="header.jsp"></jsp:include>
+	
 
-	<div class="container">
+	<div class="container d-flex flex-column">
+	
+		<jsp:include page="header.jsp"></jsp:include>
 
 		<!-- Display login Success message -->
 		<c:if test="${!empty messageReservationSuccess }">
@@ -72,7 +74,7 @@
 
 		<h1>Liste des topos:</h1>
 
-		<table class="table table-bordered">
+		<table class="table table-bordered mb-auto">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Code postal</th>
@@ -108,11 +110,10 @@
 				</c:forEach>
 			</tbody>
 		</table>
+	
+		<jsp:include page="footer.jsp"></jsp:include>
 
 	</div>
-
-
-
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

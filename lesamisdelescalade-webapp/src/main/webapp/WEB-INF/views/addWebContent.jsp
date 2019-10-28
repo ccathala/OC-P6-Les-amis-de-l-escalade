@@ -14,10 +14,11 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
+	
 
 	<div class="container" id="addForm">
 
+		<jsp:include page="header.jsp"></jsp:include>
 
 		<h1>Ajouter un lieu de grimpe</h1>
 		<hr>
@@ -26,7 +27,7 @@
 		<p>
 
 			<!-- Collapse Button Add Site -->
-			<button class="btn btn-info" type="button" data-toggle="collapse"
+			<button class="mb-1 btn btn-info" type="button" data-toggle="collapse"
 				data-target="#ajouterSite" aria-expanded=<c:choose>
 				<c:when test="${collapseAriaSite }">"true"</c:when>
 				<c:otherwise>"false"</c:otherwise>
@@ -35,7 +36,7 @@
 
 
 			<!-- Collapse Button Add Secteur -->
-			<button class="btn btn-info" type="button" data-toggle="collapse"
+			<button class="mb-1 btn btn-info" type="button" data-toggle="collapse"
 				data-target="#ajouterSecteur" aria-expanded=<c:choose>
 				<c:when test="${collapseAriaSecteur }">"true"</c:when>
 				<c:otherwise>"false"</c:otherwise>
@@ -44,7 +45,7 @@
 
 
 			<!-- Collapse Button Add Voie -->
-			<button class="btn btn-info" type="button" data-toggle="collapse"
+			<button class="mb-1 btn btn-info" type="button" data-toggle="collapse"
 				data-target="#ajouterVoie" aria-expanded=<c:choose>
 				<c:when test="${collapseAriaVoie }">"true"</c:when>
 				<c:otherwise>"false"</c:otherwise>
@@ -53,7 +54,7 @@
 
 
 			<!-- Collapse Button Add Longueur -->
-			<button class="btn btn-info" type="button" data-toggle="collapse"
+			<button class="mb-1 btn btn-info" type="button" data-toggle="collapse"
 				data-target="#ajouterLongueur"
 				aria-expanded=<c:choose>
 				<c:when test="${collapseAriaLongueur }">"true"</c:when>
@@ -66,7 +67,7 @@
 
 
 		<div class="collapse ${collapseClassSite }" id="ajouterSite" data-parent="#addForm">
-			<div class="card card-body">
+			<div class="mb-3 card card-body">
 				<jsp:include page="addSite.jsp"></jsp:include>
 
 			</div>
@@ -77,7 +78,7 @@
 		<!-- Ajouter un secteur ------------------------------------------------------------------------------------------------>
 
 		<div class="collapse ${collapseClassSecteur }" id="ajouterSecteur" data-parent="#addForm">
-			<div class="card card-body">
+			<div class="mb-3 card card-body">
 				<jsp:include page="addSecteur.jsp"></jsp:include>
 
 			</div>
@@ -86,7 +87,7 @@
 		<!-- Ajouter une voie ------------------------------------------------------------------------------------------------>
 
 		<div class="collapse ${collapseClassVoie }" id="ajouterVoie" data-parent="#addForm">
-			<div class="card card-body">
+			<div class="mb-3 card card-body">
 				<jsp:include page="addVoie.jsp"></jsp:include>
 
 			</div>
@@ -96,17 +97,14 @@
 
 		<div class="collapse ${collapseClassLongueur }" id="ajouterLongueur"
 			data-parent="#addForm">
-			<div class="card card-body ">
+			<div class="mb-3 card card-body ">
 				<jsp:include page="addLongueur.jsp"></jsp:include>
 			</div>
 		</div>
 
-
+	<jsp:include page="footer.jsp"></jsp:include>
 
 	</div>
-
-
-
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -118,6 +116,8 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/60efee8a0b.js"
 		crossorigin="anonymous"></script>
 
 
