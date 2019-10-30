@@ -21,7 +21,7 @@ public class SiteDaoImpl implements SiteDao {
 	@Override
 	@Transactional
 	public void addSite(Site site) throws DuplicateKeyException {
-		jdbcTemplate.update("INSERT INTO site (nom, description, departement_id, tag_id) VALUES(?, ?, ?, ?, ?)",
+		jdbcTemplate.update("INSERT INTO site (nom, description, departement_id, tag_id, picture) VALUES(?, ?, ?, ?, ?)",
 				site.getNom(), site.getDescription(), site.getDepartement_id(), 1, null);
 
 	}

@@ -1,8 +1,12 @@
 package com.charles.lesamisdelescalade.consumer.config;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,18 +20,24 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan("com.charles.lesamisdelescalade.consumer")
-@PropertySource(value= {"classpath:consumerConfig.properties"})
+@PropertySource(value = { "classpath:consumerConfig.properties" })
 @EnableTransactionManagement
 public class ConsumerConfig {
+
+	//===================================================================================
 	
-	
+	/* Uncomment to use DataSource data from consumerConfig.properties file */
 	
 	@Autowired /* Injection du bean env */
 	private Environment env;
 
-	@Bean /* Déclaration du bean à créer dataSource*/ 
+	/**
+	 * Initialization of bean dataSource with data from consumerConfig.properties file
+	 * 
+	 * @return
+	 */
+	@Bean  
 	public DataSource dataSource() {
-		/* Initialisation du bean dataSource à partir du fichier .properties */
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(env.getRequiredProperty("jdbc.driverClassName"));
 		dataSource.setUrl(env.getRequiredProperty("jdbc.url"));
@@ -36,19 +46,57 @@ public class ConsumerConfig {
 		return dataSource;
 	}
 	
+	//===================================================================================
 
+	/* Uncomment to use DataSource data from Tomcat context.xml file */
+	
+//	/**
+//	 * Initialization of bean dataSource with data from Tomcat context.xml file
+//	 * 
+//	 * @return
+//	 */
+//	@Bean
+//	public DataSource dataSource() {
+//		
+//		Context initCtx;
+//		DataSource ds = null;
+//		try {
+//			// Obtain our environment naming context
+//			initCtx = new InitialContext();
+//			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+//
+//			// Look up our data source
+//			ds = (DataSource) envCtx.lookup("jdbc/lesAmisDeLEscalade");
+//		} catch (NamingException e) {
+//			e.printStackTrace();
+//		}
+//		return ds;
+//	}
+
+	//===================================================================================
+	
+	/**
+	 * Initialization of bean jdbcTemplate
+	 * 
+	 * @return
+	 */
 	@Bean /* Déclaration du bean jdbcTemplate */
-	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+	public JdbcTemplate jdbcTemplate() {
 		/* Initialisation du bean jdbcTemplate */
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
 		jdbcTemplate.setResultsMapCaseInsensitive(true);
 		return jdbcTemplate;
 
 	}
-	
+
+	/**
+	 * Initialization of bean txManager
+	 * 
+	 * @return
+	 */
 	@Bean
-    public PlatformTransactionManager txManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+	public PlatformTransactionManager txManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
 
 }

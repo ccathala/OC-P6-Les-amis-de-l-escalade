@@ -57,6 +57,8 @@
 	<div class="container d-flex flex-column">
 	
 		<jsp:include page="header.jsp"></jsp:include>
+		
+		<div class="mb-auto">
 
 		<!-- Display login Success message -->
 		<c:if test="${!empty messageReservationSuccess }">
@@ -74,7 +76,7 @@
 
 		<h1>Liste des topos:</h1>
 
-		<table class="table table-bordered mb-auto">
+		<table class="table table-bordered table-responsive text-nowrap">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Code postal</th>
@@ -93,7 +95,7 @@
 						<td>${topo.departement }</td>
 						<td>${topo.topo_nom}</td>
 						<td>${topo.site }</td>
-						<td class="text-break">${topo.description }</td>
+						<td>${topo.description }</td>
 						<td>${topo.dateParution }</td>
 						<td><c:set var="topoAvalaibleForThisTopoId" value="false"></c:set>
 							<c:if test="${avalaibleTopoIdList.contains(topo.topo_id) }">
@@ -110,6 +112,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		
+		</div>
 	
 		<jsp:include page="footer.jsp"></jsp:include>
 
@@ -125,6 +129,8 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+		<script src="https://kit.fontawesome.com/60efee8a0b.js"
 		crossorigin="anonymous"></script>
 
 	<script>

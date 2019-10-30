@@ -1,46 +1,42 @@
 body {
-    margin-top: 0px;
-    
-
+	margin-top: 0px;
 }
 
 .btn {
-   margin-left: 5px;
-   margin-right: 5px;
-   
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .jumbotron h4 {
-    text-align: center;
+	text-align: center;
 }
 
 .container {
-    padding-bottom: 0px;
-    height:100%;
-    
-   
+	padding-bottom: 0px;
+	height: 100%;
 }
 
 .errors {
 	color: red;
 }
 
-.titre{
-	height:500px;
+.titre {
+	height: 500px;
 }
 
-.icone{
+.icone {
 	color: white;
 }
 
-.bouton-navbar{
-	height:100%;
-	width:100%;
+.bouton-navbar {
+	height: 100%;
+	width: 100%;
 }
 
 .cadre-navbar {
-	width:100%;
+	width: 100%;
 	margin: auto;
 }
+
 
 

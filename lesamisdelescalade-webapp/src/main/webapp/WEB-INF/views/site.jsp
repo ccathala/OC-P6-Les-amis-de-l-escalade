@@ -213,7 +213,7 @@
 					<div class="collapse" id="collapseTable${secteur.id }">
 						<div class="row ">
 							<div class="col">
-								<table class="table ">
+								<table class="table">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -229,7 +229,7 @@
 													<td>${voie.nom }</td>
 													<td><c:forEach items="${longueurs }" var="longueur">
 															<c:if test="${voie.id == longueur.voie_id }">
-															L${longueur.numero}: ${longueur.cotation }
+															<c:out value="L${longueur.numero}: ${longueur.cotation }"></c:out>
 														</c:if>
 														</c:forEach></td>
 												</tr>

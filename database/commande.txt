@@ -1,0 +1,3 @@
+Dump:
+
+Pg_dump -U postgres lesAmisDeLEscalade_db > C:\Users\Charles\Documents\Dev\lesamisdelescalade\database/dump.tar

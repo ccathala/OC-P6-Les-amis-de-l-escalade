@@ -1,0 +1,1308 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.4
+-- Dumped by pg_dump version 11.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: commentaire; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.commentaire (
+    id integer NOT NULL,
+    texte character varying(500) NOT NULL,
+    date timestamp without time zone NOT NULL,
+    status_id integer NOT NULL,
+    utilisateur_id integer NOT NULL,
+    site_id integer NOT NULL
+);
+
+
+ALTER TABLE public.commentaire OWNER TO postgres;
+
+--
+-- Name: commentaire_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.commentaire_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.commentaire_id_seq OWNER TO postgres;
+
+--
+-- Name: commentaire_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.commentaire_id_seq OWNED BY public.commentaire.id;
+
+
+--
+-- Name: cotation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cotation (
+    id integer NOT NULL,
+    cotation character varying(2) NOT NULL
+);
+
+
+ALTER TABLE public.cotation OWNER TO postgres;
+
+--
+-- Name: cotation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.cotation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cotation_id_seq OWNER TO postgres;
+
+--
+-- Name: cotation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.cotation_id_seq OWNED BY public.cotation.id;
+
+
+--
+-- Name: departement; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.departement (
+    id integer NOT NULL,
+    nom character varying(50) NOT NULL,
+    code character varying(3) NOT NULL
+);
+
+
+ALTER TABLE public.departement OWNER TO postgres;
+
+--
+-- Name: departement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.departement_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.departement_id_seq OWNER TO postgres;
+
+--
+-- Name: departement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.departement_id_seq OWNED BY public.departement.id;
+
+
+--
+-- Name: longueur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.longueur (
+    id integer NOT NULL,
+    numero integer NOT NULL,
+    cotation_id integer NOT NULL,
+    voie_id integer NOT NULL
+);
+
+
+ALTER TABLE public.longueur OWNER TO postgres;
+
+--
+-- Name: longueur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.longueur_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.longueur_id_seq OWNER TO postgres;
+
+--
+-- Name: longueur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.longueur_id_seq OWNED BY public.longueur.id;
+
+
+--
+-- Name: possesseur_topo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.possesseur_topo (
+    topo_id integer NOT NULL,
+    utilisateur_id integer NOT NULL,
+    disponible boolean NOT NULL,
+    shared boolean NOT NULL
+);
+
+
+ALTER TABLE public.possesseur_topo OWNER TO postgres;
+
+--
+-- Name: reservation_topo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reservation_topo (
+    id integer NOT NULL,
+    reservation_topo_id integer NOT NULL,
+    possesseur_id integer NOT NULL,
+    demandeur_id integer NOT NULL,
+    status_id integer NOT NULL,
+    visible_for_owner boolean NOT NULL,
+    visible_for_requester boolean NOT NULL
+);
+
+
+ALTER TABLE public.reservation_topo OWNER TO postgres;
+
+--
+-- Name: reservation_topo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.reservation_topo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.reservation_topo_id_seq OWNER TO postgres;
+
+--
+-- Name: reservation_topo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.reservation_topo_id_seq OWNED BY public.reservation_topo.id;
+
+
+--
+-- Name: role; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.role (
+    id integer NOT NULL,
+    role character varying(25) NOT NULL
+);
+
+
+ALTER TABLE public.role OWNER TO postgres;
+
+--
+-- Name: role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.role_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.role_id_seq OWNER TO postgres;
+
+--
+-- Name: role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.role_id_seq OWNED BY public.role.id;
+
+
+--
+-- Name: secteur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.secteur (
+    id integer NOT NULL,
+    nom character varying(100) NOT NULL,
+    description character varying(250) NOT NULL,
+    site_id integer NOT NULL
+);
+
+
+ALTER TABLE public.secteur OWNER TO postgres;
+
+--
+-- Name: secteur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.secteur_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.secteur_id_seq OWNER TO postgres;
+
+--
+-- Name: secteur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.secteur_id_seq OWNED BY public.secteur.id;
+
+
+--
+-- Name: site; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.site (
+    id integer NOT NULL,
+    nom character varying(100) NOT NULL,
+    description character varying(1000) NOT NULL,
+    departement_id integer NOT NULL,
+    tag_id integer NOT NULL,
+    picture character varying
+);
+
+
+ALTER TABLE public.site OWNER TO postgres;
+
+--
+-- Name: site_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.site_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.site_id_seq OWNER TO postgres;
+
+--
+-- Name: site_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.site_id_seq OWNED BY public.site.id;
+
+
+--
+-- Name: status_commentaire; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.status_commentaire (
+    id integer NOT NULL,
+    status character varying(25) NOT NULL
+);
+
+
+ALTER TABLE public.status_commentaire OWNER TO postgres;
+
+--
+-- Name: status_commentaire_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.status_commentaire_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.status_commentaire_id_seq OWNER TO postgres;
+
+--
+-- Name: status_commentaire_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.status_commentaire_id_seq OWNED BY public.status_commentaire.id;
+
+
+--
+-- Name: status_demande_reservation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.status_demande_reservation (
+    id integer NOT NULL,
+    status character varying NOT NULL
+);
+
+
+ALTER TABLE public.status_demande_reservation OWNER TO postgres;
+
+--
+-- Name: status_demande_reservation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.status_demande_reservation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.status_demande_reservation_id_seq OWNER TO postgres;
+
+--
+-- Name: status_demande_reservation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.status_demande_reservation_id_seq OWNED BY public.status_demande_reservation.id;
+
+
+--
+-- Name: tag; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tag (
+    id integer NOT NULL,
+    tag character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.tag OWNER TO postgres;
+
+--
+-- Name: tag_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tag_id_seq OWNER TO postgres;
+
+--
+-- Name: tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tag_id_seq OWNED BY public.tag.id;
+
+
+--
+-- Name: topo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.topo (
+    id integer NOT NULL,
+    nom character varying(100) NOT NULL,
+    description character varying(250) NOT NULL,
+    date_parution date NOT NULL,
+    site_id integer NOT NULL
+);
+
+
+ALTER TABLE public.topo OWNER TO postgres;
+
+--
+-- Name: topo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.topo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.topo_id_seq OWNER TO postgres;
+
+--
+-- Name: topo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.topo_id_seq OWNED BY public.topo.id;
+
+
+--
+-- Name: utilisateur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.utilisateur (
+    id integer NOT NULL,
+    nom character varying(50) NOT NULL,
+    email character varying(100) NOT NULL,
+    password character varying(100) NOT NULL,
+    role_id integer NOT NULL
+);
+
+
+ALTER TABLE public.utilisateur OWNER TO postgres;
+
+--
+-- Name: utilisateur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.utilisateur_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.utilisateur_id_seq OWNER TO postgres;
+
+--
+-- Name: utilisateur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.utilisateur_id_seq OWNED BY public.utilisateur.id;
+
+
+--
+-- Name: voie; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.voie (
+    id integer NOT NULL,
+    numero integer NOT NULL,
+    nom character varying(250) NOT NULL,
+    secteur_id integer NOT NULL
+);
+
+
+ALTER TABLE public.voie OWNER TO postgres;
+
+--
+-- Name: voie_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.voie_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.voie_id_seq OWNER TO postgres;
+
+--
+-- Name: voie_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.voie_id_seq OWNED BY public.voie.id;
+
+
+--
+-- Name: commentaire id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.commentaire ALTER COLUMN id SET DEFAULT nextval('public.commentaire_id_seq'::regclass);
+
+
+--
+-- Name: cotation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cotation ALTER COLUMN id SET DEFAULT nextval('public.cotation_id_seq'::regclass);
+
+
+--
+-- Name: departement id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.departement ALTER COLUMN id SET DEFAULT nextval('public.departement_id_seq'::regclass);
+
+
+--
+-- Name: longueur id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.longueur ALTER COLUMN id SET DEFAULT nextval('public.longueur_id_seq'::regclass);
+
+
+--
+-- Name: reservation_topo id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservation_topo ALTER COLUMN id SET DEFAULT nextval('public.reservation_topo_id_seq'::regclass);
+
+
+--
+-- Name: role id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role ALTER COLUMN id SET DEFAULT nextval('public.role_id_seq'::regclass);
+
+
+--
+-- Name: secteur id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.secteur ALTER COLUMN id SET DEFAULT nextval('public.secteur_id_seq'::regclass);
+
+
+--
+-- Name: site id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.site ALTER COLUMN id SET DEFAULT nextval('public.site_id_seq'::regclass);
+
+
+--
+-- Name: status_commentaire id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.status_commentaire ALTER COLUMN id SET DEFAULT nextval('public.status_commentaire_id_seq'::regclass);
+
+
+--
+-- Name: status_demande_reservation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.status_demande_reservation ALTER COLUMN id SET DEFAULT nextval('public.status_demande_reservation_id_seq'::regclass);
+
+
+--
+-- Name: tag id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tag ALTER COLUMN id SET DEFAULT nextval('public.tag_id_seq'::regclass);
+
+
+--
+-- Name: topo id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.topo ALTER COLUMN id SET DEFAULT nextval('public.topo_id_seq'::regclass);
+
+
+--
+-- Name: utilisateur id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilisateur ALTER COLUMN id SET DEFAULT nextval('public.utilisateur_id_seq'::regclass);
+
+
+--
+-- Name: voie id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.voie ALTER COLUMN id SET DEFAULT nextval('public.voie_id_seq'::regclass);
+
+
+--
+-- Data for Name: commentaire; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.commentaire (id, texte, date, status_id, utilisateur_id, site_id) FROM stdin;
+1	Bon site pour debuter	2019-10-28 16:50:09	1	1	1
+\.
+
+
+--
+-- Data for Name: cotation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cotation (id, cotation) FROM stdin;
+1	3a
+2	3b
+3	3c
+4	4a
+5	4b
+6	4c
+7	5a
+8	5b
+9	5c
+10	6a
+11	6b
+12	6c
+13	7a
+14	7b
+15	7c
+16	8a
+17	8b
+18	8c
+19	9a
+20	9b
+21	9c
+\.
+
+
+--
+-- Data for Name: departement; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.departement (id, nom, code) FROM stdin;
+1	Ain	1
+2	Aisne	2
+3	Allier	3
+4	Alpes-de-Haute-Provence	4
+5	Hautes-Alpes	5
+6	Alpes-Maritimes	6
+7	Ardèche	7
+8	Ardennes	8
+9	Ariège	9
+10	Aube	10
+11	Aude	11
+12	Aveyron	12
+13	Bouches-du-Rhône	13
+14	Calvados	14
+15	Cantal	15
+16	Charente	16
+17	Charente-Maritime	17
+18	Cher	18
+19	Corrèze	19
+20	Corse-du-Sud	2A
+21	Haute-Corse	2B
+22	Côte-d'Or	21
+23	Côtes d'Armor	22
+24	Creuse	23
+25	Dordogne	24
+26	Doubs	25
+27	Drôme	26
+28	Eure	27
+29	Eure-et-Loir	28
+30	Finistère	29
+31	Gard	30
+32	Haute-Garonne	31
+33	Gers	32
+34	Gironde	33
+35	Hérault	34
+36	Ille-et-Vilaine	35
+37	Indre	36
+38	Indre-et-Loire	37
+39	Isère	38
+40	Jura	39
+41	Landes	40
+42	Loir-et-Cher	41
+43	Loire	42
+44	Haute-Loire	43
+45	Loire-Atlantique	44
+46	Loiret	45
+47	Lot	46
+48	Lot-et-Garonne	47
+49	Lozère	48
+50	Maine-et-Loire	49
+51	Manche	50
+52	Marne	51
+53	Haute-Marne	52
+54	Mayenne	53
+55	Meurthe-et-Moselle	54
+56	Meuse	55
+57	Morbihan	56
+58	Moselle	57
+59	Nièvre	58
+60	Nord	59
+61	Oise	60
+62	Orne	61
+63	Pas-de-Calais	62
+64	Puy-de-Dôme	63
+65	Pyrénées-Atlantiques	64
+66	Hautes-Pyrénées	65
+67	Pyrénées-Orientales	66
+68	Bas-Rhin	67
+69	Haut-Rhin	68
+70	Rhône	69
+71	Haute-Saône	70
+72	Saône-et-Loire	71
+73	Sarthe	72
+74	Savoie	73
+75	Haute-Savoie	74
+76	Paris	75
+77	Seine-Maritime	76
+78	Seine-et-Marne	77
+79	Yvelines	78
+80	Deux-Sèvres	79
+81	Somme	80
+82	Tarn	81
+83	Tarn-et-Garonne	82
+84	Var	83
+85	Vaucluse	84
+86	Vandée	85
+87	Vienne	86
+88	Haute-Vienne	87
+89	Vosges	88
+90	Yonne	89
+91	Territoire de Belfort	90
+92	Essonne	91
+93	Hauts-de-Seine	92
+94	Seine-St-Denis	93
+95	Val-de-Marne	94
+96	Val-D'Oise	95
+97	Guadeloupe	971
+98	Martinique	972
+99	Guyane	973
+100	La Réunion	974
+101	Mayotte	976
+\.
+
+
+--
+-- Data for Name: longueur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.longueur (id, numero, cotation_id, voie_id) FROM stdin;
+1	1	10	1
+2	1	10	2
+3	2	9	2
+4	1	10	3
+5	1	10	4
+6	1	14	5
+7	1	9	6
+8	1	10	7
+9	1	8	8
+10	1	8	9
+11	1	8	10
+12	2	10	10
+13	1	10	11
+14	2	10	11
+15	1	10	12
+16	1	14	13
+17	4	16	14
+18	4	13	15
+19	4	14	16
+\.
+
+
+--
+-- Data for Name: possesseur_topo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.possesseur_topo (topo_id, utilisateur_id, disponible, shared) FROM stdin;
+1	1	t	f
+2	1	t	f
+3	1	t	f
+2	2	t	f
+3	2	t	f
+3	3	t	f
+\.
+
+
+--
+-- Data for Name: reservation_topo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reservation_topo (id, reservation_topo_id, possesseur_id, demandeur_id, status_id, visible_for_owner, visible_for_requester) FROM stdin;
+\.
+
+
+--
+-- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.role (id, role) FROM stdin;
+1	admin
+2	user
+\.
+
+
+--
+-- Data for Name: secteur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.secteur (id, nom, description, site_id) FROM stdin;
+1	Grande Falaise		1
+2	Dièbre Bleu		1
+3	Haute Tension		1
+4	L'Anneau		1
+5	Cocaine		2
+6	La menace		2
+7	Cayenne		3
+8	Les balcons		3
+\.
+
+
+--
+-- Data for Name: site; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.site (id, nom, description, departement_id, tag_id, picture) FROM stdin;
+1	Rocher de la fraîche	Belle falaise situé en plein coeur du village. Altitude 1500 m. Praticable de juin à octobre.	74	1	https://i.ytimg.com/vi/ICKnamsYzLI/maxresdefault.jpg
+2	Falaise du lac Besson	Cette longue barre alterne des voies en plusieurs longueurs, des voies plus courtes et sportives et des secteurs enfants. Dans l'ensemble, il s'agit de dalles et de murs assez raides munis de prises franches. Compétences et équipements appropriés (port du casque recommandé car les chutes de pierres sont courantes).	38	1	http://static.apidae-tourisme.com/filestore/objets-touristiques/images-principales/23/199/444183.jpg
+3	Les gorges du loup	Le site compte 70 voies, de 6a à 9a (en incluant les variantes et connexions). L'escalade est un mélange de colonnettes infernales, de bidoigts et de prises taillées, où tout va très vite, en l’absence de repos dignes de ce nom. Les voies déversantes et très physiques permettent d’enchaîner les passages car on a plus affaire à de la continuité qu'à des problèmes de bloc. L'autre alternative à l'enchaînement, c'est la chute, mais les surplombs sont très bienveillants et le trou dans l'air n'a jamais occasionné trop d'égratignures. L'équipement est bon et la majorité des dégaines restent à demeure. Le pied de falaise est plutôt convivial.	6	1	https://3.bp.blogspot.com/-JT_5Xcftq3E/UUDnW3gfAzI/AAAAAAAAEiE/5UDy66uvP0I/s1600/P1010913.JPG
+\.
+
+
+--
+-- Data for Name: status_commentaire; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.status_commentaire (id, status) FROM stdin;
+1	non modifié
+2	modifié
+3	supprimé
+\.
+
+
+--
+-- Data for Name: status_demande_reservation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.status_demande_reservation (id, status) FROM stdin;
+1	En attente
+2	Acceptée - Topo en prêt
+3	Refusée
+4	Annulée
+5	Terminée - Topo retourné
+\.
+
+
+--
+-- Data for Name: tag; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tag (id, tag) FROM stdin;
+1	none
+2	officiel les amis de l'escalade
+\.
+
+
+--
+-- Data for Name: topo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.topo (id, nom, description, date_parution, site_id) FROM stdin;
+1	Topo du rocher de la Fraîche	Receuil des voies des 4 secteurs du site, contient aussi des infos pratiques.	1992-03-12	1
+2	Topo des falaises du lac besson	Receuil des voies des 2 secteurs du site, contient aussi des infos pratiques.	1988-03-20	2
+3	Topo des gorges du loup	Receuil des voies des 2 secteurs du site, contient aussi des infos pratiques.	1996-12-16	3
+\.
+
+
+--
+-- Data for Name: utilisateur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.utilisateur (id, nom, email, password, role_id) FROM stdin;
+1	Christophe	christophe@gmail.com	$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa	1
+2	Pascale	pascale@gmail.com	$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa	1
+3	Alice	alice@gmail.com	$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa	1
+4	Cécile	cecile@gmail.com	$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa	1
+5	Charles	cathala@gmail.com	$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa	2
+\.
+
+
+--
+-- Data for Name: voie; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.voie (id, numero, nom, secteur_id) FROM stdin;
+1	2	La Belle en cuisse	1
+2	12	Macadam cowboy	1
+3	3	La Valise	2
+4	10	Herminator	2
+5	2	No Man’s land	3
+6	6	Jolie Gazelle	3
+7	3	Les barbares	4
+8	9	Que demande le peuple	4
+9	3	Amy dalle	5
+10	9	La centrale	5
+11	14	Coeur de pierre	6
+12	16	Poumon d'acier	6
+13	14	Zitounette	7
+14	16	Welcome to the jungle	7
+15	2	Monsaigneur	8
+16	8	Full metal casquette	8
+\.
+
+
+--
+-- Name: commentaire_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.commentaire_id_seq', 1, true);
+
+
+--
+-- Name: cotation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cotation_id_seq', 21, true);
+
+
+--
+-- Name: departement_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.departement_id_seq', 101, true);
+
+
+--
+-- Name: longueur_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.longueur_id_seq', 19, true);
+
+
+--
+-- Name: reservation_topo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reservation_topo_id_seq', 1, false);
+
+
+--
+-- Name: role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.role_id_seq', 2, true);
+
+
+--
+-- Name: secteur_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.secteur_id_seq', 8, true);
+
+
+--
+-- Name: site_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.site_id_seq', 3, true);
+
+
+--
+-- Name: status_commentaire_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.status_commentaire_id_seq', 3, true);
+
+
+--
+-- Name: status_demande_reservation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.status_demande_reservation_id_seq', 5, true);
+
+
+--
+-- Name: tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tag_id_seq', 2, true);
+
+
+--
+-- Name: topo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.topo_id_seq', 3, true);
+
+
+--
+-- Name: utilisateur_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.utilisateur_id_seq', 5, true);
+
+
+--
+-- Name: voie_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.voie_id_seq', 16, true);
+
+
+--
+-- Name: commentaire commentaire_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.commentaire
+    ADD CONSTRAINT commentaire_pk PRIMARY KEY (id);
+
+
+--
+-- Name: cotation cotation_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cotation
+    ADD CONSTRAINT cotation_pk PRIMARY KEY (id);
+
+
+--
+-- Name: departement departement_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.departement
+    ADD CONSTRAINT departement_pk PRIMARY KEY (id);
+
+
+--
+-- Name: longueur longueur_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.longueur
+    ADD CONSTRAINT longueur_pk PRIMARY KEY (id);
+
+
+--
+-- Name: possesseur_topo possesseur_topo_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.possesseur_topo
+    ADD CONSTRAINT possesseur_topo_pk PRIMARY KEY (topo_id, utilisateur_id);
+
+
+--
+-- Name: reservation_topo reservation_topo_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservation_topo
+    ADD CONSTRAINT reservation_topo_pk PRIMARY KEY (id);
+
+
+--
+-- Name: role role_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role
+    ADD CONSTRAINT role_pk PRIMARY KEY (id);
+
+
+--
+-- Name: secteur secteur_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.secteur
+    ADD CONSTRAINT secteur_pk PRIMARY KEY (id);
+
+
+--
+-- Name: site site_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.site
+    ADD CONSTRAINT site_pk PRIMARY KEY (id);
+
+
+--
+-- Name: status_commentaire status_commentaire_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.status_commentaire
+    ADD CONSTRAINT status_commentaire_pk PRIMARY KEY (id);
+
+
+--
+-- Name: status_demande_reservation status_demande_reservation_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.status_demande_reservation
+    ADD CONSTRAINT status_demande_reservation_pk PRIMARY KEY (id);
+
+
+--
+-- Name: tag tag_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tag
+    ADD CONSTRAINT tag_pk PRIMARY KEY (id);
+
+
+--
+-- Name: topo topo_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.topo
+    ADD CONSTRAINT topo_pk PRIMARY KEY (id);
+
+
+--
+-- Name: utilisateur utilisateur_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilisateur
+    ADD CONSTRAINT utilisateur_pk PRIMARY KEY (id);
+
+
+--
+-- Name: voie voie_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.voie
+    ADD CONSTRAINT voie_pk PRIMARY KEY (id);
+
+
+--
+-- Name: secteur_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX secteur_idx ON public.secteur USING btree (nom);
+
+
+--
+-- Name: site_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX site_idx ON public.site USING btree (nom);
+
+
+--
+-- Name: utilisateur_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX utilisateur_idx ON public.utilisateur USING btree (email, nom);
+
+
+--
+-- Name: longueur cotation_longueur_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.longueur
+    ADD CONSTRAINT cotation_longueur_fk FOREIGN KEY (cotation_id) REFERENCES public.cotation(id);
+
+
+--
+-- Name: site departement_site_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.site
+    ADD CONSTRAINT departement_site_fk FOREIGN KEY (departement_id) REFERENCES public.departement(id);
+
+
+--
+-- Name: reservation_topo possesseur_topo_reservation_topo_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservation_topo
+    ADD CONSTRAINT possesseur_topo_reservation_topo_fk FOREIGN KEY (possesseur_id, reservation_topo_id) REFERENCES public.possesseur_topo(utilisateur_id, topo_id) ON DELETE CASCADE;
+
+
+--
+-- Name: utilisateur role_utilisateur_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilisateur
+    ADD CONSTRAINT role_utilisateur_fk FOREIGN KEY (role_id) REFERENCES public.role(id);
+
+
+--
+-- Name: voie secteur_voie_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.voie
+    ADD CONSTRAINT secteur_voie_fk FOREIGN KEY (secteur_id) REFERENCES public.secteur(id);
+
+
+--
+-- Name: commentaire site_commentaire_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.commentaire
+    ADD CONSTRAINT site_commentaire_fk FOREIGN KEY (site_id) REFERENCES public.site(id);
+
+
+--
+-- Name: secteur site_secteur_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.secteur
+    ADD CONSTRAINT site_secteur_fk FOREIGN KEY (site_id) REFERENCES public.site(id);
+
+
+--
+-- Name: topo site_topo_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.topo
+    ADD CONSTRAINT site_topo_fk FOREIGN KEY (site_id) REFERENCES public.site(id);
+
+
+--
+-- Name: commentaire status_commentaire_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.commentaire
+    ADD CONSTRAINT status_commentaire_fk FOREIGN KEY (status_id) REFERENCES public.status_commentaire(id);
+
+
+--
+-- Name: reservation_topo status_demande_reservation_reservation_topo_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservation_topo
+    ADD CONSTRAINT status_demande_reservation_reservation_topo_fk FOREIGN KEY (status_id) REFERENCES public.status_demande_reservation(id);
+
+
+--
+-- Name: site tag_site_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.site
+    ADD CONSTRAINT tag_site_fk FOREIGN KEY (tag_id) REFERENCES public.tag(id);
+
+
+--
+-- Name: possesseur_topo topo_possesseur_topo_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.possesseur_topo
+    ADD CONSTRAINT topo_possesseur_topo_fk FOREIGN KEY (topo_id) REFERENCES public.topo(id);
+
+
+--
+-- Name: commentaire utilisateur_commentaire_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.commentaire
+    ADD CONSTRAINT utilisateur_commentaire_fk FOREIGN KEY (utilisateur_id) REFERENCES public.utilisateur(id);
+
+
+--
+-- Name: possesseur_topo utilisateur_possesseur_topo_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.possesseur_topo
+    ADD CONSTRAINT utilisateur_possesseur_topo_fk FOREIGN KEY (utilisateur_id) REFERENCES public.utilisateur(id);
+
+
+--
+-- Name: reservation_topo utilisateur_reservation_topo_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservation_topo
+    ADD CONSTRAINT utilisateur_reservation_topo_fk FOREIGN KEY (demandeur_id) REFERENCES public.utilisateur(id);
+
+
+--
+-- Name: longueur voie_longueur_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.longueur
+    ADD CONSTRAINT voie_longueur_fk FOREIGN KEY (voie_id) REFERENCES public.voie(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

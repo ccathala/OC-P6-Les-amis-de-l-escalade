@@ -105,7 +105,7 @@
 
 		<hr>
 		<h3>Mes topos:</h3>
-		<table class="table">
+		<table class="table table-responsive-md text-nowrap">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Nom du topo</th>
@@ -164,7 +164,7 @@
 
 		<h3>Demandes de prêt reçues:</h3>
 
-		<table class="table">
+		<table class="table table-responsive-md text-nowrap">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Nom du demandeur</th>
@@ -229,7 +229,7 @@
 		<hr>
 		<h3>Demandes de prêt envoyées:</h3>
 
-		<table class="table">
+		<table class="table table-responsive-md text-nowrap ">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Nom du propriétaire</th>
