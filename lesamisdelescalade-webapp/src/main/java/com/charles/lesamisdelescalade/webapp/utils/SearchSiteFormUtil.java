@@ -13,7 +13,7 @@ import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.SearchSiteData;
-
+ 
 @Component
 public class SearchSiteFormUtil {
 	

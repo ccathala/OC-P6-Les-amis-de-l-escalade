@@ -105,7 +105,7 @@
 
 		<hr>
 		<h3>Mes topos:</h3>
-		<table class="table table-responsive-md text-nowrap">
+		<table class="table table-responsive-lg text-nowrap">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Nom du topo</th>
@@ -164,15 +164,15 @@
 
 		<h3>Demandes de prêt reçues:</h3>
 
-		<table class="table table-responsive-md text-nowrap">
+		<table class="table table-responsive-lg text-nowrap">
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">Nom du demandeur</th>
-					<th scope="col">Nom du topo</th>
+					<th scope="col">Demandeur</th>
+					<th scope="col">Topo</th>
 					<th scope="col">Site</th>
 					<th scope="col">Département</th>
-					<th scope="col">Date de parution</th>
-					<th scope="col">Status de la demande</th>
+					<th scope="col">Parution</th>
+					<th scope="col">Status</th>
 					<th scope="col">Actions</th>
 				</tr>
 			</thead>
@@ -229,15 +229,15 @@
 		<hr>
 		<h3>Demandes de prêt envoyées:</h3>
 
-		<table class="table table-responsive-md text-nowrap ">
+		<table class="table table-responsive-lg text-nowrap ">
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">Nom du propriétaire</th>
-					<th scope="col">Nom du topo</th>
+					<th scope="col">Propriétaire</th>
+					<th scope="col">Topo</th>
 					<th scope="col">Site</th>
 					<th scope="col">Département</th>
-					<th scope="col">Date de parution</th>
-					<th scope="col">Status de la demande</th>
+					<th scope="col">Parution</th>
+					<th scope="col">Status</th>
 					<th scope="col">Actions</th>
 				</tr>
 			</thead>

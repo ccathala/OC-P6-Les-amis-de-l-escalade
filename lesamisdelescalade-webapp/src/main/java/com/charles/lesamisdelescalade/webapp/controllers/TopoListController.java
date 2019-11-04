@@ -1,5 +1,5 @@
 package com.charles.lesamisdelescalade.webapp.controllers;
-
+ 
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
-import com.charles.lesamisdelescalade.business.webcontent.impl.WebContentManagerImpl;
 import com.charles.lesamisdelescalade.model.beans.ReservationTopo;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.ListTopoPageData;

@@ -30,8 +30,8 @@
 			</c:if>
 		</div>
 
-		<div class="row mb-auto titre">
-			<div class="col">
+		<div class="row mb-auto titre" >
+			<div class="col" style="height:500px;">
 				<h1>Bienvenue sur le site des amis de l'escalade!</h1>
 			</div>
 		</div>

@@ -22,7 +22,7 @@ import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.SearchSiteData;
 import com.charles.lesamisdelescalade.webapp.utils.SearchSiteFormUtil;
-
+ 
 /**
  * Controller class in relation with siteList jsp
  * 

@@ -4,24 +4,20 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-
 import com.charles.lesamisdelescalade.business.utils.bean.DepartementManager;
 import com.charles.lesamisdelescalade.business.utils.bean.LongueurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SecteurManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.utils.bean.VoieManager;
-import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Longueur;
 import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Site;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
-
+ 
 @Component
 public class AddWebContentFormUtil {
 
-	@Autowired
-	private WebContentManager webContentManager;
 	@Autowired
 	private SiteManager siteManager;
 	@Autowired

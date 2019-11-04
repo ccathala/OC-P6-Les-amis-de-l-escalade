@@ -4,7 +4,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource(value = { "classpath:consumerConfig.properties" })
 @EnableTransactionManagement
 public class ConsumerConfig {
+	
 
 	//===================================================================================
 	
@@ -32,7 +32,7 @@ public class ConsumerConfig {
 	private Environment env;
 
 	/**
-	 * Initialization of bean dataSource with data from consumerConfig.properties file
+	 * Initialization of dataSource bean with data from consumerConfig.properties file
 	 * 
 	 * @return
 	 */
@@ -76,7 +76,7 @@ public class ConsumerConfig {
 	//===================================================================================
 	
 	/**
-	 * Initialization of bean jdbcTemplate
+	 * Initialization of jdbcTemplate bean
 	 * 
 	 * @return
 	 */
@@ -90,7 +90,7 @@ public class ConsumerConfig {
 	}
 
 	/**
-	 * Initialization of bean txManager
+	 * Initialization of  txManager bean
 	 * 
 	 * @return
 	 */

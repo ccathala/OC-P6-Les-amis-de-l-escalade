@@ -19,7 +19,7 @@ import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.beans.Voie;
 import com.charles.lesamisdelescalade.webapp.utils.AddWebContentFormUtil;
-
+ 
 /**
  * Handle add voie content request
  * 
