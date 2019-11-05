@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
 import com.charles.lesamisdelescalade.business.account.AccountManager;
 import com.charles.lesamisdelescalade.consumer.bean.UtilisateurDao;
 import com.charles.lesamisdelescalade.model.dto.UtilisateurDTO;

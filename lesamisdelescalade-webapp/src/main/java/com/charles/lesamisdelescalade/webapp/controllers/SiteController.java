@@ -178,5 +178,25 @@ public class SiteController {
 		return "redirect:/site/" + siteId;
 		
 	}
+	
+	/**
+	 * Set picture on current site page, refresh site page
+	 * 
+	 * @param sessionUtilisateur
+	 * @param siteId
+	 * @param pictureUrl
+	 * @return
+	 */
+	@RequestMapping(value="/site/processDeleteSitePicture/{siteId}", method = RequestMethod.GET)
+	public String deleteSitePicture(
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			@PathVariable(value = "siteId") int siteId) {
+			
+		logger.info("Requête d'accès à l'url /site/processEditPicture/" + siteId);
+		logger.info("Suppression de la photo du site id :" + siteId);
+		siteManager.editPicture(siteId, null);
+		return "redirect:/site/" + siteId;
+		
+	}
 
 }

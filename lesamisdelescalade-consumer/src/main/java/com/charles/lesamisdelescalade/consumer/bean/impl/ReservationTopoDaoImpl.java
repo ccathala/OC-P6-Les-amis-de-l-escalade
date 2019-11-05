@@ -47,7 +47,6 @@ public class ReservationTopoDaoImpl implements ReservationTopoDao {
 	@Transactional
 	public void updateReservationRequestStatusToAccepted(int reservationRequestId) {
 		jdbcTemplate.update("update reservation_topo set status_id = ? where id = ?", 2, reservationRequestId );
-		// TODO refactor method name
 	}
 	
 	@Override

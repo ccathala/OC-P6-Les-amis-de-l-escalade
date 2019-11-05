@@ -209,7 +209,8 @@ public class AccountPageController {
 	 * @param topoId
 	 * @return
 	 */
-	@RequestMapping(value = "/processUpdateReservationRequestStatusToAccepted/{reservationRequestId}/{possesseurId}/{topoId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/processUpdateReservationRequestStatusToAccepted/{reservationRequestId}/{possesseurId}/{topoId}",
+			method = RequestMethod.GET)
 	public String processUpdateReservationRequestStatusToAccepted(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "reservationRequestId") int reservationRequestId,

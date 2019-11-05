@@ -48,8 +48,8 @@ public class ConsumerConfig {
 	
 	//===================================================================================
 
-	/* Uncomment to use DataSource data from Tomcat context.xml file */
-	
+//	/* Uncomment to use DataSource data from Tomcat context.xml file */
+//	
 //	/**
 //	 * Initialization of bean dataSource with data from Tomcat context.xml file
 //	 * 

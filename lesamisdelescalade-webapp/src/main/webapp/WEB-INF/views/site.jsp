@@ -97,7 +97,7 @@
 				<div class="modal-body">
 					<form action="processEditPicture/${site.id}" method="get">
 						<div class="form-group">
-							<label class="col-md-4 control-label" for="textinput">Lien
+							<label class="col control-label" for="textinput">Lien
 								de la photo :</label>
 							<div class="col-md-12">
 								<input id="pictureUrl" name="pictureUrl" type="text"
@@ -141,17 +141,19 @@
 			<div class="col-12">
 				<c:if test="${sessionUtilisateur.role_id == 1 }">
 					<c:if test="${site.tag_id == 1 }">
-						<a class="btn btn-success"
+						<a class="my-2 btn btn-success"
 							href="<c:url value="/addTag/${site.id }"></c:url>">Taguer
 							"Officiel"</a>
 					</c:if>
 					<c:if test="${site.tag_id == 2 }">
-						<a class="btn btn-danger"
+						<a class="my-2 btn btn-danger"
 							href="<c:url value="/deleteTag/${site.id }"></c:url>">Retirer
 							le tag "Officiel"</a>
 					</c:if>
-					<button id="modifyPictureButton" type="button" class="btn btn-info"
+					<button id="modifyPictureButton" type="button" class="my-2 btn btn-info"
 					data-toggle="modal" data-target="#modifyPicture">Modifier la photo</button>
+					<a class="my-2 btn btn-danger"
+							href="<c:url value="/site/processDeleteSitePicture/${site.id }"></c:url>">Supprimer la photo</a>
 				</c:if>
 				
 			</div>

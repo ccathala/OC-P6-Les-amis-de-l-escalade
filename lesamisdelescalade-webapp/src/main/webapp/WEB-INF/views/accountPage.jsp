@@ -18,8 +18,8 @@
 <body>
 
 	<div class="container">
-	
-	<jsp:include page="header.jsp"></jsp:include>
+
+		<jsp:include page="header.jsp"></jsp:include>
 
 		<h2>Topos:</h2>
 		<hr>
@@ -197,7 +197,8 @@
 								<c:when test="${request.status_id == 1 }">
 									<c:if test="${request.disponible == true }">
 										<a
-											href="<c:url value="/processUpdateReservationRequestStatusToAccepted/${request.reservation_id }/${request.possesseur_id }/${request.reservation_topo_id }"></c:url>"
+											href="<c:url value="/processUpdateReservationRequestStatusToAccepted/${request.reservation_id }/
+											${request.possesseur_id }/${request.reservation_topo_id }"></c:url>"
 											title="Accepter la demande de réservation"><span
 											style="color: LimeGreen;"><i
 												class="far fa-check-circle fa-2x"></i></span></a>
@@ -279,7 +280,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		
+
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>
 

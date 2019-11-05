@@ -95,8 +95,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	 * Set reservation status to accepted, set topo not available, set topo state to
 	 * shared
 	 * 
-	 * @param int
-	 * @param PossesseurTopo
+	 * @param reservationId
+	 * @param possesseurTopo
 	 */
 	@Override
 	public void acceptTopoReservation(int reservationId, PossesseurTopo possesseurTopo) {
