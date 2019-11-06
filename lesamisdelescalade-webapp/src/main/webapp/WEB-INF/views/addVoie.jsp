@@ -9,7 +9,7 @@
 
 	<!-- Selectionner le département  -->
 	<div class="form-group">
-		<label>Département:</label> <select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" name="departementIdVoie">
+		<label>Département:</label> <select class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4 form-control" name="departementIdVoie">
 		<option value="0" <c:if test="${empty departementIdVoie}">selected</c:if>>Sélectionner le département</option>
 			<c:forEach items="${departements}" var="departement">
 				<option value="${departement.id }"

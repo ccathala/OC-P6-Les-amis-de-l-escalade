@@ -26,7 +26,7 @@
 	<!-- Selectionner le département du site -->
 	<div class="form-group">
 		<label>Département:</label>
-		<form:select class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 form-control" path="departement_id">
+		<form:select class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4 form-control" path="departement_id">
 			<option <c:if test="${empty departementIdSite }">selected</c:if>>Sélectionner
 				le département</option>
 			<c:forEach items="${departements}" var="departement">

@@ -19,6 +19,65 @@
 </head>
 <body>
 
+	<!-- Modal add secteur-->
+	<div class="modal fade" id="addSecteurModal" tabindex="-1"
+		role="dialog" aria-labelledby="addSecteurModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addSecteurModalLabel">Ajouter un
+						secteur</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form:form id="addSecteurModalForm"
+						action="processAddSecteurFromSitePage" method="POST"
+						modelAttribute="secteur">
+
+						<form:hidden value="${site.id }" path="site_id" />
+
+						<!-- Ajout nom du secteur -->
+						<div class="form-group">
+							<label>Nom:</label>
+							<form:input id="nom" path="nom" class="col form-control"
+								placeholder="Entrer le nom du secteur" required="required"
+								minlength="3" />
+							<%-- <small><form:errors path="nom" cssClass="errors" /></small> --%>
+						</div>
+
+						<!-- Ajout description du secteur -->
+						<div class="form-group">
+							<label>Description:</label>
+							<form:textarea id="description" path="description"
+								class="col-12 form-control"
+								placeholder="Entrer une description du secteur, 30 caractères minimum"
+								required="required" minlength="30" />
+							<%-- <small><form:errors path="description" cssClass="errors" /></small> --%>
+						</div>
+
+						<!-- Bouton ajouter le secteur -->
+						<div class="form-group">
+							<div class="col text-right">
+								<button id="addSecteur" type="submit" name=addSecteur
+									class="btn btn-success">Ajouter Secteur</button>
+							</div>
+						</div>
+
+					</form:form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Annuler</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal update commentaire form-->
 	<div class="modal fade" id="updateCommentaireModal" tabindex="-1"
 		role="dialog" aria-labelledby="updateCommentaireModalLabel"
@@ -88,7 +147,8 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="modifyPictureLabel">Modifier la photo du site</h5>
+					<h5 class="modal-title" id="modifyPictureLabel">Modifier la
+						photo du site</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -97,16 +157,17 @@
 				<div class="modal-body">
 					<form action="processEditPicture/${site.id}" method="get">
 						<div class="form-group">
-							<label class="col control-label" for="textinput">Lien
-								de la photo :</label>
+							<label class="col control-label" for="textinput">Lien de
+								la photo :</label>
 							<div class="col-md-12">
 								<input id="pictureUrl" name="pictureUrl" type="text"
 									placeholder="Saisir l'url de la photo"
 									class="form-control input-md">
 							</div>
 							<div class="col-md-12 mt-2 text-right">
-								<button id="processModifyPictureButton" name="processModifyPictureButton"
-									class="btn btn-primary">Modifier la photo</button>
+								<button id="processModifyPictureButton"
+									name="processModifyPictureButton" class="btn btn-primary">Modifier
+									la photo</button>
 							</div>
 						</div>
 					</form>
@@ -150,12 +211,14 @@
 							href="<c:url value="/deleteTag/${site.id }"></c:url>">Retirer
 							le tag "Officiel"</a>
 					</c:if>
-					<button id="modifyPictureButton" type="button" class="my-2 btn btn-info"
-					data-toggle="modal" data-target="#modifyPicture">Modifier la photo</button>
+					<button id="modifyPictureButton" type="button"
+						class="my-2 btn btn-info" data-toggle="modal"
+						data-target="#modifyPicture">Modifier la photo</button>
 					<a class="my-2 btn btn-danger"
-							href="<c:url value="/site/processDeleteSitePicture/${site.id }"></c:url>">Supprimer la photo</a>
+						href="<c:url value="/site/processDeleteSitePicture/${site.id }"></c:url>">Supprimer
+						la photo</a>
 				</c:if>
-				
+
 			</div>
 		</div>
 		<hr>
@@ -163,17 +226,16 @@
 		<div class="row justify-content-start my-xl-3">
 			<div class="col">
 				<c:choose>
-						<c:when test="${site.picture != null && !empty site.picture }">
-						<img
-							src="${site.picture }"
-							class="card-img" alt="photo du site <c:out value="${site.nom }"></c:out>">
-						</c:when>
-						<c:when test="${site.picture == null || empty site.picture }">
+					<c:when test="${site.picture != null && !empty site.picture }">
+						<img src="${site.picture }" class="card-img"
+							alt="photo du site <c:out value="${site.nom }"></c:out>">
+					</c:when>
+					<c:when test="${site.picture == null || empty site.picture }">
 						<img
 							src="${pageContext.request.contextPath}/resources/pictures/generic_mountain.jpg"
 							class="card-img" alt="image de montagne">
-						</c:when>
-					</c:choose>
+					</c:when>
+				</c:choose>
 			</div>
 		</div>
 		<hr>
@@ -188,6 +250,12 @@
 		</div>
 
 		<h2>Secteurs:</h2>
+		<c:if test="${!empty sessionUtilisateur.role_id }">
+			<button id="addSecteurButton" type="button"
+				class="my-2 btn btn-primary" data-toggle="modal"
+				data-target="#addSecteurModal">+ secteur</button>
+		</c:if>
+
 
 		<c:forEach items="${secteurs }" var="secteur">
 			<div
@@ -231,8 +299,9 @@
 													<td>${voie.nom }</td>
 													<td><c:forEach items="${longueurs }" var="longueur">
 															<c:if test="${voie.id == longueur.voie_id }">
-															<c:out value="L${longueur.numero}: ${longueur.cotation }"></c:out>
-														</c:if>
+																<c:out
+																	value="L${longueur.numero}: ${longueur.cotation }"></c:out>
+															</c:if>
 														</c:forEach></td>
 												</tr>
 											</c:if>
@@ -375,6 +444,7 @@
 												+ "${site.id}" + "/"
 												+ comment_id);
 							});
+
 				});
 	</script>
 

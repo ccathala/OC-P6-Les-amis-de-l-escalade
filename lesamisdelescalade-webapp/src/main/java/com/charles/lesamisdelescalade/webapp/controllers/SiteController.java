@@ -1,20 +1,26 @@
 package com.charles.lesamisdelescalade.webapp.controllers;
- 
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.charles.lesamisdelescalade.business.utils.bean.CommentaireManager;
 import com.charles.lesamisdelescalade.business.utils.bean.SiteManager;
 import com.charles.lesamisdelescalade.business.webcontent.WebContentManager;
 import com.charles.lesamisdelescalade.model.beans.Commentaire;
+import com.charles.lesamisdelescalade.model.beans.Secteur;
 import com.charles.lesamisdelescalade.model.beans.Utilisateur;
 import com.charles.lesamisdelescalade.model.dto.SitePageData;
 
@@ -49,7 +55,7 @@ public class SiteController {
 	public String displaySite(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
-		
+
 		logger.info("Requête d'accès à l'url /site/" + siteId);
 		SitePageData sitePageData = webContentManager.setSitePageData(siteId);
 		model.addAttribute("site", sitePageData.getSite());
@@ -61,6 +67,7 @@ public class SiteController {
 		model.addAttribute("commentaire", new Commentaire());
 		model.addAttribute("utilisateurs", webContentManager.getHashMapAllUtilisateurOnlyIdAndName());
 		model.addAttribute("departements", webContentManager.getHashMapAllDepartement());
+		model.addAttribute("secteur", new Secteur());
 		return "site";
 	}
 
@@ -81,7 +88,7 @@ public class SiteController {
 		siteManager.addOfficialTagOnSite(siteId);
 		return "redirect:/site/" + siteId;
 	}
-	
+
 	/**
 	 * Delete official tag on current site page, refresh site page
 	 * 
@@ -94,7 +101,7 @@ public class SiteController {
 	public String deleteTag(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
-		
+
 		logger.info("Requête d'accès à l'url /deleteTag/" + siteId);
 		siteManager.deleteOfficialTagOnSite(siteId);
 		return "redirect:/site/" + siteId;
@@ -117,7 +124,7 @@ public class SiteController {
 		commentaireManager.addCommentaire(commentaire);
 		return "redirect:/site/" + commentaire.getSite_id();
 	}
-	
+
 	/**
 	 * Update comment on current site page, refresh site page
 	 * 
@@ -131,13 +138,13 @@ public class SiteController {
 	public String updateCommentaire(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@ModelAttribute(value = "commentaire") Commentaire commentaire,
-			@PathVariable(value="commentaireId") int commentaireId){
-		
+			@PathVariable(value = "commentaireId") int commentaireId) {
+
 		logger.info("Requête d'accès à l'url /site/processUpdateCommentaire/" + commentaireId);
 		webContentManager.updateCommentaire(commentaire, sessionUtilisateur);
 		return "redirect:/site/" + commentaire.getSite_id();
 	}
-	
+
 	/**
 	 * Delete comment on current site page, refresh site page
 	 * 
@@ -150,15 +157,13 @@ public class SiteController {
 	@RequestMapping(value = "/site/processDeleteCommentaire/{siteId}/{commentaireId}", method = RequestMethod.GET)
 	public String deleteCommentaire(Model model,
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
-			@PathVariable(value="siteId") int siteId,
-			@PathVariable(value="commentaireId") int commentaireId
-			){
+			@PathVariable(value = "siteId") int siteId, @PathVariable(value = "commentaireId") int commentaireId) {
 
 		logger.info("Requête d'accès à l'url /site/processDeleteCommentaire/" + siteId + "/" + commentaireId);
 		commentaireManager.updateCommentaireStatus(commentaireId);
 		return "redirect:/site/" + siteId;
 	}
-	
+
 	/**
 	 * Set picture on current site page, refresh site page
 	 * 
@@ -167,18 +172,17 @@ public class SiteController {
 	 * @param pictureUrl
 	 * @return
 	 */
-	@RequestMapping(value="/site/processEditPicture/{siteId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/site/processEditPicture/{siteId}", method = RequestMethod.GET)
 	public String editSitePicture(
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
-			@PathVariable(value = "siteId") int siteId,
-			@RequestParam(value="pictureUrl") String pictureUrl ) {
-			
+			@PathVariable(value = "siteId") int siteId, @RequestParam(value = "pictureUrl") String pictureUrl) {
+
 		logger.info("Requête d'accès à l'url /site/processEditPicture/" + siteId + "/" + pictureUrl);
 		siteManager.editPicture(siteId, pictureUrl);
 		return "redirect:/site/" + siteId;
-		
+
 	}
-	
+
 	/**
 	 * Set picture on current site page, refresh site page
 	 * 
@@ -187,16 +191,45 @@ public class SiteController {
 	 * @param pictureUrl
 	 * @return
 	 */
-	@RequestMapping(value="/site/processDeleteSitePicture/{siteId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/site/processDeleteSitePicture/{siteId}", method = RequestMethod.GET)
 	public String deleteSitePicture(
 			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
 			@PathVariable(value = "siteId") int siteId) {
-			
+
 		logger.info("Requête d'accès à l'url /site/processEditPicture/" + siteId);
 		logger.info("Suppression de la photo du site id :" + siteId);
 		siteManager.editPicture(siteId, null);
 		return "redirect:/site/" + siteId;
-		
+
 	}
 
+	/**
+	 * Handle add secteur request
+	 * 
+	 * @param model
+	 * @param secteur
+	 * @param result
+	 * @param sessionUtilisateur
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping(value = "/site/processAddSecteurFromSitePage", method = RequestMethod.POST)
+	public String addSecteur(Model model, @Valid @ModelAttribute(value = "secteur") Secteur secteur,
+			BindingResult result,
+			@SessionAttribute(value = "sessionUtilisateur", required = false) Utilisateur sessionUtilisateur,
+			RedirectAttributes redirectAttributes) {
+
+		logger.info("Requête d'accès à l'url /site/processAddSecteur");
+
+		if (result.hasErrors()) {
+			return "redirect:/site/" + secteur.getSite_id() + "#addSecteurModal";
+//			model.addAttribute("secteur", secteur);
+//				model.addAllAttributes(
+//						addWebContentFormUtil.getAddSecteurAttributesWhenValidationErrors(secteur, result, sessionUtilisateur));
+		} else {
+			webContentManager.addSecteur(secteur);
+//				model.addAllAttributes(addWebContentFormUtil.getAddSecteurAttributes(secteur, secteurAddedWithSuccess, sessionUtilisateur));
+		}
+		return "redirect:/site/" + secteur.getSite_id();
+	}
 }
