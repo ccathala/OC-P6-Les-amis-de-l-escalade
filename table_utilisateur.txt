@@ -1,6 +1,6 @@
-Nom	        Email	                Mot de passe	Rôle
-Christophe	christophe@test.com	    azerty	        admin(membre de l'association)
+Nom	        Email	                Mot de passe	  Rôle
+Christophe	christophe@test.com	  azerty	        admin(membre de l'association)
 Pascale	    pascale@test.com	    azerty	        admin(membre de l'association)
-Alice	    alice@test.com	        azerty	        user(non membre de l'association)
-Cécile	    cecile@test.com	        azerty	        user(non membre de l'association)
+Alice	      alice@test.com	      azerty	        user(non membre de l'association)
+Cécile	    cecile@test.com	      azerty	        user(non membre de l'association)
 Charles	    charles@test.com	    azerty	        user(non membre de l'association)
