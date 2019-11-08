@@ -18,6 +18,8 @@
 	<div class="container">
 	
 		<jsp:include page="header.jsp"></jsp:include>
+		
+		<div style="min-height:500px;">
 
 		<h1>Ajouter un topo</h1>
 		<hr>
@@ -112,6 +114,8 @@
 				<c:out value="${messageSuccessTopo}"></c:out>
 			</div>
 		</c:if>
+		
+		</div>
 		
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>

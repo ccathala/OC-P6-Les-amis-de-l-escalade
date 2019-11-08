@@ -29,7 +29,7 @@
 		<form action="" method="GET">
 			<div class="form-group row">
 				<label class="col-md-auto col-form-label" for="departementId">Département:</label>
-				<div class="col-md-4">
+				<div class="col-8 col-sm-6 col-md-5">
 					<select id="departementId" name="departementId"
 						class="form-control">
 						<option value="0"
@@ -42,7 +42,7 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-md-4">
+				<div class="col-4 col-sm-6 col-md-4">
 					<button id="departementValidationButton"
 						name="departementValidationButton" class="btn btn-primary"
 						type="submit">Valider</button>
@@ -57,7 +57,7 @@
 
 				<div class="form-group row">
 					<label class="col-md-auto col-form-label" for="topoId">Topo:</label>
-					<div class="col-md-4">
+					<div class="col-8 col-sm-6 col-md-5">
 						<form:select path="topo_id" class="form-control">
 							<option value="0" selected>Sélectionner le topo</option>
 							<c:forEach items="${topos }" var="topo">
@@ -69,7 +69,7 @@
 						<form:input path="utilisateur_id" type="hidden"
 							value="${sessionUtilisateur.id }" />
 					</div>
-					<div class="col-md-4">
+					<div class="col-4 col-sm-6 col-md-4">
 						<button id="topoValidationButton" name="topoValidationButton"
 							class="btn btn-success" type="submit">Ajouter le topo</button>
 					</div>
@@ -105,7 +105,9 @@
 
 		<hr>
 		<h3>Mes topos:</h3>
-		<table class="table table-responsive-lg text-nowrap">
+		<div class="table-responsive-lg">
+		
+		<table class="table text-nowrap">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Nom du topo</th>
@@ -159,12 +161,14 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		</div>
 
 		<hr>
 
 		<h3>Demandes de prêt reçues:</h3>
-
-		<table class="table table-responsive-lg text-nowrap">
+		
+		<div class="table-responsive-lg">
+				<table class="table text-nowrap">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Demandeur</th>
@@ -227,10 +231,14 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		</div>
+			
 		<hr>
 		<h3>Demandes de prêt envoyées:</h3>
 
-		<table class="table table-responsive-lg text-nowrap ">
+		<div class="table-responsive-lg">
+		
+		<table class="table text-nowrap ">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Propriétaire</th>
@@ -280,6 +288,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		</div>
 
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>

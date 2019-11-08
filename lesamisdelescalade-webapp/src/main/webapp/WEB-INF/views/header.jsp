@@ -43,22 +43,24 @@
 				<c:choose>
 					<c:when test="${empty sessionUtilisateur.nom  }">
 <!-- 						<div class="col-12 py-2 pr-0"> -->
-							<a class="btn btn-info" href="<c:url value="/login"/>"
-								role="button">Se connecter</a> <a class="btn btn-info"
+							<a class="my-1 btn btn-info" href="<c:url value="/login"/>"
+								role="button">Se connecter</a> <a class="my-1 btn btn-info"
 								href="<c:url value="/registration"/>" role="button">S'inscrire</a>
 <!-- 						</div> -->
 					</c:when>
 					<c:when test="${!empty sessionUtilisateur.nom }">
 <!-- 					<div class="col-12 py-2 pr-0 text-white"> -->
 <%-- 					<span class="col-lg-auto col-12 text-center">Bienvenue <c:out value="${sessionUtilisateur.nom }"></c:out></span> --%>
-					<span class="text-white">Bienvenue <c:out value="${sessionUtilisateur.nom }"></c:out></span>
+					<span class="text-right text-white text-nowrap">Bienvenue <c:out value="${sessionUtilisateur.nom }"></c:out>
+					<c:if test="${sessionUtilisateur.role_id == 1 }"><i class="fas fa-user pl-2 mr-2"></i></c:if>
+					</span>
 					
 <!-- 						<a class="col-lg-3 col-sm-7 col-9  mb-1 btn btn-info" -->
-						<a class="btn btn-info"
+						<a class="my-1 btn btn-info"
 								href="<c:url value="/goToAccountPage"></c:url>" role="button">Profil
 								</a> 
 <!-- 								<a class="col-lg-4 col-sm-7 col-9  mb-1 btn btn-info" -->
-								<a class="btn btn-info"
+								<a class="my-1 btn btn-info"
 								href="<c:url value="/logout"/>" role="button">Déconnexion</a>
 <!-- 					</div> -->
 						

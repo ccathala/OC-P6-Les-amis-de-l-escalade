@@ -29,7 +29,7 @@
 					<h5 class="modal-title" id="addSecteurModalLabel">Ajouter un
 						secteur</h5>
 					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+						aria-label="Annuler">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -262,16 +262,27 @@
 				class="row row-secteur my-xl-5 shadow-lg py-3 mb-5 bg-white rounded">
 				<div class="col">
 					<div class="row justify-content-between">
-						<div class="col">
+						<div class="col-9">
 							<h3>${secteur.nom }</h3>
 						</div>
-						<div class="col-4 col-lg-2 text-right">
-							<a class="btn btn-info" data-toggle="collapse"
+						<div class="col-3 text-right">
+							<%-- <c:if test="${!empty sessionUtilisateur.role_id }">
+								<button id="addVoieButton" type="button"
+									class="my-2 btn btn-primary btn-sm" data-toggle="modal"
+									data-target="#addSecteurModal">+ voie</button>
+							</c:if> --%>
+							<a class="btn btn-info btn-sm" data-toggle="collapse"
 								href="#collapseTable${secteur.id }" role="button"
 								aria-expanded="false"
 								aria-controls="collapseTable${secteur.id }"> Voir plus </a>
 						</div>
 					</div>
+					<hr>
+					<div class="row">
+							<div class="col-12">
+								<p class="text-justify p-2 " style="background-color:#E5FBFF;"><span style="text-decoration:underline;">Description:</span> <c:out value="${secteur.description }"></c:out></p>
+							</div>
+						</div>
 					<div class="row">
 						<div class="col-4 col-lg-3 text-center">Total voies:
 							${secteur.voiesCount }</div>

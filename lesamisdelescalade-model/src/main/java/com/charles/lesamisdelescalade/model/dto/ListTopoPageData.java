@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class ListTopoPageData {
 
-	private int code_postal;
+	private String code_postal;
 	private String departement;
 	private String topo_nom;
 	private int topo_id;
@@ -27,9 +27,7 @@ public class ListTopoPageData {
 		
 	}
 
-	
-
-	public ListTopoPageData(int code_postal, String departement, String topo_nom, int topo_id, String possesseur_nom,
+	public ListTopoPageData(String code_postal, String departement, String topo_nom, int topo_id, String possesseur_nom,
 			int possesseur_id, String site, String description, Date date_parution, String dateParution,
 			Boolean disponible) {
 		super();
@@ -46,11 +44,11 @@ public class ListTopoPageData {
 		this.disponible = disponible;
 	}
 
-	public int getCode_postal() {
+	public String getCode_postal() {
 		return code_postal;
 	}
 
-	public void setCode_postal(int code_postal) {
+	public void setCode_postal(String code_postal) {
 		this.code_postal = code_postal;
 	}
 
@@ -78,31 +76,21 @@ public class ListTopoPageData {
 		this.topo_id = topo_id;
 	}
 
-	
-
 	public String getPossesseur_nom() {
 		return possesseur_nom;
 	}
-
-
 
 	public void setPossesseur_nom(String possesseur_nom) {
 		this.possesseur_nom = possesseur_nom;
 	}
 
-
-
 	public int getPossesseur_id() {
 		return possesseur_id;
 	}
 
-
-
 	public void setPossesseur_id(int possesseur_id) {
 		this.possesseur_id = possesseur_id;
 	}
-
-
 
 	public String getSite() {
 		return site;
@@ -144,8 +132,6 @@ public class ListTopoPageData {
 		this.disponible = disponible;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "ListTopoPageData [code_postal=" + code_postal + ", departement=" + departement + ", topo_nom="
@@ -154,6 +140,9 @@ public class ListTopoPageData {
 				+ ", dateParution=" + dateParution + ", disponible=" + disponible + "]";
 	}
 
+	
+
+	
 	
 	
 	

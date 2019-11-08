@@ -30,9 +30,16 @@
 			</c:if>
 		</div>
 
-		<div class="row mb-auto titre" >
-			<div class="col" style="height:500px;">
-				<h1>Bienvenue sur le site des amis de l'escalade!</h1>
+		<div class="row mb-auto mt-3 justify-content-center" >
+			<div class="col text-center">
+				
+				<img
+				src="${pageContext.request.contextPath}/resources/pictures/logo.png"
+				class="img-fluid" alt="logo picture">
+				<h1>Bienvenue sur le site de l'association</h1>
+				<p>Ici vous pourrez consulter mais aussi partager de nombreuses informations concernant les sites d'escalade français. </p>
+				<p>Participez activement en laissant des commentaires sur les sites que vous avez déjà pratiqué. </p>
+				<p>Vous êtes à la recherche d'un topo? Notre site peut vous mettre en relation avec un grimpeur susceptible de vous le prêter</p>
 			</div>
 		</div>
 

@@ -18,8 +18,12 @@
 	<div class="container">
 
 		<jsp:include page="header.jsp"></jsp:include>
+		
+		<div style="min-height: 500px;">
 
-		<h1>Connexion réussie</h1>
+		<h1>Inscription réussi !</h1>
+		
+		</div>
 
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>

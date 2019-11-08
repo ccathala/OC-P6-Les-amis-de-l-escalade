@@ -37,7 +37,7 @@
 			<h3>Recherche multi-critères</h3>
 			<div class="form-group">
 				<label>Rechercher par département:</label>
-				<form:select class="col-8 col-md-6 col-lg-4 form-control" path="departementId">
+				<form:select class="col-12 col-md-6 col-lg-4 form-control" path="departementId">
 					<option value="0"
 						<c:if test="${empty departementId }">selected</c:if>>Sélectionner
 						le département</option>
@@ -51,7 +51,7 @@
 
 			<div class="form-group">
 				<label>Rechercher par cotation:</label>
-				<form:select class="col-6 col-md-4 col-lg-3 form-control" path="cotationId">
+				<form:select class="col-12 col-sm-6 col-md-5 col-lg-4 form-control" path="cotationId">
 					<option value="0" <c:if test="${empty cotationId }">selected</c:if>>Sélectionner
 						la cotation</option>
 					<c:forEach items="${cotations }" var="cotation">
@@ -63,7 +63,7 @@
 
 			<div class="form-group">
 				<label>Rechercher par nombre de secteurs:</label>
-				<form:select class="col-8 col-md-6 col-lg-4 form-control" path="secteurCount">
+				<form:select class="col-12 col-md-6 col-lg-5 form-control" path="secteurCount">
 					<option value="0"
 						<c:if test="${empty secteurCount }">selected</c:if>>Sélectionner
 						le nombre de secteurs</option>

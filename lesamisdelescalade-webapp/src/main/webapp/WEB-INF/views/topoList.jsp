@@ -24,8 +24,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="reservationModalModalLabel">Topos disponibles:
-						title</h5>
+					<h5 class="modal-title" id="reservationModalModalLabel">Réserver un topo</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -33,7 +32,7 @@
 				</div>
 
 				<div class="modal-body">
-					<h5>Possesseur:</h5>
+					<h5>Propriétaires:</h5>
 					<hr>
 					<c:forEach items="${liste_topos_disponibles}" var="topo_disponible">
 						<div class="row mb-3 topoOwner topoId_${ topo_disponible.topo_id}">
@@ -58,25 +57,31 @@
 	
 		<jsp:include page="header.jsp"></jsp:include>
 		
-		<div class="mb-auto">
+		<div style="min-height:500px;">
+		
+		<div class="row justify-content-center">
+		
 
 		<!-- Display login Success message -->
 		<c:if test="${!empty messageReservationSuccess }">
-			<div class="col-md-12 alert alert-success text-center" role="alert">
+			<div class="col-10 my-2 alert alert-success text-center" role="alert">
 				<c:out value="${messageReservationSuccess}"></c:out>
 			</div>
 		</c:if>
 
 		<!-- Display login Error message -->
 		<c:if test="${!empty messageReservationError }">
-			<div class="col-md-12 alert alert-danger text-center" role="alert">
+			<div class="col-10 my-2 alert alert-danger text-center" role="alert">
 				<c:out value="${messageReservationError}"></c:out>
 			</div>
 		</c:if>
+		
+		</div>
 
 		<h1>Liste des topos:</h1>
 
-		<table class="table table-bordered table-responsive text-nowrap">
+		<div class="table-responsive ">
+		<table class="table table-bordered" style="min-width:992px;">
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Code postal</th>
@@ -97,7 +102,7 @@
 						<td>${topo.site }</td>
 						<td>${topo.description }</td>
 						<td>${topo.dateParution }</td>
-						<td><c:set var="topoAvalaibleForThisTopoId" value="false"></c:set>
+						<td class="text-center"><c:set var="topoAvalaibleForThisTopoId" value="false"></c:set>
 							<c:if test="${avalaibleTopoIdList.contains(topo.topo_id) }">
 								<c:set var="topoAvalaibleForThisTopoId" value="true"></c:set>
 							</c:if> <c:if test="${topoAvalaibleForThisTopoId}">
@@ -112,6 +117,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		</div>
 		
 		</div>
 	

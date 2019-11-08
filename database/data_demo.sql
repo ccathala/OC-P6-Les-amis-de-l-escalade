@@ -9,15 +9,15 @@ values
 INSERT INTO public.departement
 (nom, code)
 values
-('Ain', '1'),
-('Aisne', '2'),
-('Allier', '3'),
-('Alpes-de-Haute-Provence', '4'),
-('Hautes-Alpes', '5'),
-('Alpes-Maritimes', '6'),
-('Ardèche', '7'),
-('Ardennes', '8'),
-('Ariège', '9'),
+('Ain', '01'),
+('Aisne', '02'),
+('Allier', '03'),
+('Alpes-de-Haute-Provence', '04'),
+('Hautes-Alpes', '05'),
+('Alpes-Maritimes', '06'),
+('Ardèche', '07'),
+('Ardennes', '08'),
+('Ariège', '09'),
 ('Aube', '10'),
 ('Aude', '11'),
 ('Aveyron', '12'),
@@ -149,35 +149,34 @@ INSERT INTO public.site
 (nom, description, departement_id, tag_id, picture)
 values
 -- id 1
-('Rocher de la fraîche', 'Belle falaise situé en plein coeur du village. Altitude 1500 m. Praticable de juin à octobre.', 74, 1, null),
+('Rocher de la fraîche', 'Belle falaise situé en plein coeur du village. Altitude 1500 m. Praticable de juin à octobre.', 74, 1, 'http://media.sit.savoie-mont-blanc.com/original/67411/0-2386816.jpg'),
 
 -- id 2
-('Falaise du lac Besson', 'Cette longue barre alterne des voies en plusieurs longueurs, des voies plus courtes et sportives et des secteurs enfants. Dans l''ensemble, il s''agit de dalles et de murs assez raides munis de prises franches. Compétences et équipements appropriés (port du casque recommandé car les chutes de pierres sont courantes).', 38, 1, null),
+('Falaise du lac Besson', 'Cette longue barre alterne des voies en plusieurs longueurs, des voies plus courtes et sportives et des secteurs enfants. Dans l''ensemble, il s''agit de dalles et de murs assez raides munis de prises franches. Compétences et équipements appropriés (port du casque recommandé car les chutes de pierres sont courantes).', 38, 1, 'http://static.apidae-tourisme.com/filestore/objets-touristiques/images-principales/23/199/444183.jpg'),
 
 -- id 3
-('Les gorges du loup', 'Le site compte 70 voies, de 6a à 9a (en incluant les variantes et connexions). L''escalade est un mélange de colonnettes infernales, de bidoigts et de prises taillées, où tout va très vite, en l’absence de repos dignes de ce nom. Les voies déversantes et très physiques permettent d’enchaîner les passages car on a plus affaire à de la continuité qu''à des problèmes de bloc. L''autre alternative à l''enchaînement, c''est la chute, mais les surplombs sont très bienveillants et le trou dans l''air n''a jamais occasionné trop d''égratignures. L''équipement est bon et la majorité des dégaines restent à demeure. Le pied de falaise est plutôt convivial.', 06, 1, null);
+('Les gorges du loup', 'Le site compte 70 voies, de 6a à 9a (en incluant les variantes et connexions). L''escalade est un mélange de colonnettes infernales, de bidoigts et de prises taillées, où tout va très vite, en l’absence de repos dignes de ce nom. Les voies déversantes et très physiques permettent d’enchaîner les passages car on a plus affaire à de la continuité qu''à des problèmes de bloc. L''autre alternative à l''enchaînement, c''est la chute, mais les surplombs sont très bienveillants et le trou dans l''air n''a jamais occasionné trop d''égratignures. L''équipement est bon et la majorité des dégaines restent à demeure. Le pied de falaise est plutôt convivial.', 06, 1, 'http://3.bp.blogspot.com/-JT_5Xcftq3E/UUDnW3gfAzI/AAAAAAAAEiE/5UDy66uvP0I/s1600/P1010913.JPG');
 
 --Ajout Secteurs
 INSERT INTO public.secteur
 (nom, description, site_id)
 values
 -- id 1
-('Grande Falaise', '', 1),
+('Grande Falaise', 'La paroi de la Grande Falaise s''étend sur quelques centaines de mètres, mais seules quelques voies ont été ouvertes jusqu''à présent.', 1),
 -- id 2
-('Dièbre Bleu', '', 1),
+('Dièbre Bleu', 'Sites naturels d''escalade - pralognan la vanoise dans la ville de Pralognan-la-Vanoise.', 1),
 -- id 3
-('Haute Tension', '', 1),
+('Haute Tension', 'Secteur Haute Tension fait partie de l''installation Sites Naturels d''Escalade - Pralognan La Vanoise', 1),
 -- id 4
-('L''Anneau', '', 1),
+('L''Anneau', 'Secteur au soleil dès le matin.Voies de 5b à 6b+', 1),
 -- id 5
-('Cocaine', '', 2),
+('Cocaine', 'Longue falaise située (un peu) à l''écart de la station dans un cadre magnifique, mais abimé par les pylônes et les terrassements.', 2),
 -- id 6
-('La menace', '', 2),
+('La menace', 'Petite ligne située entre "Ice Bille" et le "secteur de Misère".', 2),
 -- id 7
-('Cayenne', '', 3),
+('Cayenne', 'Ce petit secteur des gorges du Loup est aussi un de ceux qui demande une marche d''approche assez longue. Malgré tout, le chemin est des plus plaisant si vous n''oubliez pas une lampe de poche ! Beau paysage, et pas de dénivelée (ou très peu).', 3),
 -- id 8
-('Les balcons', '', 3);
-
+('Les balcons', 'De belles longueurs au soleil, avec vue simultanée sur les plages de la Côte et sur les neiges de Gréolières... ', 3);
 
 
 --Ajout de voies
@@ -224,8 +223,6 @@ values
 (8, 'Full metal casquette', 8);
 
 
-
-
 --Ajout des longueurs
 INSERT INTO public.longueur
 (numero, cotation_id, voie_id)
@@ -270,11 +267,11 @@ values
 INSERT INTO public.utilisateur
 (nom, email, "password", role_id)
 values
-('Christophe', 'christophe@gmail.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 1),
-('Pascale', 'pascale@gmail.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 1),
-('Alice', 'alice@gmail.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 1),
-('Cécile', 'cecile@gmail.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 1),
-('Charles', 'cathala@gmail.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 2);
+('Christophe', 'christophe@test.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 1),
+('Pascale', 'pascale@test.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 1),
+('Alice', 'alice@test.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 2),
+('Cécile', 'cecile@test.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 2),
+('Charles', 'charles@test.com', '$2a$10$xhkmsSS4o4ETUCDjhYyqvuC9j7Q.bjYUmejU3HJEnFtCqn5pc88xa', 2);
 
 --ajout status commentaire
 INSERT INTO public.status_commentaire

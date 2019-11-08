@@ -54,7 +54,6 @@ import com.charles.lesamisdelescalade.model.dto.SitePageData;
  */
 @Service
 public class WebContentManagerImpl implements WebContentManager {
-
 	@Autowired
 	private SiteDao siteDao;
 	@Autowired
@@ -208,7 +207,7 @@ public class WebContentManagerImpl implements WebContentManager {
 		return map;
 
 	}
-	
+
 	/**
 	 * Convert list of departement into HashMap
 	 * 
@@ -488,9 +487,10 @@ public class WebContentManagerImpl implements WebContentManager {
 	public HashMap<Integer, String> getHashMapAllUtilisateurOnlyIdAndName() {
 		return convertUtilisateurListToHashMap(utilisateurDao.findAllUtilisateurOnlyIdAndName());
 	}
-	
+
 	/**
-	 * Convert All departement list into HashMap, key is departement id , content is departement object
+	 * Convert All departement list into HashMap, key is departement id , content is
+	 * departement object
 	 * 
 	 * @return
 	 */
@@ -498,8 +498,6 @@ public class WebContentManagerImpl implements WebContentManager {
 	public HashMap<Integer, Departement> getHashMapAllDepartement() {
 		return convertDepartementListToHashMap(departementDao.findAllDepartement());
 	}
-	
-	
 
 	// ==================================================================================================================
 	// Bean Model Topo Methods
@@ -601,7 +599,8 @@ public class WebContentManagerImpl implements WebContentManager {
 					reservationTopo.getDemandeur_id(), reservationTopo.getReservation_topo_id());
 			// reservation for this topo is already done
 			reservationAlreadyAsked = true;
-			logger.warn("Echec de l'ajout de la réservation - Cause : l'utilisateur à déja fait une réservation pour ce topo");
+			logger.warn(
+					"Echec de l'ajout de la réservation - Cause : l'utilisateur à déja fait une réservation pour ce topo");
 		} catch (EmptyResultDataAccessException e) {
 			// if reservation for this topo is not already done
 			reservationAlreadyAsked = false;
@@ -623,7 +622,8 @@ public class WebContentManagerImpl implements WebContentManager {
 	@Override
 	public Boolean addPossesseurTopo(PossesseurTopo possesseurTopo) {
 
-		logger.info("Ajout d'un topo possédé par l'utilisateur | topo id: " + possesseurTopo.getTopo_id() + " - utilisateur id: " + possesseurTopo.getUtilisateur_id());
+		logger.info("Ajout d'un topo possédé par l'utilisateur | topo id: " + possesseurTopo.getTopo_id()
+				+ " - utilisateur id: " + possesseurTopo.getUtilisateur_id());
 		// Set attributes
 		Boolean posseseurTopoAddedSuccesfully;
 		possesseurTopo.setDisponible(false);
@@ -632,7 +632,7 @@ public class WebContentManagerImpl implements WebContentManager {
 			possesseurTopoDao.addPossesseurTopo(possesseurTopo);
 			// User not already own this topo
 			posseseurTopoAddedSuccesfully = true;
-			
+
 		} catch (DuplicateKeyException e) {
 			// User already own this topo
 			posseseurTopoAddedSuccesfully = false;

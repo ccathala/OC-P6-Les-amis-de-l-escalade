@@ -183,7 +183,7 @@
 					<!-- Selectionner la cotation  -->
 					<div class="form-group">
 						<label>Cotation:</label>
-						<form:select class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3 form-control" path="cotation_id">
+						<form:select class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 form-control" path="cotation_id">
 							<option value="0" <c:if test="${empty voieIdLongueur}">selected</c:if>>Sélectionnez la cotation</option>
 							<c:forEach items="${cotations}" var="cotation">
 								<option value="${cotation.id }" <c:if test="${cotation.id == cotationIdLongueur }">selected</c:if>>${cotation.cotation }</option>

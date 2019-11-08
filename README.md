@@ -11,16 +11,16 @@ Les compétences évaluées sont les suivantes:
 ## Guide de démarrage
 
 ### Prérequis
-* **PostgreSQL**, système de gestion de base de données, disponible [ici](https://www.postgresql.org/download/).  
-* **pgAdmin**, outil d'administration de PostgreSQL, disponible [ici](https://www.pgadmin.org/download/).
-* **Tomcat**, conteneur web, disponible [ici](https://tomcat.apache.org/download-90.cgi)
-* Le fichier **lesamisdelescalade-1.0.war** de l'application les amis de l'escalade, disponible ICI
+* _PostgreSQL_, système de gestion de base de données, disponible [ici](https://www.postgresql.org/download/).  
+* _pgAdmin_, outil d'administration de PostgreSQL, disponible [ici](https://www.pgadmin.org/download/).
+* _Tomcat_, conteneur web, disponible [ici](https://tomcat.apache.org/download-90.cgi)
+* Le fichier _lesamisdelescalade-webapp-1.0-SNAPSHOT.war_ disponible à la racine du répertoire Github.
 
 ### Installation
 
 #### I. Installation de l'application
  1. Ouvrir le répertoire d'installation de _Tomcat_.
- 2. Déposer le fichier **lesamisdelescalade-1.0.war** dans le répertoire /wepapps.
+ 2. Déposer le fichier **lesamisdelescalade-1.0.war** dans le répertoire /webapps.
  3. Renommer le fichier _"lesamisdelescalade"_.
  
 #### II. Création de la base de données 
@@ -28,12 +28,11 @@ Créer une base de données nommée "lesamisdelescalade" à l'aide pgAdmin.
 
 #### III. Import des données
 
-Deux méthodes sont possibles:
  * À l'aide de pgAdmin, éxécuter dans cet ordre les script SQL:
   1. _create_table.sql_
   2. _data_demo.sql_
 
- * À l'aide de pgAdmin, restaurer les données à partir du dump: _lesAmisDeLEscalade_dump_db.tar_
+Ces deux fichiers se trouvent dans le répertoire /database
 
 #### IV. Paramètrage de la connexion à la base de données
 

@@ -8,10 +8,10 @@
 			</div>
 		</div>
 		<div class="row justify-content-center">
-			<div class="col-2 text-right">
+			<div class="col-6 text-right">
 				<span><i class="fab fa-facebook fa-4x  icone"></i></span>
 			</div>
-			<div class="col-2 text-left">
+			<div class="col-6 text-left">
 				<span><i class="fab fa-instagram fa-4x icone"></i></i></span>
 			</div>
 		</div>

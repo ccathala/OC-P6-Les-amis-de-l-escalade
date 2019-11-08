@@ -23,8 +23,8 @@
 		<h1>Ajouter un lieu de grimpe</h1>
 		<hr>
 
-
-		<p>
+		<div style="min-height:500px;">
+		<div class="p-2">
 
 			<!-- Collapse Button Add Site -->
 			<button class="mb-1 btn btn-info" type="button" data-toggle="collapse"
@@ -61,19 +61,16 @@
 				<c:otherwise>"false"</c:otherwise>
 			</c:choose>
 				aria-controls="ajouterLongueur">Ajouter une longueur</button>
-		</p>
+		</div>
 
-
-
-
+		<!-- Ajouter un site ------------------------------------------------------------------------------------------------>
+		
 		<div class="collapse ${collapseClassSite }" id="ajouterSite" data-parent="#addForm">
 			<div class="mb-3 card card-body">
 				<jsp:include page="addSite.jsp"></jsp:include>
 
 			</div>
 		</div>
-
-
 
 		<!-- Ajouter un secteur ------------------------------------------------------------------------------------------------>
 
@@ -100,6 +97,8 @@
 			<div class="mb-3 card card-body ">
 				<jsp:include page="addLongueur.jsp"></jsp:include>
 			</div>
+		</div>
+		
 		</div>
 
 	<jsp:include page="footer.jsp"></jsp:include>

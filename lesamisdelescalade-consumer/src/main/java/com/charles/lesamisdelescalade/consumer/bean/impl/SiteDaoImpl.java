@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.charles.lesamisdelescalade.consumer.bean.SiteDao;
 import com.charles.lesamisdelescalade.model.beans.Site;
 
+
 @Repository
 public class SiteDaoImpl implements SiteDao {
 	

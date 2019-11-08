@@ -16,6 +16,8 @@
 	<div class="container">
 
 		<jsp:include page="header.jsp"></jsp:include>
+		
+		<div style="min-height:500px;">
 
 		<h1>Se connecter</h1>
 
@@ -24,7 +26,7 @@
 			modelAttribute="loginUtilisateur">
 
 			<!-- Email Input -->
-			<div class="form-group">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
 				<label>Email:</label>
 				<form:input path="email" cssClass="form-control"
 					placeholder="Entrer email" />
@@ -32,7 +34,7 @@
 			</div>
 
 			<!-- Password Input -->
-			<div class="form-group">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
 				<label>Mot de passe:</label>
 				<form:input type="password" path="password" cssClass="form-control"
 					placeholder="Enter mot de passe" />
@@ -54,6 +56,8 @@
 				<c:out value="${erreur_login}"></c:out>
 			</div>
 		</c:if>
+		
+		</div>
 
 		<jsp:include page="footer.jsp"></jsp:include>
 	</div>

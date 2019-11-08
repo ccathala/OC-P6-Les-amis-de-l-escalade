@@ -18,7 +18,9 @@
 
 		<!-- Import header -->
 		<jsp:include page="header.jsp"></jsp:include>
-
+		
+		<div style="min-height:500px;">		
+		
 		<h1>Inscription</h1>
 
 		<!-- Login Form -->
@@ -26,7 +28,7 @@
 			modelAttribute="registrationUtilisateur">
 
 			<!-- Nom Input -->
-			<div class="form-group">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
 				<label>Nom d'utilisateur:</label>
 				<form:input path="nom" cssClass="form-control"
 					placeholder="Entrer nom d'utilisateur" />
@@ -34,7 +36,7 @@
 			</div>
 
 			<!-- Email Input -->
-			<div class="form-group">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
 				<label>Email:</label>
 				<form:input path="email" cssClass="form-control"
 					placeholder="Entrer email" />
@@ -42,7 +44,7 @@
 			</div>
 
 			<!-- Password Input -->
-			<div class="form-group">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
 				<label>Mot de passe:</label>
 				<form:input type="password" path="password" cssClass="form-control"
 					placeholder="Entrer mot de passe" />
@@ -50,7 +52,7 @@
 			</div>
 
 			<!-- Password confirmation Input -->
-			<div class="form-group">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
 				<label>Confirmation mot de passe:</label>
 				<form:input type="password" path="confirmPassword"
 					cssClass="form-control" placeholder="Entrer mot de passe" />
@@ -72,6 +74,8 @@
 				<c:out value="${messageError}"></c:out>
 			</div>
 		</c:if>
+		
+		</div>
 
 		<!-- Import footer -->
 		<jsp:include page="footer.jsp"></jsp:include>

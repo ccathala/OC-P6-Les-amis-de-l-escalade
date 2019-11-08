@@ -26,52 +26,52 @@ public class ConsumerConfig {
 
 	//===================================================================================
 	
-	/* Uncomment to use DataSource data from consumerConfig.properties file */
-	
-	@Autowired /* Injection du bean env */
-	private Environment env;
-
-	/**
-	 * Initialization of dataSource bean with data from consumerConfig.properties file
-	 * 
-	 * @return
-	 */
-	@Bean  
-	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(env.getRequiredProperty("jdbc.driverClassName"));
-		dataSource.setUrl(env.getRequiredProperty("jdbc.url"));
-		dataSource.setUsername(env.getRequiredProperty("jdbc.username"));
-		dataSource.setPassword(env.getRequiredProperty("jdbc.password"));
-		return dataSource;
-	}
-	
-	//===================================================================================
-
-//	/* Uncomment to use DataSource data from Tomcat context.xml file */
+//	/* Uncomment to use DataSource data from consumerConfig.properties file */
 //	
+//	@Autowired /* Injection du bean env */
+//	private Environment env;
+//
 //	/**
-//	 * Initialization of bean dataSource with data from Tomcat context.xml file
+//	 * Initialization of dataSource bean with data from consumerConfig.properties file
 //	 * 
 //	 * @return
 //	 */
-//	@Bean
+//	@Bean  
 //	public DataSource dataSource() {
-//		
-//		Context initCtx;
-//		DataSource ds = null;
-//		try {
-//			// Obtain our environment naming context
-//			initCtx = new InitialContext();
-//			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-//
-//			// Look up our data source
-//			ds = (DataSource) envCtx.lookup("jdbc/lesAmisDeLEscalade");
-//		} catch (NamingException e) {
-//			e.printStackTrace();
-//		}
-//		return ds;
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName(env.getRequiredProperty("jdbc.driverClassName"));
+//		dataSource.setUrl(env.getRequiredProperty("jdbc.url"));
+//		dataSource.setUsername(env.getRequiredProperty("jdbc.username"));
+//		dataSource.setPassword(env.getRequiredProperty("jdbc.password"));
+//		return dataSource;
 //	}
+	
+	//===================================================================================
+
+	/* Uncomment to use DataSource data from Tomcat context.xml file */
+	
+	/**
+	 * Initialization of bean dataSource with data from Tomcat context.xml file
+	 * 
+	 * @return
+	 */
+	@Bean
+	public DataSource dataSource() {
+		
+		Context initCtx;
+		DataSource ds = null;
+		try {
+			// Obtain our environment naming context
+			initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+			// Look up our data source
+			ds = (DataSource) envCtx.lookup("jdbc/lesAmisDeLEscalade");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
 
 	//===================================================================================
 	
