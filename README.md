@@ -13,8 +13,8 @@ Les compétences évaluées sont les suivantes:
 ### Prérequis
 * _PostgreSQL_, système de gestion de base de données, disponible [ici](https://www.postgresql.org/download/).  
 * _pgAdmin_, outil d'administration de PostgreSQL, disponible [ici](https://www.pgadmin.org/download/).
-* _Tomcat_, conteneur web, disponible [ici](https://tomcat.apache.org/download-90.cgi)
-* Le fichier _lesamisdelescalade-webapp-1.0-SNAPSHOT.war_ disponible à la racine du répertoire Github.
+* _Tomcat_, conteneur web, disponible [ici](https://tomcat.apache.org/download-90.cgi).
+* Le fichier _lesamisdelescalade-webapp-1.0-SNAPSHOT.war_ disponible [ici](https://github.com/ccathala/lesamisdelescalade/raw/master/lesamisdelescalade-webapp-1.0-SNAPSHOT.war).
 
 ### Installation
 
