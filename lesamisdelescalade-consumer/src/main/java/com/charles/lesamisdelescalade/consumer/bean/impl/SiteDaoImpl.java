@@ -3,6 +3,8 @@ package com.charles.lesamisdelescalade.consumer.bean.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,15 +16,27 @@ import com.charles.lesamisdelescalade.model.beans.Site;
 
 
 @Repository
+@PropertySource(value = { "classpath:siteSql.properties" })
 public class SiteDaoImpl implements SiteDao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	@Autowired /* Injection du bean env */
+	private Environment env;
+	
+//	@Override
+//	@Transactional
+//	public void addSite(Site site) throws DuplicateKeyException {
+//		jdbcTemplate.update("INSERT INTO site (nom, description, departement_id, tag_id, picture) VALUES(?, ?, ?, ?, ?)",
+//				site.getNom(), site.getDescription(), site.getDepartement_id(), 1, null);
+//
+//	}
+	
 	@Override
 	@Transactional
 	public void addSite(Site site) throws DuplicateKeyException {
-		jdbcTemplate.update("INSERT INTO site (nom, description, departement_id, tag_id, picture) VALUES(?, ?, ?, ?, ?)",
+		jdbcTemplate.update(env.getRequiredProperty("site.add"),
 				site.getNom(), site.getDescription(), site.getDepartement_id(), 1, null);
 
 	}

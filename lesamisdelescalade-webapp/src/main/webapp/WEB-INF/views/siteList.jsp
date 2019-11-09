@@ -115,7 +115,7 @@
 							</h3>
 							
 							<p class="card-text font-weight-bold">
-								<c:out value="${departements_hashmap.get(site.departement_id).getCode() } - ${departements.get(site.departement_id).getNom()}"></c:out>
+								<c:out value="${departements_hashmap.get(site.departement_id).getCode() } - ${departements_hashmap.get(site.departement_id).getNom()}"></c:out>
 							</p>
 							
 							<p class="card-text text-justify">
